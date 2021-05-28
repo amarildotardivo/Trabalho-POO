@@ -4,6 +4,9 @@
 ## OBJETIVO
 Nesta disciplina iremos realizar o desenvolvimento de um sistema em Java utilizando a IDE Eclipse.
 
+## TEMA
+O tema escolhido por min foi o desenvolvimento de um sistema voltado para distribuidoras de Cosméticos.
+
 ## EMENTA
 1) Documentação da Java API
     * Estrutura
