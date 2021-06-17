@@ -1,8 +1,26 @@
 package modelo;
 
-public class Enderecos {
+public abstract class Endereco {
 	
-	private String logradouro, numero, complemento, bairro, CEP, cidade, telefone, email, obs;
+	protected String nome, logradouro, numero, bairro, cidade, telefone;
+	
+	public Endereco(String nome, String logradouro, String numero, String bairro, String cidade, String telefone) {
+		this.nome = nome;
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.telefone = telefone;
+	}
+
+	//GETER'S AND SETTER'S
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	public String getLogradouro() {
 		return logradouro;
@@ -20,28 +38,12 @@ public class Enderecos {
 		this.numero = numero;
 	}
 
-	public String getComplemento() {
-		return complemento;
-	}
-
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-
 	public String getBairro() {
 		return bairro;
 	}
 
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
-	}
-
-	public String getCEP() {
-		return CEP;
-	}
-
-	public void setCEP(String cEP) {
-		CEP = cEP;
 	}
 
 	public String getCidade() {
@@ -60,20 +62,8 @@ public class Enderecos {
 		this.telefone = telefone;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getObs() {
-		return obs;
-	}
-
-	public void setObs(String obs) {
-		this.obs = obs;
-	}
+	//METODOS ABSTRATOS
+	public abstract void realizar_cadastro();
+	public abstract void deletar_cadastro();
 	
 }

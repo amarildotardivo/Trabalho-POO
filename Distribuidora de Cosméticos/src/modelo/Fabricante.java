@@ -1,22 +1,32 @@
 package modelo;
 
-public class Fabricante {
-	private String nome_fabricante, CNPJ;
+public class Fabricante extends Endereco {
+	
+	private String cnpj;
 
-	public String getNome_fabricante() {
-		return nome_fabricante;
+	public Fabricante(String nome, String logradouro, String numero, String bairro, String cidade, String telefone, String cnpj) {
+		
+		super(nome, logradouro, numero, bairro, cidade, telefone);
+
+		this.cnpj = cnpj;
+	}
+	
+	//GETER'S AND SETTER'S
+	public String getCnpj() {
+		return cnpj;
 	}
 
-	public void setNome_fabricante(String nome_fabricante) {
-		this.nome_fabricante = nome_fabricante;
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
-
-	public String getCNPJ() {
-		return CNPJ;
+	
+	//METODOS
+	public void realizar_cadastro() {
+		
 	}
-
-	public void setCNPJ(String cNPJ) {
-		CNPJ = cNPJ;
+	
+	public void deletar_cadastro() {
+		
 	}
 	
 	

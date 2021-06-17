@@ -1,33 +1,31 @@
 package modelo;
 
 public class Estoque {
-	private String nome_produto, tipo_medida, tipo_produto;
-	private int peso, quantidade;
+	private String nome_produto, tipo_produto;
+	private int quantidade;
 	private double preco_compra, preco_venda;
 	
+	public Estoque(String nome_produto, String tipo_produto, int quantidade, double preco_compra, double preco_venda) {
+		this.nome_produto = nome_produto;
+		this.tipo_produto = tipo_produto;
+		this.quantidade = quantidade;
+		this.preco_compra = preco_compra;
+		this.preco_venda = preco_venda;
+	}
+	
+	
+	//GETER'S AND SETTER'S
 	public String getNome_produto() {
 		return nome_produto;
 	}
 	public void setNome_produto(String nome_produto) {
 		this.nome_produto = nome_produto;
 	}
-	public String getTipo_medida() {
-		return tipo_medida;
-	}
-	public void setTipo_medida(String tipo_medida) {
-		this.tipo_medida = tipo_medida;
-	}
 	public String getTipo_produto() {
 		return tipo_produto;
 	}
 	public void setTipo_produto(String tipo_produto) {
 		this.tipo_produto = tipo_produto;
-	}
-	public int getPeso() {
-		return peso;
-	}
-	public void setPeso(int peso) {
-		this.peso = peso;
 	}
 	public int getQuantidade() {
 		return quantidade;
@@ -47,6 +45,7 @@ public class Estoque {
 	public void setPreco_venda(double preco_venda) {
 		this.preco_venda = preco_venda;
 	}
+	
 	
 	
 	
