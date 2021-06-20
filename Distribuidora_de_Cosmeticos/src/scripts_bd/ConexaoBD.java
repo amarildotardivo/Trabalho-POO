@@ -32,9 +32,10 @@ public class ConexaoBD {
 				+ "    bairro VARCHAR(255),\r\n"
 				+ "    cidade VARCHAR(255),\r\n"
 				+ "    telefone VARCHAR(255),\r\n"
+				+ "    cpf VARCHAR(255),\r\n"
 				+ "    regiao VARCHAR(255),\r\n"
 				+ "    PRIMARY KEY (id_representante)\r\n"
-				+ ")");
+				+ ");");
 		System.out.println("Criada tabela REPRESENTANTE!");
 		
 		stmt.execute("CREATE TABLE IF NOT EXISTS cliente(\r\n"
