@@ -12,7 +12,7 @@ public class Cliente extends Endereco{
 	}
 	
 	
-	//GETER'S AND SETTER'S
+	//GETTER'S AND SETTER'S
 	public String getCpf() {
 		return cpf;
 	}

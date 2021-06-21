@@ -1,22 +1,28 @@
 package apresentacao;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import persistencia.ConexaoBD;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Toolkit;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class CadastroCliente extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtField_Nome;
+	private JTextField textField_Nome;
 	private JLabel lbl_Logradouro;
 	private JTextField textField_Logradouro;
 	private JLabel lbl_Numero;
@@ -26,7 +32,7 @@ public class CadastroCliente extends JFrame {
 	private JLabel lbl_Cidade;
 	private JTextField textField_Cidade;
 	private JLabel lbl_Telefone;
-	private JTextField textField;
+	private JTextField textField_Telefone;
 	private JLabel lbl_Cpf;
 	private JTextField textField_cpf;
 	private JLabel lbl_NomeRepresentante;
@@ -35,25 +41,7 @@ public class CadastroCliente extends JFrame {
 	private JButton btn_Cancelar;
 	private JLabel lbl_Titulo_Cad_Cliente;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CadastroCliente frame = new CadastroCliente();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public CadastroCliente() {
 		//FRAME E CONTENT PANE *****************************************************************************************************************
 		setResizable(false);
@@ -83,11 +71,11 @@ public class CadastroCliente extends JFrame {
 			lbl_NomeCliente.setBounds(10, 61, 46, 14);
 			painel_Principal.add(lbl_NomeCliente);
 			
-			txtField_Nome = new JTextField();
-			txtField_Nome.setToolTipText("");
-			txtField_Nome.setBounds(10, 80, 501, 29);
-			painel_Principal.add(txtField_Nome);
-			txtField_Nome.setColumns(10);
+			textField_Nome = new JTextField();
+			textField_Nome.setToolTipText("");
+			textField_Nome.setBounds(10, 80, 501, 29);
+			painel_Principal.add(textField_Nome);
+			textField_Nome.setColumns(10);
 			
 			lbl_Logradouro = new JLabel("Logradouro:");
 			lbl_Logradouro.setBounds(10, 120, 87, 14);
@@ -129,10 +117,10 @@ public class CadastroCliente extends JFrame {
 			lbl_Telefone.setBounds(369, 178, 87, 14);
 			painel_Principal.add(lbl_Telefone);
 			
-			textField = new JTextField();
-			textField.setColumns(10);
-			textField.setBounds(368, 195, 143, 29);
-			painel_Principal.add(textField);
+			textField_Telefone = new JTextField();
+			textField_Telefone.setColumns(10);
+			textField_Telefone.setBounds(368, 195, 143, 29);
+			painel_Principal.add(textField_Telefone);
 			
 			lbl_Cpf = new JLabel("CPF:");
 			lbl_Cpf.setBounds(10, 235, 46, 14);
@@ -152,7 +140,48 @@ public class CadastroCliente extends JFrame {
 			textField_NomeRepresentante.setBounds(189, 252, 322, 29);
 			painel_Principal.add(textField_NomeRepresentante);
 			
-			JButton btn_Salvar = new JButton("SALVAR");
+			JButton btn_Salvar = new JButton("SALVAR");			
+			btn_Salvar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						
+						//REALIZA A CONEXÃO COM O BD
+						ConexaoBD conectar = new ConexaoBD();	
+						
+						//CRIA A STRING SQL
+						String querySQL = "INSERT INTO distribuidora_cosmeticos.cliente (nome, logradouro, numero, bairro, cidade, telefone, cpf, nome_representante) "
+								+ "VALUES(?,?,?,?,?,?,?,?)";
+						
+						//CRIA O COMANDO SQL
+						PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
+						
+						//SETA OS VALORES NA STRING querySQL
+						stmt.setString(1, textField_Nome.getText());
+						stmt.setString(2, textField_Logradouro.getText());
+						stmt.setString(3, textField_Numero.getText());
+						stmt.setString(4, textField_Bairro.getText());
+						stmt.setString(5, textField_Cidade.getText());
+						stmt.setString(6, textField_Telefone.getText());
+						stmt.setString(7, textField_cpf.getText());
+						stmt.setString(8, textField_NomeRepresentante.getText());
+						
+						
+						//EXECUTA A QUERY NO BANCO DE DADOS
+						stmt.executeUpdate();
+						System.out.println("Informações Inseridas com Sucesso!!!");
+						
+						//FECHA O COMANDO STMT E A CONEXÃO
+						stmt.close();
+						conectar.fecharConexaoBD();
+					}
+					catch (SQLException ex) {
+						System.err.println("Erro na conexão do BD: "+ex.getMessage());
+					}
+					catch (Exception ex) {
+						System.err.println("Erro geral: "+ex.getMessage());
+					}					
+				}
+			});
 			btn_Salvar.setBounds(31, 305, 150, 45);
 			painel_Principal.add(btn_Salvar);
 			
@@ -163,5 +192,6 @@ public class CadastroCliente extends JFrame {
 			btn_Cancelar = new JButton("CANCELAR");
 			btn_Cancelar.setBounds(349, 305, 150, 45);
 			painel_Principal.add(btn_Cancelar);
+			
 	}
 }

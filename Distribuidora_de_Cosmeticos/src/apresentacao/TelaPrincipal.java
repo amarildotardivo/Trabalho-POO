@@ -58,7 +58,6 @@ public class TelaPrincipal extends JFrame {
 						
 						CadastroCliente cad_cliente = new CadastroCliente();
 						cad_cliente.setVisible(true);
-						//JOptionPane.showMessageDialog(null,"Teste");
 					}
 				});
 				mnCliente.add(Menu_Cadastro_Clientes);

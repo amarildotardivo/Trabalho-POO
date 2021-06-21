@@ -1,9 +1,7 @@
 package apresentacao;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Toolkit;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,25 +34,6 @@ public class CadastroRepresentante extends JFrame {
 	private JButton btn_Cancelar;
 	private JLabel lbl_Titulo_Cad_Representante;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CadastroRepresentante frame = new CadastroRepresentante();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public CadastroRepresentante() {
 		//FRAME E CONTENT PANE *****************************************************************************************************************
 				setResizable(false);
