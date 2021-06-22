@@ -11,7 +11,6 @@ public class Cliente extends Endereco{
 		this.nome_representante = nome_representante;
 	}
 	
-	
 	//GETTER'S AND SETTER'S
 	public String getCpf() {
 		return cpf;
