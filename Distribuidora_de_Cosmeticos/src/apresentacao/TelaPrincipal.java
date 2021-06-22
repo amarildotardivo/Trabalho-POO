@@ -141,7 +141,7 @@ public class TelaPrincipal extends JFrame {
 			JLabel Label_Wallpaper = new JLabel("");
 			Label_Wallpaper.setBounds(0, 0, 894, 541);
 			Label_Wallpaper.setIconTextGap(0);
-			Label_Wallpaper.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/imagens/wallpaper.jpg")));
+			Label_Wallpaper.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/imagens/wallpaper_O.jpg")));
 			painel_Wallpaper.add(Label_Wallpaper);
 			
 			

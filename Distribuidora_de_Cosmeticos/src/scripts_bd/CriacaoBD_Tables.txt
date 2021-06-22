@@ -3,19 +3,6 @@ CREATE DATABASE IF NOT EXISTS distribuidora_cosmeticos;
 USE distribuidora_cosmeticos;
 
 CREATE TABLE IF NOT EXISTS representante(
-	id_representante INT NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(255),
-    logradouro VARCHAR(255),
-    numero VARCHAR(255),
-    bairro VARCHAR(255),
-    cidade VARCHAR(255),
-    telefone VARCHAR(255),
-    regiao VARCHAR(255),
-    PRIMARY KEY (id_representante)
-);
-
-CREATE TABLE IF NOT EXISTS cliente(
-	id_cliente INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(255),
     logradouro VARCHAR(255),
     numero VARCHAR(255),
@@ -23,37 +10,43 @@ CREATE TABLE IF NOT EXISTS cliente(
     cidade VARCHAR(255),
     telefone VARCHAR(255),
     cpf VARCHAR(255),
-    nome_representante VARCHAR(255),
-    PRIMARY KEY (id_cliente)
+    regiao VARCHAR(255)
 );
+-- null, nome, logradouro, numero, bairro, cidade, telefone, cpf, regiao
+
+CREATE TABLE IF NOT EXISTS cliente(
+    nome VARCHAR(255),
+    logradouro VARCHAR(255),
+    numero VARCHAR(255),
+    bairro VARCHAR(255),
+    cidade VARCHAR(255),
+    telefone VARCHAR(255),
+    cpf VARCHAR(255),
+    nome_representante VARCHAR(255)
+);
+-- id_cliente, nome, logradouro, numero, bairro, cidade, telefone, cpf, nome_representante
 
 CREATE TABLE IF NOT EXISTS fabricante(
-	id_fabricante INT NOT NULL AUTO_INCREMENT,
 	nome VARCHAR(255),
     logradouro VARCHAR(255),
     numero VARCHAR(255),
     bairro VARCHAR(255),
     cidade VARCHAR(255),
     telefone VARCHAR(255),
-    cnpj VARCHAR(255),
-    PRIMARY KEY (id_fabricante)
+    cnpj VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS estoque(
-	id_estoque INT NOT NULL AUTO_INCREMENT,
     nome_produto VARCHAR(255),
     quantidade INT,
     preco_compra DOUBLE,
     preco_venda DOUBLE,
     tipo_produto VARCHAR(255),
-    nome_fabricante VARCHAR(255),
-    PRIMARY KEY (id_estoque)
+    nome_fabricante VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS venda(
-	id_venda INT NOT NULL AUTO_INCREMENT,
     nome_cliente VARCHAR(255),
     nome_produto VARCHAR(255),
-    quantidade INT,
-    PRIMARY KEY (id_venda)
+    quantidade INT
 );

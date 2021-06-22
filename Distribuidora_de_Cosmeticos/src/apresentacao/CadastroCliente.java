@@ -12,6 +12,8 @@ import persistencia.ConexaoBD;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Toolkit;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -20,7 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
+import javax.swing.JList;
 
 @SuppressWarnings("serial")
 public class CadastroCliente extends JFrame {
@@ -46,6 +48,7 @@ public class CadastroCliente extends JFrame {
 	private JLabel lbl_Titulo_Cad_Cliente;
 
 
+	@SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 	public CadastroCliente() {
 		//FRAME E CONTENT PANE *****************************************************************************************************************
 		setResizable(false);
@@ -53,7 +56,7 @@ public class CadastroCliente extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CadastroCliente.class.getResource("/imagens/icon_cadastro.png")));
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(559, 624);
+		setSize(1061, 410);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -144,13 +147,46 @@ public class CadastroCliente extends JFrame {
 			textField_NomeRepresentante.setColumns(10);
 			painel_Principal.add(textField_NomeRepresentante);
 			
-			JLabel lbl_ListaClientes = new JLabel("Lista de Clientes:");
-			lbl_ListaClientes.setBounds(10, 372, 109, 14);
+			JLabel lbl_ListaClientes = new JLabel("Listar de Clientes:");
+			lbl_ListaClientes.setBounds(548, 61, 109, 14);
 			painel_Principal.add(lbl_ListaClientes);
 			
-			JTextArea textArea_ListaClientes = new JTextArea();
-			textArea_ListaClientes.setBounds(10, 397, 517, 165);
-			painel_Principal.add(textArea_ListaClientes);
+			
+			//DEFINE O MODELO DO JLIST
+			DefaultListModel model = new DefaultListModel();
+			
+			//LISTA OS CLIENTE EM UMA JLIST
+			try {
+				//REALIZA A CONEXÃO COM O BD
+				ConexaoBD conectar = new ConexaoBD();
+				
+				ClienteDB clienteBD = new ClienteDB();
+				
+				
+				//ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
+				ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
+				
+				if(listaClientes != null) {
+					for(Cliente c: listaClientes) {
+						
+						model.addElement(c.getNome() + " - " + c.getLogradouro());
+						
+					}
+				}
+				
+				conectar.fecharConexaoBD();
+				
+			}
+			catch (SQLException ex) {
+				System.err.println("Erro na conexão do BD: "+ex.getMessage());
+			}
+			catch (Exception ex) {
+				System.err.println("Erro geral: "+ex.getMessage());
+			}
+			
+			JList list_ListarClientes = new JList(model);
+			list_ListarClientes.setBounds(548, 80, 468, 260);
+			painel_Principal.add(list_ListarClientes);
 			
 			JButton btn_Salvar = new JButton("SALVAR");			
 			btn_Salvar.setBounds(31, 305, 100, 35);
@@ -201,31 +237,10 @@ public class CadastroCliente extends JFrame {
 			btn_Limpar.setBounds(153, 305, 100, 35);
 			painel_Principal.add(btn_Limpar);
 			
-			JButton btn_Listar = new JButton("LISTAR");
+			JButton btn_Listar = new JButton("BUSCAR");
 			btn_Listar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						//REALIZA A CONEXÃO COM O BD
-						ConexaoBD conectar = new ConexaoBD();
-						
-						ClienteDB clienteBD = new ClienteDB();
-						
-						ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
-						if(listaClientes != null) {
-							for(Cliente c: listaClientes) {
-								textArea_ListaClientes.setText(textArea_ListaClientes.getText() + c.getNome() +" - " + c.getLogradouro() +"\n");
-							}
-						}
-						
-						conectar.fecharConexaoBD();
-						
-					}
-					catch (SQLException ex) {
-						System.err.println("Erro na conexão do BD: "+ex.getMessage());
-					}
-					catch (Exception ex) {
-						System.err.println("Erro geral: "+ex.getMessage());
-					}					
+							
 				}
 			});
 			btn_Listar.setBounds(278, 305, 100, 35);
@@ -233,7 +248,6 @@ public class CadastroCliente extends JFrame {
 			
 			btn_Cancelar = new JButton("CANCELAR");
 			btn_Cancelar.setBounds(399, 305, 100, 35);
-			painel_Principal.add(btn_Cancelar);
-			
+			painel_Principal.add(btn_Cancelar);			
 	}
 }
