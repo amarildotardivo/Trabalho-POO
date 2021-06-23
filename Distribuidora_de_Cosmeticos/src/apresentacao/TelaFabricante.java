@@ -12,7 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
-public class CadastroFabricante extends JFrame {
+public class TelaFabricante extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtField_Nome;
@@ -33,11 +33,11 @@ public class CadastroFabricante extends JFrame {
 	private JLabel lbl_Titulo_Cad_Fabricante;
 
 	
-	public CadastroFabricante() {
+	public TelaFabricante() {
 		//FRAME E CONTENT PANE *****************************************************************************************************************
 				setResizable(false);
 				setTitle("Cadastro de Fabricante");
-				setIconImage(Toolkit.getDefaultToolkit().getImage(CadastroCliente.class.getResource("/imagens/icon_cadastro.png")));
+				setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCliente.class.getResource("/imagens/icon_cadastro.png")));
 				setAlwaysOnTop(true);
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				setSize(554, 360);

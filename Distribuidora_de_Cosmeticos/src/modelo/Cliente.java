@@ -14,7 +14,6 @@ public class Cliente extends Endereco{
 	}
 	
 	//GETTER'S AND SETTER'S
-	
 	public int getId() {
 		return id;
 	}

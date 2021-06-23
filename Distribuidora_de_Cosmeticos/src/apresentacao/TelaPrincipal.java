@@ -49,80 +49,83 @@ public class TelaPrincipal extends JFrame {
 			mnCliente.setFont(new Font("Segoe UI", Font.BOLD, 12));
 			menuBar_Principal.add(mnCliente);
 			
-				JMenuItem Menu_Cadastro_Clientes = new JMenuItem("Cadastrar Cliente ...");
+				JMenuItem Menu_Cadastro_Clientes = new JMenuItem("Gerenciar Cliente");
+				Menu_Cadastro_Clientes.setPreferredSize(new Dimension(300, 30));
+				Menu_Cadastro_Clientes.setHorizontalTextPosition(SwingConstants.LEFT);
 				Menu_Cadastro_Clientes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_MASK));
 				Menu_Cadastro_Clientes.setHorizontalAlignment(SwingConstants.LEFT);
 				
 				Menu_Cadastro_Clientes.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						CadastroCliente cad_cliente = new CadastroCliente();
+						TelaCliente cad_cliente = new TelaCliente();
 						cad_cliente.setVisible(true);
 					}
 				});
 				mnCliente.add(Menu_Cadastro_Clientes);
 				
-				JMenuItem Menu_Deletar_Cliente = new JMenuItem("Deletar Cliente");
-				mnCliente.add(Menu_Deletar_Cliente);
-				
 				JMenuItem Menu_Listar_Clientes = new JMenuItem("Listar Clientes");
+				Menu_Listar_Clientes.setPreferredSize(new Dimension(125, 30));
 				mnCliente.add(Menu_Listar_Clientes);
 			
 			//MENU REPRESENTANTE ******************************************************************************************
 			JMenu Menu_Representante = new JMenu("Representante");
 			menuBar_Principal.add(Menu_Representante);
 			
-				JMenuItem Menu_Cadastrar_Representante = new JMenuItem("Cadastrar Representante");
-				Menu_Cadastrar_Representante.addActionListener(new ActionListener() {
+				JMenuItem Menu_Gerenciar_Representante = new JMenuItem("Gerenciar Representante");
+				Menu_Gerenciar_Representante.setPreferredSize(new Dimension(300, 30));
+				Menu_Gerenciar_Representante.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, InputEvent.CTRL_MASK));
+				Menu_Gerenciar_Representante.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						CadastroRepresentante cad_Representante = new CadastroRepresentante();
+						TelaRepresentante cad_Representante = new TelaRepresentante();
 						cad_Representante.setVisible(true);
 					}
 				});
-				Menu_Representante.add(Menu_Cadastrar_Representante);
-				
-				JMenuItem Menu_Deletar_Representante = new JMenuItem("Deletar Representante");
-				Menu_Representante.add(Menu_Deletar_Representante);
+				Menu_Representante.add(Menu_Gerenciar_Representante);
 				
 				JMenuItem Menu_Listar_Representantes = new JMenuItem("Listar Representantes");
+				Menu_Listar_Representantes.setPreferredSize(new Dimension(163, 30));
 				Menu_Representante.add(Menu_Listar_Representantes);
 			
 			//MENU FABRICANTE *******************************************************************************************
 			JMenu Menu_Fabricante = new JMenu("Fabricante");
 			menuBar_Principal.add(Menu_Fabricante);
 			
-				JMenuItem Menu_Cadastrar_Fabricante = new JMenuItem("Cadastrar Fabricante");
-				Menu_Cadastrar_Fabricante.addActionListener(new ActionListener() {
+				JMenuItem Menu_Gerenciar_Fabricante = new JMenuItem("Gerenciar Fabricante");
+				Menu_Gerenciar_Fabricante.setPreferredSize(new Dimension(300, 30));
+				Menu_Gerenciar_Fabricante.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, InputEvent.CTRL_MASK));
+				Menu_Gerenciar_Fabricante.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						CadastroFabricante cad_Fabricante = new CadastroFabricante();
+						TelaFabricante cad_Fabricante = new TelaFabricante();
 						cad_Fabricante.setVisible(true);
 					}
 				});
-				Menu_Fabricante.add(Menu_Cadastrar_Fabricante);
-				
-				JMenuItem Menu_Deletar_Fabricante = new JMenuItem("Deletar Fabricante");
-				Menu_Fabricante.add(Menu_Deletar_Fabricante);
+				Menu_Fabricante.add(Menu_Gerenciar_Fabricante);
 				
 				JMenuItem Menu_Listar_Fabricantes = new JMenuItem("Listar Fabricantes");
+				Menu_Listar_Fabricantes.setPreferredSize(new Dimension(143, 30));
 				Menu_Fabricante.add(Menu_Listar_Fabricantes);
 			
 			//MENU ESTOQUE ***************************************************************************************************
 			JMenu Menu_Estoque = new JMenu("Estoque");
 			menuBar_Principal.add(Menu_Estoque);
 			
-				JMenuItem Menu_Cadastrar_Produto = new JMenuItem("Cadastrar Produto");
-				Menu_Cadastrar_Produto.addActionListener(new ActionListener() {
+				JMenuItem Menu_Gerenciar_Produto = new JMenuItem("Gerenciar Produto");
+				Menu_Gerenciar_Produto.setPreferredSize(new Dimension(200, 30));
+				Menu_Gerenciar_Produto.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						CadastroProduto cad_Produto = new CadastroProduto();
+						TelaProduto cad_Produto = new TelaProduto();
 						cad_Produto.setVisible(true);
 					}
 				});
-				Menu_Estoque.add(Menu_Cadastrar_Produto);
+				Menu_Estoque.add(Menu_Gerenciar_Produto);
 				
 				JMenuItem Menu_Comprar_Produto = new JMenuItem("Comprar Produto");
+				Menu_Comprar_Produto.setPreferredSize(new Dimension(145, 30));
 				Menu_Estoque.add(Menu_Comprar_Produto);
 				
 				JMenuItem Menu_Listar_Produtos = new JMenuItem("Listar Produtos");
+				Menu_Listar_Produtos.setPreferredSize(new Dimension(131, 30));
 				Menu_Estoque.add(Menu_Listar_Produtos);
 			
 			//MENU VENDA ********************************************************************************************************
@@ -130,6 +133,7 @@ public class TelaPrincipal extends JFrame {
 			menuBar_Principal.add(Menu_Venda);
 			
 				JMenuItem Menu_Realizar_Venda = new JMenuItem("Realizar Venda");
+				Menu_Realizar_Venda.setPreferredSize(new Dimension(200, 30));
 				Menu_Venda.add(Menu_Realizar_Venda);
 		
 		//PANEL WALLPAPER *******************************************************************************************************
