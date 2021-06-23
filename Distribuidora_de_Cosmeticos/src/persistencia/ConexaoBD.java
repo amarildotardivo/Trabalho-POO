@@ -17,7 +17,7 @@ public class ConexaoBD {
 		try {
 			//REALIZA A CONEXÃO COM O BANCO DE DADOS
 			conexao = DriverManager.getConnection(url, usuario, senha);
-			System.out.println("Conexão Realizada Com Sucesso!!!");
+			
 		}
 		catch(Exception e) {
 			System.err.println("Erro geral: "+e.getMessage());

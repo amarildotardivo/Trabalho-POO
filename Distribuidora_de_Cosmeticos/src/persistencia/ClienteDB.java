@@ -26,6 +26,7 @@ public class ClienteDB {
 			
 			while(rs.next()) {
 				Cliente cliente = new Cliente(
+						rs.getInt("id"), 
 						rs.getString("nome"), 
 						rs.getString("logradouro"), 
 						rs.getString("numero"), 
@@ -52,23 +53,24 @@ public class ClienteDB {
 		return null;
 	}
 	
-	public ArrayList<Cliente> BuscarCliente(){
+	public ArrayList<Cliente> BuscarCliente(String nome_busca){
 		try {
 			//REALIZA CONEXÃO COM O BD
 			ConexaoBD conectar = new ConexaoBD();
 			
 			//STRING COM A QUERY SQL 
-			String querySQL = "SELECT * FROM distribuidora_cosmeticos.cliente WHERE nome = ";
+			String querySQL = "SELECT * FROM distribuidora_cosmeticos.cliente WHERE nome like '%"+ nome_busca + "%'";
 			
 			//CRIA O COMANDO SQL
 			PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
 			
 			ResultSet rs = stmt.executeQuery();
 			
-			ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+			ArrayList<Cliente> buscarCliente = new ArrayList<Cliente>();
 			
 			while(rs.next()) {
 				Cliente cliente = new Cliente(
+						rs.getInt("id"), 
 						rs.getString("nome"), 
 						rs.getString("logradouro"), 
 						rs.getString("numero"), 
@@ -78,11 +80,11 @@ public class ClienteDB {
 						rs.getString("cpf"), 
 						rs.getString("nome_representante"));
 				
-				listaClientes.add(cliente);
+				buscarCliente.add(cliente);
 			}
 			
 			conectar.fecharConexaoBD();
-			return listaClientes;
+			return buscarCliente;
 			
 		}
 		catch (SQLException ex){
@@ -93,6 +95,35 @@ public class ClienteDB {
 		}
 		
 		return null;
+	}
+	
+	public void DeletarCliente(Cliente c){
+		try {
+			//REALIZA CONEXÃO COM O BD
+			ConexaoBD conectar = new ConexaoBD();
+			
+			//STRING COM A QUERY SQL 
+			String querySQL = "DELETE FROM distribuidora_cosmeticos.cliente WHERE id = ?";
+			
+			//CRIA O COMANDO SQL
+			PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
+			//Statement stmt = conectar.conectarBD().createStatement();
+			
+//			String id = String.valueOf(c.getId());
+//			
+			stmt.setInt(1, c.getId());
+			
+			stmt.executeUpdate();
+			
+			conectar.fecharConexaoBD();
+			
+		}
+		catch (SQLException ex){
+            System.err.println("Erro ao recuperar "+ex.getMessage());
+        }
+		catch (Exception ex) {
+			System.err.println("Erro geral: "+ ex.getMessage());
+		}
 	}
 }
 
