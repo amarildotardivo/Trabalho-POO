@@ -247,7 +247,7 @@ public class TelaCliente extends JFrame {
 							//EXECUTA A QUERY NO BANCO DE DADOS
 							int rowsAffected = stmt.executeUpdate();
 							System.out.println("Atualizado: "+ rowsAffected+" linha(s)");
-							System.out.println("Cliente Cadastrado com Sucesso!!!");
+							System.out.println("Cliente Editado com Sucesso!!!");
 							
 							//FECHA O COMANDO STMT E A CONEXÃO
 							stmt.close();
@@ -387,11 +387,12 @@ public class TelaCliente extends JFrame {
 			list_ListarClientes.setBounds(368, 81, 492, 201);
 			painel_Principal.add(list_ListarClientes);
 			
+			//BOTÃO DE LISTAR CLIENTES NO JLIST
 			btn_ListarClientes = new JButton("LISTAR CLIENTES");
 			btn_ListarClientes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					//LISTA OS CLIENTE EM UMA JLIST
+					//LISTA OS CLIENTES EM UMA JLIST
 					try {
 						//REALIZA A CONEXÃO COM O BD
 						ConexaoBD conectar = new ConexaoBD();

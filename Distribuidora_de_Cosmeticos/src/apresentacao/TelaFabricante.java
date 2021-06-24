@@ -12,8 +12,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import modelo.Fabricante;
+import persistencia.ConexaoBD;
+import persistencia.FabricanteBD;
+
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
@@ -135,19 +143,159 @@ public class TelaFabricante extends JFrame {
 					textField_cnpj.setBounds(272, 194, 116, 29);
 					painel_Principal.add(textField_cnpj);
 					
+					//FUNÇÃO DE INCLUIR NO BANCO DE DADOS
 					btn_Salvar = new JButton("SALVAR");
+					btn_Salvar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							try {
+								
+								//REALIZA A CONEXÃO COM O BD
+								ConexaoBD conectar = new ConexaoBD();	
+								System.out.println("Conexão Realizada Com Sucesso!!!");
+								
+								//CRIA A STRING SQL
+								String querySQL = "INSERT INTO distribuidora_cosmeticos.fabricante (id, nome, logradouro, numero, bairro, cidade, telefone, cnpj) "
+										+ "VALUES(?,?,?,?,?,?,?,?)";
+								
+								//CRIA O COMANDO SQL
+								PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
+								
+								//SETA OS VALORES NA STRING querySQL
+								stmt.setInt(1, Integer.parseInt(textField_id.getText()) );
+								stmt.setString(2, textField_Nome.getText());
+								stmt.setString(3, textField_Logradouro.getText());
+								stmt.setString(4, textField_Numero.getText());
+								stmt.setString(5, textField_Bairro.getText());
+								stmt.setString(6, textField_Cidade.getText());
+								stmt.setString(7, textField_Telefone.getText());
+								stmt.setString(8, textField_cnpj.getText());
+								
+								
+								//EXECUTA A QUERY NO BANCO DE DADOS
+								stmt.executeUpdate();
+								System.out.println("Fabricante Cadastrado com Sucesso!!!");
+								
+								//FECHA O COMANDO STMT E A CONEXÃO
+								stmt.close();
+								conectar.fecharConexaoBD();
+								System.out.println("Conexão Encerrada Com Sucesso!!!");
+							}
+							catch (SQLException ex) {
+								System.err.println("Erro na conexão do BD: "+ex.getMessage());
+							}
+							catch (Exception ex) {
+								System.err.println("Erro geral: "+ex.getMessage());
+							}
+						}
+					});
 					btn_Salvar.setBounds(61, 263, 100, 35);
 					painel_Principal.add(btn_Salvar);
 					
+					//FUNÇÃO DE ALTERAR NO BANCO DE DADOS
 					btn_Editar = new JButton("EDITAR");
+					btn_Editar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							try {
+								
+								//REALIZA A CONEXÃO COM O BD
+								ConexaoBD conectar = new ConexaoBD();	
+								System.out.println("Conexão Realizada Com Sucesso!!!");												
+									
+									//CRIA A STRING SQL
+									String querySQL = "UPDATE distribuidora_cosmeticos.fabricante SET `nome` = ?, `logradouro` = ?, "
+											+ "`numero` = ?, `bairro` = ?, `cidade` = ?, `telefone` = ?, `cnpj` = ? "
+											+ " WHERE id = ?";
+									
+									//CRIA O COMANDO SQL
+									PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
+									
+									//SETA OS VALORES NA STRING querySQL
+									stmt.setString(1, textField_Nome.getText());
+									stmt.setString(2, textField_Logradouro.getText());
+									stmt.setString(3, textField_Numero.getText());
+									stmt.setString(4, textField_Bairro.getText());
+									stmt.setString(5, textField_Cidade.getText());
+									stmt.setString(6, textField_Telefone.getText());
+									stmt.setString(7, textField_cnpj.getText());
+									stmt.setInt(8, Integer.parseInt(textField_id.getText()));
+									
+									//EXECUTA A QUERY NO BANCO DE DADOS
+									int rowsAffected = stmt.executeUpdate();
+									System.out.println("Atualizado: "+ rowsAffected+" linha(s)");
+									System.out.println("Fabricante Editado com Sucesso!!!");
+									
+									//FECHA O COMANDO STMT E A CONEXÃO
+									stmt.close();
+									conectar.fecharConexaoBD();
+									System.out.println("Conexão Encerrada Com Sucesso!!!");
+
+							}
+							catch (SQLException ex) {
+								System.err.println("Erro na conexão do BD: "+ex.getMessage());
+							}
+							catch (Exception ex) {
+								System.err.println("Erro geral: "+ex.getMessage());
+							}
+						}
+					});
 					btn_Editar.setBounds(186, 263, 100, 35);
 					painel_Principal.add(btn_Editar);
 					
+					//FUNÇÃO DE CONSULTAR NO BANCO DE DADOS
 					btn_Buscar = new JButton("BUSCAR");
+					btn_Buscar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							try {
+								//REALIZA A CONEXÃO COM O BD
+								ConexaoBD conectar = new ConexaoBD();
+								System.out.println("Conexão Realizada Com Sucesso!!!");
+								
+								FabricanteBD fabBd = new FabricanteBD();
+														
+								//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
+								ArrayList<Fabricante> listaFabricantes = fabBd.BuscarFabricante(textField_Nome.getText());
+								
+								if(listaFabricantes != null) {
+									for(Fabricante f: listaFabricantes) {
+										textField_id.setText("" + f.getId());
+										textField_Nome.setText("" + f.getNome());
+										textField_Logradouro.setText("" + f.getLogradouro());
+										textField_Numero.setText("" + f.getNumero());
+										textField_Bairro.setText("" + f.getBairro());
+										textField_Cidade.setText("" + f.getCidade());
+										textField_Telefone.setText("" + f.getTelefone());
+										textField_cnpj.setText("" + f.getCnpj());
+										
+									}
+									System.out.println("Busca do Cliente Realizada Com Sucesso!!!");
+								}
+								
+								conectar.fecharConexaoBD();
+								
+							}
+							catch (SQLException ex) {
+								System.err.println("Erro na conexão do BD: "+ex.getMessage());
+							}
+							catch (Exception ex) {
+								System.err.println("Erro geral: "+ex.getMessage());
+							}
+						}
+					});
 					btn_Buscar.setBounds(312, 263, 100, 35);
 					painel_Principal.add(btn_Buscar);
 					
+					//FUNÇÃO DE DELETAR DO BANCO DE DADOS
 					btn_Deletar = new JButton("DELETAR");
+					btn_Deletar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							Fabricante f = new Fabricante(Integer.parseInt(textField_id.getText()),textField_Nome.getText(), textField_Logradouro.getText(),
+									textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
+									textField_Telefone.getText(), textField_cnpj.getText());
+							
+							FabricanteBD fbd = new FabricanteBD();
+							fbd.DeletarFabricante(f);
+						}
+					});
 					btn_Deletar.setBounds(436, 263, 100, 35);
 					painel_Principal.add(btn_Deletar);
 					
@@ -167,7 +315,79 @@ public class TelaFabricante extends JFrame {
 					btn_Limpar.setBounds(559, 263, 100, 35);
 					painel_Principal.add(btn_Limpar);
 					
+					//DEFINE O MODELO DO JLIST
+					DefaultListModel model = new DefaultListModel();
+					
+					//LISTA OS FABRICANTES EM UMA JLIST
+					try {
+						//REALIZA A CONEXÃO COM O BD
+						ConexaoBD conectar = new ConexaoBD();
+						System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
+						
+						FabricanteBD fBd = new FabricanteBD();
+						
+						
+						//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
+						ArrayList<Fabricante> listaFabricantes = fBd.listarFabricantes();
+						
+						if(listaFabricantes != null) {
+							for(Fabricante f: listaFabricantes) {
+								
+								model.addElement(f.getId()+": "+ f.getNome() + " - " + f.getLogradouro() + " - " + f.getNumero() + " - " + 
+								f.getBairro() + " - " + f.getCidade() + " - " + f.getTelefone() + " - " + f.getCnpj());
+								
+							}
+						}
+						
+						conectar.fecharConexaoBD();
+						System.out.println("Conexão do JList com  BD Encerrada Com Sucesso!!!");
+						
+					}
+					catch (SQLException ex) {
+						System.err.println("Erro na conexão do BD: "+ex.getMessage());
+					}
+					catch (Exception ex) {
+						System.err.println("Erro geral: "+ex.getMessage());
+					}
+					
+					//BOTÃO QUE ATUALIZA O JLIST DO FABRICANTE
 					btn_ListarClientes = new JButton("LISTAR CLIENTES");
+					btn_ListarClientes.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							//LISTA OS FABRICANTES EM UMA JLIST
+							try {
+								//REALIZA A CONEXÃO COM O BD
+								ConexaoBD conectar = new ConexaoBD();
+								System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
+								
+								FabricanteBD fBd = new FabricanteBD();
+								
+								
+								//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
+								ArrayList<Fabricante> listaFabricantes = fBd.listarFabricantes();
+								
+								model.clear();
+								if(listaFabricantes != null) {
+									for(Fabricante f: listaFabricantes) {
+										
+										model.addElement(f.getId()+": "+ f.getNome() + " - " + f.getLogradouro() + " - " + f.getNumero() + " - " + 
+										f.getBairro() + " - " + f.getCidade() + " - " + f.getTelefone() + " - " + f.getCnpj());
+										
+									}
+								}
+								
+								conectar.fecharConexaoBD();
+								System.out.println("Conexão do JList com  BD Encerrada Com Sucesso!!!");
+								
+							}
+							catch (SQLException ex) {
+								System.err.println("Erro na conexão do BD: "+ex.getMessage());
+							}
+							catch (Exception ex) {
+								System.err.println("Erro geral: "+ex.getMessage());
+							}
+						}
+					});
 					btn_ListarClientes.setBounds(682, 263, 138, 35);
 					painel_Principal.add(btn_ListarClientes);
 					
@@ -175,9 +395,7 @@ public class TelaFabricante extends JFrame {
 					lbl_ListaFabricantes.setBounds(398, 61, 158, 14);
 					painel_Principal.add(lbl_ListaFabricantes);
 					
-					//DEFINE O MODELO DO JLIST
-					DefaultListModel model = new DefaultListModel();
-					
+					//BOTÃO DE LISTAR CLIENTES NO JLIST
 					JList list_ListarFabricantes = new JList(model);
 					list_ListarFabricantes.setBorder(new EmptyBorder(5, 5, 5, 5));
 					list_ListarFabricantes.setBounds(398, 81, 455, 142);
