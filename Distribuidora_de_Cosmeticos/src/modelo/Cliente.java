@@ -44,4 +44,5 @@ public class Cliente extends Endereco{
 	public void deletar_cadastro() {
 		
 	}
+	
 }

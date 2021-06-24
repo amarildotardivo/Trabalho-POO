@@ -166,48 +166,6 @@ public class TelaCliente extends JFrame {
 			lbl_ListaClientes.setBounds(368, 61, 109, 14);
 			painel_Principal.add(lbl_ListaClientes);
 			
-			//DEFINE O MODELO DO JLIST
-			@SuppressWarnings("rawtypes")
-			DefaultListModel model = new DefaultListModel();
-			
-			//LISTA OS CLIENTE EM UMA JLIST
-			try {
-				//REALIZA A CONEXÃO COM O BD
-				ConexaoBD conectar = new ConexaoBD();
-				System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
-				
-				ClienteDB clienteBD = new ClienteDB();
-				
-				
-				//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
-				ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
-				
-				if(listaClientes != null) {
-					for(Cliente c: listaClientes) {
-						
-						model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
-						c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
-						
-					}
-				}
-				
-				conectar.fecharConexaoBD();
-				System.out.println("Conexão do JList com  BD Encerrada Com Sucesso!!!");
-				
-			}
-			catch (SQLException ex) {
-				System.err.println("Erro na conexão do BD: "+ex.getMessage());
-			}
-			catch (Exception ex) {
-				System.err.println("Erro geral: "+ex.getMessage());
-			}
-			
-			@SuppressWarnings("rawtypes")
-			JList list_ListarClientes = new JList(model);
-			list_ListarClientes.setBorder(new EmptyBorder(5, 5, 5, 5));
-			list_ListarClientes.setBounds(368, 81, 492, 201);
-			painel_Principal.add(list_ListarClientes);
-			
 			//FUNÇÃO DE INCLUIR NO BANCO DE DADOS
 			JButton btn_Salvar = new JButton("SALVAR");			
 			btn_Salvar.setBounds(50, 312, 100, 35);
@@ -387,8 +345,89 @@ public class TelaCliente extends JFrame {
 			btn_Limpar.setBounds(548, 312, 100, 35);
 			painel_Principal.add(btn_Limpar);
 			
+			//DEFINE O MODELO DO JLIST
+			@SuppressWarnings("rawtypes")
+			DefaultListModel model = new DefaultListModel();
+			
+			//LISTA OS CLIENTE EM UMA JLIST
+			try {
+				//REALIZA A CONEXÃO COM O BD
+				ConexaoBD conectar = new ConexaoBD();
+				System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
+				
+				ClienteDB clienteBD = new ClienteDB();
+				
+				
+				//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
+				ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
+				
+				if(listaClientes != null) {
+					for(Cliente c: listaClientes) {
+						
+						model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
+						c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
+						
+					}
+				}
+				
+				conectar.fecharConexaoBD();
+				System.out.println("Conexão do JList com  BD Encerrada Com Sucesso!!!");
+				
+			}
+			catch (SQLException ex) {
+				System.err.println("Erro na conexão do BD: "+ex.getMessage());
+			}
+			catch (Exception ex) {
+				System.err.println("Erro geral: "+ex.getMessage());
+			}
+			
+			@SuppressWarnings("rawtypes")
+			JList list_ListarClientes = new JList(model);
+			list_ListarClientes.setBorder(new EmptyBorder(5, 5, 5, 5));
+			list_ListarClientes.setBounds(368, 81, 492, 201);
+			painel_Principal.add(list_ListarClientes);
+			
 			btn_ListarClientes = new JButton("LISTAR CLIENTES");
+			btn_ListarClientes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					//LISTA OS CLIENTE EM UMA JLIST
+					try {
+						//REALIZA A CONEXÃO COM O BD
+						ConexaoBD conectar = new ConexaoBD();
+						System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
+						
+						ClienteDB clienteBD = new ClienteDB();
+						
+						
+						//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
+						ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
+						
+						model.clear();
+						
+						if(listaClientes != null) {
+							for(Cliente c: listaClientes) {
+								
+								model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
+								c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
+								
+							}
+						}
+						
+						conectar.fecharConexaoBD();
+						System.out.println("Conexão do JList com  BD Encerrada Com Sucesso!!!");
+						
+					}
+					catch (SQLException ex) {
+						System.err.println("Erro na conexão do BD: "+ex.getMessage());
+					}
+					catch (Exception ex) {
+						System.err.println("Erro geral: "+ex.getMessage());
+					}					
+				}
+			});
 			btn_ListarClientes.setBounds(673, 312, 139, 35);
 			painel_Principal.add(btn_ListarClientes);
+			
 	}
 }

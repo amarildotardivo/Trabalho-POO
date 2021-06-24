@@ -332,9 +332,50 @@ public class TelaRepresentante extends JFrame {
 					lbl_ListaClientes.setBounds(368, 56, 100, 14);
 					painel_Principal.add(lbl_ListaClientes);
 					
-					JTextArea textArea_ListaClientes = new JTextArea();
-					textArea_ListaClientes.setBounds(368, 77, 475, 199);
-					painel_Principal.add(textArea_ListaClientes);
+					JTextArea textArea_ListaRepresentantes = new JTextArea();
+					textArea_ListaRepresentantes.setBounds(368, 77, 475, 199);
+					painel_Principal.add(textArea_ListaRepresentantes);
+					
+					//LISTA OS REPRESENTANTES EM UMA TEXTAREA
+					try {
+						//REALIZA A CONEXÃO COM O BD
+						ConexaoBD conectar = new ConexaoBD();
+						System.out.println("Conexão da TextArea com  BD Realizada Com Sucesso!!!");
+						
+						RepresentanteBD repBd = new RepresentanteBD();
+						
+						
+						//TRÁS DO BANCO DE DADOS TODOS OS REPRESENTANTES CADASTRADOS
+						ArrayList<Representante> listaRepresentantes = repBd.listarRepresentantes();
+						
+						textArea_ListaRepresentantes.setText("");
+						if(listaRepresentantes != null) {
+							for(Representante r: listaRepresentantes) {
+								
+								textArea_ListaRepresentantes.setText(textArea_ListaRepresentantes.getText() + 
+										r.getId() + ": " +
+										r.getNome() + " - " +
+										r.getLogradouro() + " Nº: " +
+										r.getNumero() + " - " +
+										r.getBairro() + " / " +
+										r.getCidade() + " Tel.: " +
+										r.getTelefone() + " CPF: " +
+										r.getCpf() + " Reg.: " +
+										r.getRegiao()+"\n");
+								
+							}
+						}
+						
+						conectar.fecharConexaoBD();
+						System.out.println("Conexão da TextArea com  BD Encerrada Com Sucesso!!!");
+						
+					}
+					catch (SQLException ex) {
+						System.err.println("Erro na conexão do BD: "+ex.getMessage());
+					}
+					catch (Exception ex) {
+						System.err.println("Erro geral: "+ex.getMessage());
+					}
 					
 					//BOTÃO QUE LISTA TODOS OS REPRESENTANTES NA TEXTAREA
 					btn_ListarClientes = new JButton("LISTAR CLIENTES");
@@ -344,7 +385,7 @@ public class TelaRepresentante extends JFrame {
 							try {
 								//REALIZA A CONEXÃO COM O BD
 								ConexaoBD conectar = new ConexaoBD();
-								System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
+								System.out.println("Conexão da TextArea com  BD Realizada Com Sucesso!!!");
 								
 								RepresentanteBD repBd = new RepresentanteBD();
 								
@@ -352,10 +393,11 @@ public class TelaRepresentante extends JFrame {
 								//TRÁS DO BANCO DE DADOS TODOS OS REPRESENTANTES CADASTRADOS
 								ArrayList<Representante> listaRepresentantes = repBd.listarRepresentantes();
 								
+								textArea_ListaRepresentantes.setText("");
 								if(listaRepresentantes != null) {
 									for(Representante r: listaRepresentantes) {
 										
-										textArea_ListaClientes.setText(textArea_ListaClientes.getText() + 
+										textArea_ListaRepresentantes.setText(textArea_ListaRepresentantes.getText() + 
 												r.getId() + ": " +
 												r.getNome() + " - " +
 												r.getLogradouro() + " Nº: " +
@@ -364,13 +406,13 @@ public class TelaRepresentante extends JFrame {
 												r.getCidade() + " Tel.: " +
 												r.getTelefone() + " CPF: " +
 												r.getCpf() + " Reg.: " +
-												r.getRegiao());
+												r.getRegiao()+ "\n");
 										
 									}
 								}
 								
 								conectar.fecharConexaoBD();
-								System.out.println("Conexão do JList com  BD Encerrada Com Sucesso!!!");
+								System.out.println("Conexão da TextArea com  BD Encerrada Com Sucesso!!!");
 								
 							}
 							catch (SQLException ex) {
