@@ -57,7 +57,7 @@ public class TelaFabricante extends JFrame {
 	public TelaFabricante() {
 		//FRAME E CONTENT PANE *****************************************************************************************************************
 				setResizable(false);
-				setTitle("Cadastro de Fabricante");
+				setTitle("Gerenciamento do Fabricante");
 				setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCliente.class.getResource("/imagens/icon_cadastro.png")));
 				setAlwaysOnTop(true);
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

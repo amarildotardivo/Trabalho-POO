@@ -1,8 +1,29 @@
+
+
+
+
+
+
+
+
+-- NÃO É NECESSÁRIO RODAR ESTE SCRIPT, TODO ELE ESTÁ SENDO GERADO AUTOMATICANTE PELO JAVA AO ABRIR A APLICAÇÃO NA CLASSE CriarBD NO PACOTE persistencia
+
+
+
+
+
+
+
+
+
+
+
 CREATE DATABASE IF NOT EXISTS distribuidora_cosmeticos;
 
 USE distribuidora_cosmeticos;
 
 CREATE TABLE IF NOT EXISTS representante(
+    id int,
     nome VARCHAR(255),
     logradouro VARCHAR(255),
     numero VARCHAR(255),
@@ -12,9 +33,9 @@ CREATE TABLE IF NOT EXISTS representante(
     cpf VARCHAR(255),
     regiao VARCHAR(255)
 );
--- null, nome, logradouro, numero, bairro, cidade, telefone, cpf, regiao
 
 CREATE TABLE IF NOT EXISTS cliente(
+    id int,
     nome VARCHAR(255),
     logradouro VARCHAR(255),
     numero VARCHAR(255),
@@ -24,10 +45,10 @@ CREATE TABLE IF NOT EXISTS cliente(
     cpf VARCHAR(255),
     nome_representante VARCHAR(255)
 );
--- id_cliente, nome, logradouro, numero, bairro, cidade, telefone, cpf, nome_representante
 
 CREATE TABLE IF NOT EXISTS fabricante(
-	nome VARCHAR(255),
+	id int,
+    nome VARCHAR(255),
     logradouro VARCHAR(255),
     numero VARCHAR(255),
     bairro VARCHAR(255),
@@ -37,6 +58,7 @@ CREATE TABLE IF NOT EXISTS fabricante(
 );
 
 CREATE TABLE IF NOT EXISTS estoque(
+    id int,
     nome_produto VARCHAR(255),
     quantidade INT,
     preco_compra DOUBLE,
@@ -46,6 +68,7 @@ CREATE TABLE IF NOT EXISTS estoque(
 );
 
 CREATE TABLE IF NOT EXISTS venda(
+    id int,
     nome_cliente VARCHAR(255),
     nome_produto VARCHAR(255),
     quantidade INT
