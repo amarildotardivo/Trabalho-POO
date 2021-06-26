@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class TelaFabricante extends JFrame {
@@ -51,6 +52,7 @@ public class TelaFabricante extends JFrame {
 	private JLabel lbl_ListaFabricantes;
 	private JTextField textField_id;
 	private JLabel lbl_id;
+	private JScrollPane scrollPane;
 
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -174,6 +176,9 @@ public class TelaFabricante extends JFrame {
 								//EXECUTA A QUERY NO BANCO DE DADOS
 								stmt.executeUpdate();
 								System.out.println("Fabricante Cadastrado com Sucesso!!!");
+								//Popup de Informação
+								TelaInformacao tInformacao = new TelaInformacao("Fabricante: " + textField_Nome.getText(), "Salvo com Sucesso!");
+								tInformacao.setVisible(true);
 								
 								//FECHA O COMANDO STMT E A CONEXÃO
 								stmt.close();
@@ -182,9 +187,15 @@ public class TelaFabricante extends JFrame {
 							}
 							catch (SQLException ex) {
 								System.err.println("Erro na conexão do BD: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
+								tErro.setVisible(true);
 							}
 							catch (Exception ex) {
 								System.err.println("Erro geral: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error: " + ex);
+								tErro.setVisible(true);
 							}
 						}
 					});
@@ -223,6 +234,9 @@ public class TelaFabricante extends JFrame {
 									int rowsAffected = stmt.executeUpdate();
 									System.out.println("Atualizado: "+ rowsAffected+" linha(s)");
 									System.out.println("Fabricante Editado com Sucesso!!!");
+									//Popup de Informação
+									TelaInformacao tInformacao = new TelaInformacao("Fabricante: " + textField_Nome.getText(), "Editado com Sucesso!");
+									tInformacao.setVisible(true);
 									
 									//FECHA O COMANDO STMT E A CONEXÃO
 									stmt.close();
@@ -232,9 +246,15 @@ public class TelaFabricante extends JFrame {
 							}
 							catch (SQLException ex) {
 								System.err.println("Erro na conexão do BD: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
+								tErro.setVisible(true);
 							}
 							catch (Exception ex) {
 								System.err.println("Erro geral: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error: " + ex);
+								tErro.setVisible(true);
 							}
 						}
 					});
@@ -288,12 +308,22 @@ public class TelaFabricante extends JFrame {
 					btn_Deletar = new JButton("DELETAR");
 					btn_Deletar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							Fabricante f = new Fabricante(Integer.parseInt(textField_id.getText()),textField_Nome.getText(), textField_Logradouro.getText(),
-									textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
-									textField_Telefone.getText(), textField_cnpj.getText());
-							
-							FabricanteBD fbd = new FabricanteBD();
-							fbd.DeletarFabricante(f);
+							try {
+								Fabricante f = new Fabricante(Integer.parseInt(textField_id.getText()),textField_Nome.getText(), textField_Logradouro.getText(),
+										textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
+										textField_Telefone.getText(), textField_cnpj.getText());
+								
+								FabricanteBD fbd = new FabricanteBD();
+								fbd.DeletarFabricante(f);
+								//Popup de Informação
+								TelaInformacao tInformacao = new TelaInformacao("Representante: " + textField_Nome.getText(), "Deletado com Sucesso!");
+								tInformacao.setVisible(true);
+								
+							} catch (Exception ex) {
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error: " + ex);
+								tErro.setVisible(true);
+							}
 						}
 					});
 					btn_Deletar.setBounds(436, 263, 100, 35);
@@ -395,11 +425,14 @@ public class TelaFabricante extends JFrame {
 					lbl_ListaFabricantes.setBounds(398, 61, 158, 14);
 					painel_Principal.add(lbl_ListaFabricantes);
 					
+					scrollPane = new JScrollPane();
+					scrollPane.setBounds(398, 81, 455, 142);
+					painel_Principal.add(scrollPane);
+					
 					//BOTÃO DE LISTAR CLIENTES NO JLIST
 					JList list_ListarFabricantes = new JList(model);
+					scrollPane.setViewportView(list_ListarFabricantes);
 					list_ListarFabricantes.setBorder(new EmptyBorder(5, 5, 5, 5));
-					list_ListarFabricantes.setBounds(398, 81, 455, 142);
-					painel_Principal.add(list_ListarFabricantes);
 					
 					textField_id = new JTextField();
 					textField_id.setName("");

@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JList;
 
 import java.awt.Color;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class TelaCliente extends JFrame {
@@ -52,6 +53,7 @@ public class TelaCliente extends JFrame {
 	private JLabel lbl_id;
 	private JTextField textField_id;
 	private JButton btn_ListarClientes;
+	private JScrollPane scrollPane;
 
 	@SuppressWarnings("unchecked")
 	public TelaCliente() {
@@ -170,7 +172,9 @@ public class TelaCliente extends JFrame {
 			JButton btn_Salvar = new JButton("SALVAR");			
 			btn_Salvar.setBounds(50, 312, 100, 35);
 			btn_Salvar.addActionListener(new ActionListener() {
+				//@SuppressWarnings("static-access")
 				public void actionPerformed(ActionEvent e) {
+					
 					try {
 						
 						//REALIZA A CONEXÃO COM O BD
@@ -200,6 +204,10 @@ public class TelaCliente extends JFrame {
 						stmt.executeUpdate();
 						System.out.println("Cliente Cadastrado com Sucesso!!!");
 						
+						//Popup de Informação
+						TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_Nome.getText(), "Salvo com Sucesso!");
+						tInformacao.setVisible(true);
+						
 						//FECHA O COMANDO STMT E A CONEXÃO
 						stmt.close();
 						conectar.fecharConexaoBD();
@@ -207,10 +215,16 @@ public class TelaCliente extends JFrame {
 					}
 					catch (SQLException ex) {
 						System.err.println("Erro na conexão do BD: "+ex.getMessage());
+						//Popup de Erro
+						TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
+						tErro.setVisible(true);
 					}
 					catch (Exception ex) {
 						System.err.println("Erro geral: "+ex.getMessage());
-					}					
+						//Popup de Erro
+						TelaErro tErro = new TelaErro("Error: " + ex);
+						tErro.setVisible(true);
+					}
 				}
 			});
 			painel_Principal.add(btn_Salvar);
@@ -249,6 +263,10 @@ public class TelaCliente extends JFrame {
 							System.out.println("Atualizado: "+ rowsAffected+" linha(s)");
 							System.out.println("Cliente Editado com Sucesso!!!");
 							
+							//Popup de Informação
+							TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_Nome.getText(), "Editado com Sucesso!");
+							tInformacao.setVisible(true);
+							
 							//FECHA O COMANDO STMT E A CONEXÃO
 							stmt.close();
 							conectar.fecharConexaoBD();
@@ -257,9 +275,15 @@ public class TelaCliente extends JFrame {
 					}
 					catch (SQLException ex) {
 						System.err.println("Erro na conexão do BD: "+ex.getMessage());
+						//Popup de Erro
+						TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
+						tErro.setVisible(true);
 					}
 					catch (Exception ex) {
 						System.err.println("Erro geral: "+ex.getMessage());
+						//Popup de Erro
+						TelaErro tErro = new TelaErro("Error: " + ex);
+						tErro.setVisible(true);
 					}
 				}
 			});
@@ -301,9 +325,15 @@ public class TelaCliente extends JFrame {
 					}
 					catch (SQLException ex) {
 						System.err.println("Erro na conexão do BD: "+ex.getMessage());
+						//Popup de Erro
+						TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
+						tErro.setVisible(true);
 					}
 					catch (Exception ex) {
 						System.err.println("Erro geral: "+ex.getMessage());
+						//Popup de Erro
+						TelaErro tErro = new TelaErro("Error: " + ex);
+						tErro.setVisible(true);
 					}
 				}
 			});
@@ -315,12 +345,24 @@ public class TelaCliente extends JFrame {
 			btn_Deletar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 						
-					Cliente c = new Cliente(Integer.parseInt(textField_id.getText()),textField_Nome.getText(), textField_Logradouro.getText(),
-							textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
-							textField_Telefone.getText(), textField_cpf.getText(), textField_NomeRepresentante.getText());
-					
-					ClienteDB cbd = new ClienteDB();
-					cbd.DeletarCliente(c);
+					try {
+						Cliente c = new Cliente(Integer.parseInt(textField_id.getText()),textField_Nome.getText(), textField_Logradouro.getText(),
+								textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
+								textField_Telefone.getText(), textField_cpf.getText(), textField_NomeRepresentante.getText());
+						
+						ClienteDB cbd = new ClienteDB();
+						cbd.DeletarCliente(c);
+						System.out.println("Cliente Deletado com sucesso!");
+						//Popup de Informação
+						TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_Nome.getText(), "Deletado com Sucesso!");
+						tInformacao.setVisible(true);
+					} 
+					catch (Exception ex) {
+						System.err.println("Erro geral: "+ex.getMessage());
+						//Popup de Erro
+						TelaErro tErro = new TelaErro("Error: " + ex);
+						tErro.setVisible(true);
+					}
 					
 				}
 			});
@@ -381,11 +423,14 @@ public class TelaCliente extends JFrame {
 				System.err.println("Erro geral: "+ex.getMessage());
 			}
 			
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(368, 81, 492, 201);
+			painel_Principal.add(scrollPane);
+			
 			@SuppressWarnings("rawtypes")
 			JList list_ListarClientes = new JList(model);
+			scrollPane.setViewportView(list_ListarClientes);
 			list_ListarClientes.setBorder(new EmptyBorder(5, 5, 5, 5));
-			list_ListarClientes.setBounds(368, 81, 492, 201);
-			painel_Principal.add(list_ListarClientes);
 			
 			//BOTÃO DE LISTAR CLIENTES NO JLIST
 			btn_ListarClientes = new JButton("LISTAR CLIENTES");

@@ -20,6 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 @SuppressWarnings("serial")
 public class TelaRepresentante extends JFrame {
@@ -43,6 +45,7 @@ public class TelaRepresentante extends JFrame {
 	private JLabel lbl_Titulo_Representante;
 	private JTextField textField_id;
 	private JButton btn_ListarClientes;
+	private JScrollPane scrollPane;
 
 	public TelaRepresentante() {
 		//FRAME E CONTENT PANE *****************************************************************************************************************
@@ -184,6 +187,9 @@ public class TelaRepresentante extends JFrame {
 								//EXECUTA A QUERY NO BANCO DE DADOS
 								stmt.executeUpdate();
 								System.out.println("Representante Cadastrado com Sucesso!!!");
+								//Popup de Informação
+								TelaInformacao tInformacao = new TelaInformacao("Representante: " + textField_Nome.getText(), "Salvo com Sucesso!");
+								tInformacao.setVisible(true);
 								
 								//FECHA O COMANDO STMT E A CONEXÃO
 								stmt.close();
@@ -192,9 +198,15 @@ public class TelaRepresentante extends JFrame {
 							}
 							catch (SQLException ex) {
 								System.err.println("Erro na conexão do BD: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
+								tErro.setVisible(true);
 							}
 							catch (Exception ex) {
 								System.err.println("Erro geral: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error: " + ex);
+								tErro.setVisible(true);
 							}
 						}
 					});
@@ -234,6 +246,9 @@ public class TelaRepresentante extends JFrame {
 									int rowsAffected = stmt.executeUpdate();
 									System.out.println("Atualizado: "+ rowsAffected+" linha(s)");
 									System.out.println("Representante Cadastrado com Sucesso!!!");
+									//Popup de Informação
+									TelaInformacao tInformacao = new TelaInformacao("Representante: " + textField_Nome.getText(), "Editado com Sucesso!");
+									tInformacao.setVisible(true);
 									
 									//FECHA O COMANDO STMT E A CONEXÃO
 									stmt.close();
@@ -243,9 +258,15 @@ public class TelaRepresentante extends JFrame {
 							}
 							catch (SQLException ex) {
 								System.err.println("Erro na conexão do BD: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
+								tErro.setVisible(true);
 							}
 							catch (Exception ex) {
 								System.err.println("Erro geral: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error: " + ex);
+								tErro.setVisible(true);
 							}
 						}
 					});
@@ -300,12 +321,25 @@ public class TelaRepresentante extends JFrame {
 					JButton btn_Deletar = new JButton("DELETAR");
 					btn_Deletar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							Representante rep = new Representante(Integer.parseInt(textField_id.getText()),textField_Nome.getText(), textField_Logradouro.getText(),
-									textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
-									textField_Telefone.getText(), textField_cpf.getText(), textField_Regiao.getText());
-							
-							RepresentanteBD repBd = new RepresentanteBD();
-							repBd.DeletarRepresentante(rep);
+							try {
+								Representante rep = new Representante(Integer.parseInt(textField_id.getText()),textField_Nome.getText(), textField_Logradouro.getText(),
+										textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
+										textField_Telefone.getText(), textField_cpf.getText(), textField_Regiao.getText());
+								
+								RepresentanteBD repBd = new RepresentanteBD();
+								repBd.DeletarRepresentante(rep);
+								
+								System.out.println("Representante Deletado com sucesso!");
+								//Popup de Informação
+								TelaInformacao tInformacao = new TelaInformacao("Representante: " + textField_Nome.getText(), "Deletado com Sucesso!");
+								tInformacao.setVisible(true);
+							} 
+							catch (Exception ex) {
+								System.err.println("Erro geral: "+ex.getMessage());
+								//Popup de Erro
+								TelaErro tErro = new TelaErro("Error: " + ex);
+								tErro.setVisible(true);
+							}
 						}
 					});
 					btn_Deletar.setBounds(429, 307, 100, 35);
@@ -332,9 +366,16 @@ public class TelaRepresentante extends JFrame {
 					lbl_ListaClientes.setBounds(368, 56, 100, 14);
 					painel_Principal.add(lbl_ListaClientes);
 					
+					scrollPane = new JScrollPane();
+					scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+					scrollPane.setBounds(368, 77, 475, 199);
+					painel_Principal.add(scrollPane);
+					
 					JTextArea textArea_ListaRepresentantes = new JTextArea();
-					textArea_ListaRepresentantes.setBounds(368, 77, 475, 199);
-					painel_Principal.add(textArea_ListaRepresentantes);
+					textArea_ListaRepresentantes.setBorder(UIManager.getBorder("TextField.border"));
+					scrollPane.setViewportView(textArea_ListaRepresentantes);
+					
+					textArea_ListaRepresentantes.setText("");
 					
 					//LISTA OS REPRESENTANTES EM UMA TEXTAREA
 					try {
@@ -347,8 +388,6 @@ public class TelaRepresentante extends JFrame {
 						
 						//TRÁS DO BANCO DE DADOS TODOS OS REPRESENTANTES CADASTRADOS
 						ArrayList<Representante> listaRepresentantes = repBd.listarRepresentantes();
-						
-						textArea_ListaRepresentantes.setText("");
 						if(listaRepresentantes != null) {
 							for(Representante r: listaRepresentantes) {
 								
