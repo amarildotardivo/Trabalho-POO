@@ -7,6 +7,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import java.awt.Dimension;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import javax.swing.JSeparator;
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
@@ -43,11 +46,38 @@ public class TelaPrincipal extends JFrame {
 		JMenuBar menuBar_Principal = new JMenuBar();
 		menuBar_Principal.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		painel_Menu_Principal.add(menuBar_Principal);
+			
+			JMenu mnArquivo = new JMenu("Arquivo");
+			menuBar_Principal.add(mnArquivo);
+			
+			JMenuItem Menu_Sobre = new JMenuItem("Sobre");
+			Menu_Sobre.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null,"Instituto Federal Fluminense - IFF Campos (Campus Centro)"
+							+ "\nDisciplina de Programaçao Orientada a Objetos"
+							+ "\nAplicação em Java usando Banco de Dados - versão 1.0"
+							+ "\nDesenvolvido por: @amarildotardivo","Sobre a Aplicação",JOptionPane.INFORMATION_MESSAGE);
+				}
+			});
+			Menu_Sobre.setPreferredSize(new Dimension(200, 30));
+			mnArquivo.add(Menu_Sobre);
+			
+			JSeparator separator = new JSeparator();
+			mnArquivo.add(separator);
+			
+			JMenuItem Menu_Sair = new JMenuItem("Sair");
+			Menu_Sair.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			Menu_Sair.setPreferredSize(new Dimension(71, 30));
+			mnArquivo.add(Menu_Sair);
 		
 			//MENU CLIENTE ************************************************************************************************
-			JMenu mnCliente = new JMenu("Cliente");
-			mnCliente.setFont(new Font("Segoe UI", Font.BOLD, 12));
-			menuBar_Principal.add(mnCliente);
+			JMenu Menu_Cliente = new JMenu("Cliente");
+			Menu_Cliente.setFont(new Font("Segoe UI", Font.BOLD, 12));
+			menuBar_Principal.add(Menu_Cliente);
 			
 				JMenuItem Menu_Cadastro_Clientes = new JMenuItem("Gerenciar Cliente");
 				Menu_Cadastro_Clientes.setPreferredSize(new Dimension(300, 30));
@@ -62,11 +92,11 @@ public class TelaPrincipal extends JFrame {
 						cad_cliente.setVisible(true);
 					}
 				});
-				mnCliente.add(Menu_Cadastro_Clientes);
+				Menu_Cliente.add(Menu_Cadastro_Clientes);
 				
 				JMenuItem Menu_Listar_Clientes = new JMenuItem("Listar Clientes");
 				Menu_Listar_Clientes.setPreferredSize(new Dimension(125, 30));
-				mnCliente.add(Menu_Listar_Clientes);
+				Menu_Cliente.add(Menu_Listar_Clientes);
 			
 			//MENU REPRESENTANTE ******************************************************************************************
 			JMenu Menu_Representante = new JMenu("Representante");
@@ -150,5 +180,4 @@ public class TelaPrincipal extends JFrame {
 			
 			
 	}
-
 }
