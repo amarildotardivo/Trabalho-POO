@@ -36,11 +36,6 @@ public class Fabricante extends Endereco {
 	public void deletar_cadastro() {
 		
 	}
-	
-	@Override
-	public String toString() {
-		return getNome();
-	}
-	
+
 	
 }

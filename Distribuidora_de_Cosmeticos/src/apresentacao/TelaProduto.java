@@ -146,7 +146,7 @@ public class TelaProduto extends JFrame {
 						ArrayList<Fabricante> listaFab = fabBD.listarFabricantes();
 						
 						for(Fabricante fab: listaFab) {
-							comboBox_NomeFabricante.addItem(fab);
+							comboBox_NomeFabricante.addItem(fab.getNome());
 						}
 						
 					} catch (SQLException ex) {
@@ -157,8 +157,8 @@ public class TelaProduto extends JFrame {
 					}
 						
 					
-					JButton btn_Salvar = new JButton("SALVAR");
-					btn_Salvar.addActionListener(new ActionListener() {
+					JButton btn_Comprar = new JButton("COMPRAR");
+					btn_Comprar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							try {
 								
@@ -173,6 +173,8 @@ public class TelaProduto extends JFrame {
 								//CRIA O COMANDO SQL
 								PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
 								
+								String nomeFab = (String) comboBox_NomeFabricante.getSelectedItem();
+								
 								//SETA OS VALORES NA STRING querySQL
 								stmt.setInt(1, Integer.parseInt(textField_id.getText()) );
 								stmt.setString(2, textField_NomeProduto.getText());
@@ -180,14 +182,14 @@ public class TelaProduto extends JFrame {
 								stmt.setDouble(4, Double.parseDouble(textField_PrecoCompra.getText()));
 								stmt.setDouble(5, Double.parseDouble(textField_PrecoVenda.getText()));
 								stmt.setString(6, textField_TipoProduto.getText());
-								stmt.setString(7, (String) comboBox_NomeFabricante.getSelectedItem());
+								stmt.setString(7, nomeFab);
 								
 								
 								//EXECUTA A QUERY NO BANCO DE DADOS
 								stmt.executeUpdate();
-								System.out.println("Produto Cadastrado com Sucesso!!!");
+								System.out.println("Produto Comprado com Sucesso!!!");
 								//Popup de Informação
-								TelaInformacao tInformacao = new TelaInformacao("Produto: " + textField_NomeProduto.getText(), "Salvo com Sucesso!");
+								TelaInformacao tInformacao = new TelaInformacao("Produto: " + textField_NomeProduto.getText(), "Comprado com Sucesso!");
 								tInformacao.setVisible(true);
 								
 								//FECHA O COMANDO STMT E A CONEXÃO
@@ -209,8 +211,8 @@ public class TelaProduto extends JFrame {
 							}
 						}
 					});
-					btn_Salvar.setBounds(55, 260, 100, 35);
-					painel_Principal.add(btn_Salvar);
+					btn_Comprar.setBounds(55, 260, 100, 35);
+					painel_Principal.add(btn_Comprar);
 					
 					JButton btn_Editar = new JButton("EDITAR");
 					btn_Editar.addActionListener(new ActionListener() {
@@ -223,19 +225,21 @@ public class TelaProduto extends JFrame {
 									
 									//CRIA A STRING SQL
 									String querySQL = "UPDATE distribuidora_cosmeticos.estoque SET `nome_produto` = ?, `quantidade` = ?, "
-											+ "`preco_compra` = ?, `preco_venda` = ?, `tipo_produto` = ?, `nome_fabricante` = ?, "
+											+ "`preco_compra` = ?, `preco_venda` = ?, `tipo_produto` = ?, `nome_fabricante` = ? "
 											+ " WHERE id = ?";
 									
 									//CRIA O COMANDO SQL
 									PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
 									
+									String nomeFab = (String) comboBox_NomeFabricante.getSelectedItem();
+									
 									//SETA OS VALORES NA STRING querySQL
 									stmt.setString(1, textField_NomeProduto.getText());
-									stmt.setString(2, textField_Quantidade.getText());
-									stmt.setString(3, textField_PrecoCompra.getText());
-									stmt.setString(4, textField_PrecoVenda.getText());
+									stmt.setInt(2, Integer.parseInt(textField_Quantidade.getText()));
+									stmt.setDouble(3, Double.parseDouble(textField_PrecoCompra.getText()));
+									stmt.setDouble(4, Double.parseDouble(textField_PrecoVenda.getText()));
 									stmt.setString(5, textField_TipoProduto.getText());
-									stmt.setString(6, (String) comboBox_NomeFabricante.getSelectedItem());
+									stmt.setString(6, nomeFab);
 									stmt.setInt(7, Integer.parseInt(textField_id.getText()));
 									
 									//EXECUTA A QUERY NO BANCO DE DADOS
@@ -290,8 +294,7 @@ public class TelaProduto extends JFrame {
 										textField_PrecoCompra.setText("" + est.getPreco_compra());
 										textField_PrecoVenda.setText("" + est.getPreco_venda());
 										textField_TipoProduto.setText("" + est.getTipo_produto());
-										//comboBox_NomeFabricante.setSelectedItem(est.getNome_fabricante());
-										comboBox_NomeFabricante.equals(est.getNome_fabricante());
+										comboBox_NomeFabricante.setSelectedItem((Object) est.getNome_fabricante());
 										
 									}
 									System.out.println("Busca do Produto Realizada Com Sucesso!!!");
@@ -364,6 +367,7 @@ public class TelaProduto extends JFrame {
 						//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
 						ArrayList<Estoque> listaProdutos = estBd.listarProdutos();
 						
+						
 						if(listaProdutos != null) {
 							for(Estoque est: listaProdutos) {
 								
@@ -398,8 +402,8 @@ public class TelaProduto extends JFrame {
 					scrollPane.setViewportView(list_ListarProdutos);
 					list_ListarProdutos.setBorder(new EmptyBorder(5, 5, 5, 5));
 					
-					JButton btn_ListarClientes = new JButton("LISTAR CLIENTES");
-					btn_ListarClientes.addActionListener(new ActionListener() {
+					JButton btn_ListarProdutos = new JButton("LISTAR PRODUTOS");
+					btn_ListarProdutos.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							//LISTA OS FABRICANTES EM UMA JLIST
 							try {
@@ -434,8 +438,8 @@ public class TelaProduto extends JFrame {
 							}
 						}
 					});
-					btn_ListarClientes.setBounds(676, 260, 138, 35);
-					painel_Principal.add(btn_ListarClientes);
+					btn_ListarProdutos.setBounds(676, 260, 148, 35);
+					painel_Principal.add(btn_ListarProdutos);
 					
 					
 					

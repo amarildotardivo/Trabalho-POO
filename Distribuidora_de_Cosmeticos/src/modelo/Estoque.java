@@ -6,6 +6,7 @@ public class Estoque {
 	private double preco_compra, preco_venda;
 	
 	public Estoque(int id, String nome_produto, String tipo_produto, int quantidade, double preco_compra, double preco_venda, String nome_fabricante) {
+		this.id = id;
 		this.nome_produto = nome_produto;
 		this.tipo_produto = tipo_produto;
 		this.quantidade = quantidade;
@@ -13,6 +14,8 @@ public class Estoque {
 		this.preco_venda = preco_venda;
 		this.nome_fabricante = nome_fabricante;
 	}
+	
+	public Estoque() {}
 	
 	
 	//GETER'S AND SETTER'S

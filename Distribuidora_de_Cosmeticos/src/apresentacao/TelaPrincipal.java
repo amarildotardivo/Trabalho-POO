@@ -150,10 +150,6 @@ public class TelaPrincipal extends JFrame {
 				});
 				Menu_Estoque.add(Menu_Gerenciar_Produto);
 				
-				JMenuItem Menu_Comprar_Produto = new JMenuItem("Comprar Produto");
-				Menu_Comprar_Produto.setPreferredSize(new Dimension(145, 30));
-				Menu_Estoque.add(Menu_Comprar_Produto);
-				
 				JMenuItem Menu_Listar_Produtos = new JMenuItem("Listar Produtos");
 				Menu_Listar_Produtos.setPreferredSize(new Dimension(131, 30));
 				Menu_Estoque.add(Menu_Listar_Produtos);
@@ -165,6 +161,10 @@ public class TelaPrincipal extends JFrame {
 				JMenuItem Menu_Realizar_Venda = new JMenuItem("Realizar Venda");
 				Menu_Realizar_Venda.setPreferredSize(new Dimension(200, 30));
 				Menu_Venda.add(Menu_Realizar_Venda);
+				
+				JMenuItem Menu_Listar_Vendas = new JMenuItem("Listar Vendas");
+				Menu_Listar_Vendas.setPreferredSize(new Dimension(200, 30));
+				Menu_Venda.add(Menu_Listar_Vendas);
 		
 		//PANEL WALLPAPER *******************************************************************************************************
 		JPanel painel_Wallpaper = new JPanel();
