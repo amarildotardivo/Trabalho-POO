@@ -2,10 +2,10 @@ package modelo;
 
 public class Estoque {
 	private String nome_produto, tipo_produto, nome_fabricante;
-	private int quantidade;
+	private int id, quantidade;
 	private double preco_compra, preco_venda;
 	
-	public Estoque(String nome_produto, String tipo_produto, int quantidade, double preco_compra, double preco_venda, String nome_fabricante) {
+	public Estoque(int id, String nome_produto, String tipo_produto, int quantidade, double preco_compra, double preco_venda, String nome_fabricante) {
 		this.nome_produto = nome_produto;
 		this.tipo_produto = tipo_produto;
 		this.quantidade = quantidade;
@@ -16,9 +16,18 @@ public class Estoque {
 	
 	
 	//GETER'S AND SETTER'S
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String getNome_produto() {
 		return nome_produto;
 	}
+
+
 	public void setNome_produto(String nome_produto) {
 		this.nome_produto = nome_produto;
 	}

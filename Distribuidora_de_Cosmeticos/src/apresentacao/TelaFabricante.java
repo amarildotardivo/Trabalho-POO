@@ -316,7 +316,7 @@ public class TelaFabricante extends JFrame {
 								FabricanteBD fbd = new FabricanteBD();
 								fbd.DeletarFabricante(f);
 								//Popup de Informação
-								TelaInformacao tInformacao = new TelaInformacao("Representante: " + textField_Nome.getText(), "Deletado com Sucesso!");
+								TelaInformacao tInformacao = new TelaInformacao("Fabricante: " + textField_Nome.getText(), "Deletado com Sucesso!");
 								tInformacao.setVisible(true);
 								
 							} catch (Exception ex) {

@@ -37,5 +37,10 @@ public class Fabricante extends Endereco {
 		
 	}
 	
+	@Override
+	public String toString() {
+		return getNome();
+	}
+	
 	
 }
