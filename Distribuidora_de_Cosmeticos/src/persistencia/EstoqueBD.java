@@ -15,7 +15,7 @@ public class EstoqueBD {
 			ConexaoBD conectar = new ConexaoBD();
 			
 			//STRING COM A QUERY SQL 
-			String querySQL = "SELECT * FROM distribuidora_cosmeticos.fabricante WHERE nome like '%"+ nome_busca + "%'";
+			String querySQL = "SELECT * FROM distribuidora_cosmeticos.estoque WHERE nome like '%"+ nome_busca + "%'";
 			
 			//CRIA O COMANDO SQL
 			PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
@@ -84,7 +84,7 @@ public class EstoqueBD {
 			ConexaoBD conectar = new ConexaoBD();
 			
 			//STRING COM A QUERY SQL 
-			String querySQL = "SELECT * FROM distribuidora_cosmeticos.fabricante";
+			String querySQL = "SELECT * FROM distribuidora_cosmeticos.estoque";
 			
 			//CRIA O COMANDO SQL
 			PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);

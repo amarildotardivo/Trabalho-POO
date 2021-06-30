@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
 import modelo.Estoque;
 import modelo.Fabricante;
 import persistencia.ConexaoBD;
@@ -182,7 +183,7 @@ public class TelaProduto extends JFrame {
 								
 								//EXECUTA A QUERY NO BANCO DE DADOS
 								stmt.executeUpdate();
-								System.out.println("Fabricante Cadastrado com Sucesso!!!");
+								System.out.println("Produto Cadastrado com Sucesso!!!");
 								//Popup de Informação
 								TelaInformacao tInformacao = new TelaInformacao("Produto: " + textField_NomeProduto.getText(), "Salvo com Sucesso!");
 								tInformacao.setVisible(true);
