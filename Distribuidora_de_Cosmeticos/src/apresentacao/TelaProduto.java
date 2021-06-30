@@ -26,6 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings({ "serial", "unused" })
 public class TelaProduto extends JFrame {
@@ -44,6 +45,7 @@ public class TelaProduto extends JFrame {
 	private JLabel lbl_Titulo_Ger_Produto;
 	private JComboBox<Object> comboBox_NomeFabricante;
 	private JTextField textField_id;
+	private JScrollPane scrollPane;
 
 	
 	@SuppressWarnings("unchecked")
@@ -288,7 +290,8 @@ public class TelaProduto extends JFrame {
 										textField_PrecoCompra.setText("" + est.getPreco_compra());
 										textField_PrecoVenda.setText("" + est.getPreco_venda());
 										textField_TipoProduto.setText("" + est.getTipo_produto());
-										comboBox_NomeFabricante.setSelectedItem("" + est.getNome_fabricante());
+										//comboBox_NomeFabricante.setSelectedItem(est.getNome_fabricante());
+										comboBox_NomeFabricante.equals(est.getNome_fabricante());
 										
 									}
 									System.out.println("Busca do Produto Realizada Com Sucesso!!!");
@@ -341,7 +344,6 @@ public class TelaProduto extends JFrame {
 							textField_Quantidade.setText("");
 							textField_PrecoCompra.setText("");
 							textField_PrecoVenda.setText("");
-							comboBox_NomeFabricante.setSelectedItem("");
 						}
 					});
 					btn_Limpar.setBounds(553, 260, 100, 35);
@@ -386,12 +388,15 @@ public class TelaProduto extends JFrame {
 					lbl_ListaFabricantes.setBounds(396, 61, 158, 14);
 					painel_Principal.add(lbl_ListaFabricantes);					
 					
+					scrollPane = new JScrollPane();
+					scrollPane.setBounds(397, 82, 467, 142);
+					painel_Principal.add(scrollPane);
+					
 					
 					@SuppressWarnings("rawtypes")
 					JList list_ListarProdutos = new JList(model);
+					scrollPane.setViewportView(list_ListarProdutos);
 					list_ListarProdutos.setBorder(new EmptyBorder(5, 5, 5, 5));
-					list_ListarProdutos.setBounds(397, 82, 467, 142);
-					painel_Principal.add(list_ListarProdutos);
 					
 					JButton btn_ListarClientes = new JButton("LISTAR CLIENTES");
 					btn_ListarClientes.addActionListener(new ActionListener() {
@@ -407,6 +412,7 @@ public class TelaProduto extends JFrame {
 								//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
 								ArrayList<Estoque> listaProdutos = estBd.listarProdutos();
 								
+								model.clear();
 								if(listaProdutos != null) {
 									for(Estoque est: listaProdutos) {
 										
