@@ -27,6 +27,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 @SuppressWarnings({ "serial", "unused" })
 public class TelaProduto extends JFrame {
@@ -50,6 +52,7 @@ public class TelaProduto extends JFrame {
 	
 	@SuppressWarnings("unchecked")
 	public TelaProduto() {
+	
 		//FRAME E CONTENT PANE *****************************************************************************************************************
 				setResizable(false);
 				setTitle("Gerenciamento de Produto");
@@ -144,6 +147,8 @@ public class TelaProduto extends JFrame {
 						FabricanteBD fabBD = new FabricanteBD();
 						
 						ArrayList<Fabricante> listaFab = fabBD.listarFabricantes();
+						
+						comboBox_NomeFabricante.addItem("Selecione um Fabricante");
 						
 						for(Fabricante fab: listaFab) {
 							comboBox_NomeFabricante.addItem(fab.getNome());

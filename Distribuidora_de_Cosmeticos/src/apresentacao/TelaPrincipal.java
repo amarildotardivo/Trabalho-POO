@@ -159,6 +159,12 @@ public class TelaPrincipal extends JFrame {
 			menuBar_Principal.add(Menu_Venda);
 			
 				JMenuItem Menu_Realizar_Venda = new JMenuItem("Realizar Venda");
+				Menu_Realizar_Venda.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TelaVenda venda = new TelaVenda();
+						venda.setVisible(true);
+					}
+				});
 				Menu_Realizar_Venda.setPreferredSize(new Dimension(200, 30));
 				Menu_Venda.add(Menu_Realizar_Venda);
 				
