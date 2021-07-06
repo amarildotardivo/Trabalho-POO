@@ -14,10 +14,9 @@ import javax.swing.table.DefaultTableModel;
 
 import modelo.Cliente;
 import persistencia.ClienteDB;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
+import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 public class TelaRelatorioCliente extends JFrame {
@@ -48,6 +47,9 @@ public class TelaRelatorioCliente extends JFrame {
 		panel.add(scrollPane);
 		
 		table = new JTable();
+		table.setRowHeight(20);
+		table.setIntercellSpacing(new Dimension(5, 5));
+		table.setToolTipText("");
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -82,11 +84,11 @@ public class TelaRelatorioCliente extends JFrame {
 		}
 		
 		
-		JLabel lblNewLabel = new JLabel("Relat\u00F3rio de Clientes");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblNewLabel.setBounds(0, 11, 854, 36);
-		panel.add(lblNewLabel);
+		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Clientes");
+		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
+		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		Label_Titulo.setBounds(0, 11, 854, 36);
+		panel.add(Label_Titulo);
 		
 	}
 }
