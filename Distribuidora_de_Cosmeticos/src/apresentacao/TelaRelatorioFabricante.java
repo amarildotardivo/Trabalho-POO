@@ -12,20 +12,21 @@ import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import modelo.Cliente;
-import persistencia.ClienteDB;
+import modelo.Fabricante;
+import persistencia.FabricanteBD;
+
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 
 @SuppressWarnings("serial")
-public class TelaRelatorioCliente extends JFrame {
+public class TelaRelatorioFabricante extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JScrollPane scrollPane;
 	
-	public TelaRelatorioCliente() {
+	public TelaRelatorioFabricante() {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRelatorioCliente.class.getResource("/imagens/icon_cadastro.png")));
 		setTitle("Relat\u00F3rio de Clientes");
@@ -55,7 +56,7 @@ public class TelaRelatorioCliente extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-					"ID", "Nome", "Logradouro", "Numero", "Bairro", "Cidade", "Telefone", "CPF", "Representante" 
+					"ID", "Nome", "Logradouro", "Numero", "Bairro", "Cidade", "Telefone", "CPF", "Região" 
 			}
 		));
 		table.setFont(table.getFont().deriveFont(Font.BOLD));
@@ -69,30 +70,29 @@ public class TelaRelatorioCliente extends JFrame {
 		tModel.addColumn("Bairro");
 		tModel.addColumn("Cidade");
 		tModel.addColumn("Telefone");
-		tModel.addColumn("CPF");
-		tModel.addColumn("Representante");
+		tModel.addColumn("CNPJ");
 		
-		ClienteDB cliDB = new ClienteDB();
-		ArrayList<Cliente> listaClientes = cliDB.listarClientes();
+		FabricanteBD fabBD = new FabricanteBD();
+		ArrayList<Fabricante> listaFabricantes = fabBD.listarFabricantes();
 		
-		if(listaClientes.isEmpty() == false) {
-			for(Cliente cli: listaClientes) {
+		if(listaFabricantes.isEmpty() == false) {
+			for(Fabricante fab: listaFabricantes) {
 				tModel.addRow(new String[] {
-						String.valueOf(cli.getId()), 
-						cli.getNome(), 
-						cli.getLogradouro(), 
-						cli.getNumero(), 
-						cli.getBairro(), 
-						cli.getCidade(), 
-						cli.getTelefone(), 
-						cli.getCpf(), 
-						cli.getNome_representante() });
+						String.valueOf(fab.getId()), 
+						fab.getNome(), 
+						fab.getLogradouro(), 
+						fab.getNumero(), 
+						fab.getBairro(), 
+						fab.getCidade(), 
+						fab.getTelefone(), 
+						fab.getCnpj()						
+				});
 			}
 			table.setModel(tModel);
 		}
 		
 		
-		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Clientes");
+		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Fabricantes");
 		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		Label_Titulo.setBounds(0, 11, 854, 36);

@@ -121,6 +121,12 @@ public class TelaPrincipal extends JFrame {
 				Menu_Representante.add(Menu_Gerenciar_Representante);
 				
 				JMenuItem Menu_Listar_Representantes = new JMenuItem("Relat\u00F3rio de Representantes");
+				Menu_Listar_Representantes.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TelaRelatorioRepresentante relatRep = new TelaRelatorioRepresentante();
+						relatRep.setVisible(true);
+					}
+				});
 				Menu_Listar_Representantes.setPreferredSize(new Dimension(163, 30));
 				Menu_Representante.add(Menu_Listar_Representantes);
 			
@@ -140,6 +146,12 @@ public class TelaPrincipal extends JFrame {
 				Menu_Fabricante.add(Menu_Gerenciar_Fabricante);
 				
 				JMenuItem Menu_Listar_Fabricantes = new JMenuItem("Relat\u00F3rio de Fabricantes");
+				Menu_Listar_Fabricantes.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TelaRelatorioFabricante relatFab = new TelaRelatorioFabricante();
+						relatFab.setVisible(true);
+					}
+				});
 				Menu_Listar_Fabricantes.setPreferredSize(new Dimension(143, 30));
 				Menu_Fabricante.add(Menu_Listar_Fabricantes);
 			
@@ -159,6 +171,12 @@ public class TelaPrincipal extends JFrame {
 				Menu_Estoque.add(Menu_Gerenciar_Produto);
 				
 				JMenuItem Menu_Listar_Produtos = new JMenuItem("Relat\u00F3rio de Produtos");
+				Menu_Listar_Produtos.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TelaRelatorioProdutos relatEst = new TelaRelatorioProdutos();
+						relatEst.setVisible(true);
+					}
+				});
 				Menu_Listar_Produtos.setPreferredSize(new Dimension(131, 30));
 				Menu_Estoque.add(Menu_Listar_Produtos);
 			
@@ -178,6 +196,12 @@ public class TelaPrincipal extends JFrame {
 				Menu_Venda.add(Menu_Realizar_Venda);
 				
 				JMenuItem Menu_Listar_Vendas = new JMenuItem("Relat\u00F3rio de Vendas");
+				Menu_Listar_Vendas.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TelaRelatorioVendas relatVenda = new TelaRelatorioVendas();
+						relatVenda.setVisible(true);
+					}
+				});
 				Menu_Listar_Vendas.setPreferredSize(new Dimension(200, 30));
 				Menu_Venda.add(Menu_Listar_Vendas);
 		

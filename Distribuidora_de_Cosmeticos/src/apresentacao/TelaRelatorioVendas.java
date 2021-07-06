@@ -12,20 +12,21 @@ import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import modelo.Cliente;
-import persistencia.ClienteDB;
+import modelo.Venda;
+import persistencia.VendaBD;
+
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 
 @SuppressWarnings("serial")
-public class TelaRelatorioCliente extends JFrame {
+public class TelaRelatorioVendas extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JScrollPane scrollPane;
 	
-	public TelaRelatorioCliente() {
+	public TelaRelatorioVendas() {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRelatorioCliente.class.getResource("/imagens/icon_cadastro.png")));
 		setTitle("Relat\u00F3rio de Clientes");
@@ -55,7 +56,7 @@ public class TelaRelatorioCliente extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-					"ID", "Nome", "Logradouro", "Numero", "Bairro", "Cidade", "Telefone", "CPF", "Representante" 
+					"ID", "Nome do Cliente", "Nome do Produto", "Quantidade"
 			}
 		));
 		table.setFont(table.getFont().deriveFont(Font.BOLD));
@@ -63,36 +64,28 @@ public class TelaRelatorioCliente extends JFrame {
 		DefaultTableModel tModel = new DefaultTableModel();
 		
 		tModel.addColumn("ID");
-		tModel.addColumn("Nome");
-		tModel.addColumn("Logradouro");
-		tModel.addColumn("Numero");
-		tModel.addColumn("Bairro");
-		tModel.addColumn("Cidade");
-		tModel.addColumn("Telefone");
-		tModel.addColumn("CPF");
-		tModel.addColumn("Representante");
+		tModel.addColumn("Nome do Cliente");
+		tModel.addColumn("Nome do Produto");
+		tModel.addColumn("Quantidade");
 		
-		ClienteDB cliDB = new ClienteDB();
-		ArrayList<Cliente> listaClientes = cliDB.listarClientes();
+		VendaBD vendaBD = new VendaBD();
+		ArrayList<Venda> listaVendas = vendaBD.listarVendas();
 		
-		if(listaClientes.isEmpty() == false) {
-			for(Cliente cli: listaClientes) {
+		if(listaVendas.isEmpty() == false) {
+			for(Venda venda: listaVendas) {
 				tModel.addRow(new String[] {
-						String.valueOf(cli.getId()), 
-						cli.getNome(), 
-						cli.getLogradouro(), 
-						cli.getNumero(), 
-						cli.getBairro(), 
-						cli.getCidade(), 
-						cli.getTelefone(), 
-						cli.getCpf(), 
-						cli.getNome_representante() });
+						String.valueOf(venda.getId()), 
+						venda.getNome_produto(), 
+						venda.getNome_cliente(), 
+						venda.getNome_produto(), 
+						Integer.toString(venda.getQuantidade())						
+				});
 			}
 			table.setModel(tModel);
 		}
 		
 		
-		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Clientes");
+		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Vendas");
 		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		Label_Titulo.setBounds(0, 11, 854, 36);

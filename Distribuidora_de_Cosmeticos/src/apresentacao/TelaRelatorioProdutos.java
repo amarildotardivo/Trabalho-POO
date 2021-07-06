@@ -12,20 +12,21 @@ import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import modelo.Cliente;
-import persistencia.ClienteDB;
+import modelo.Estoque;
+import persistencia.EstoqueBD;
+
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 
 @SuppressWarnings("serial")
-public class TelaRelatorioCliente extends JFrame {
+public class TelaRelatorioProdutos extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JScrollPane scrollPane;
 	
-	public TelaRelatorioCliente() {
+	public TelaRelatorioProdutos() {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRelatorioCliente.class.getResource("/imagens/icon_cadastro.png")));
 		setTitle("Relat\u00F3rio de Clientes");
@@ -55,7 +56,7 @@ public class TelaRelatorioCliente extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-					"ID", "Nome", "Logradouro", "Numero", "Bairro", "Cidade", "Telefone", "CPF", "Representante" 
+					"ID", "Nome do Produto", "Tipo do Produto", "Preço Compra", "Preço Venda", "Nome Fabricante", "Quantidade"
 			}
 		));
 		table.setFont(table.getFont().deriveFont(Font.BOLD));
@@ -63,36 +64,33 @@ public class TelaRelatorioCliente extends JFrame {
 		DefaultTableModel tModel = new DefaultTableModel();
 		
 		tModel.addColumn("ID");
-		tModel.addColumn("Nome");
-		tModel.addColumn("Logradouro");
-		tModel.addColumn("Numero");
-		tModel.addColumn("Bairro");
-		tModel.addColumn("Cidade");
-		tModel.addColumn("Telefone");
-		tModel.addColumn("CPF");
-		tModel.addColumn("Representante");
+		tModel.addColumn("Nome do Produto");
+		tModel.addColumn("Tipo do Produto");
+		tModel.addColumn("Preço Compra");
+		tModel.addColumn("Preço Venda");
+		tModel.addColumn("Nome Fabricante");
+		tModel.addColumn("Quantidade");
 		
-		ClienteDB cliDB = new ClienteDB();
-		ArrayList<Cliente> listaClientes = cliDB.listarClientes();
+		EstoqueBD estBD = new EstoqueBD();
+		ArrayList<Estoque> listaEstoque = estBD.listarProdutos();
 		
-		if(listaClientes.isEmpty() == false) {
-			for(Cliente cli: listaClientes) {
+		if(listaEstoque.isEmpty() == false) {
+			for(Estoque est: listaEstoque) {
 				tModel.addRow(new String[] {
-						String.valueOf(cli.getId()), 
-						cli.getNome(), 
-						cli.getLogradouro(), 
-						cli.getNumero(), 
-						cli.getBairro(), 
-						cli.getCidade(), 
-						cli.getTelefone(), 
-						cli.getCpf(), 
-						cli.getNome_representante() });
+						String.valueOf(est.getId()), 
+						est.getNome_produto(), 
+						est.getTipo_produto(), 
+						Double.toString(est.getPreco_compra()), 
+						Double.toString(est.getPreco_venda()), 
+						est.getNome_fabricante(), 
+						Integer.toString(est.getQuantidade())						
+				});
 			}
 			table.setModel(tModel);
 		}
 		
 		
-		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Clientes");
+		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Produtos");
 		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		Label_Titulo.setBounds(0, 11, 854, 36);
