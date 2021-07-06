@@ -41,6 +41,7 @@ public class TelaVenda extends JFrame {
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	public TelaVenda() {
+		setTitle("Vendas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(890, 360);
 		setLocationRelativeTo(null);
@@ -74,7 +75,7 @@ public class TelaVenda extends JFrame {
 		panel.add(lbl_Titulo_Venda);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(411, 80, 453, 142);
+		scrollPane.setBounds(411, 80, 453, 168);
 		panel.add(scrollPane);
 		
 		JLabel lbl_NomeCliente = new JLabel("Cliente:");
@@ -190,18 +191,20 @@ public class TelaVenda extends JFrame {
 						}
 					
 					int quantProdSolicitada = (int)spinner_Quantidade.getValue();
-					
+																
 					int quantProdVenda = quantProdEst - quantProdSolicitada;
-					
+										
 					//SETA OS VALORES NA STRING querySQL
 					pst.setInt(1, quantProdVenda);
 					pst.setString(2, nome_produto);
 					
 					//VERIFICA SE A VENDA PODE SER REALIZADA
 					if( (comboBox_NomeCliente.getSelectedItem().toString() != "Selecione um Cliente") || (comboBox_NomeProduto.getSelectedItem().toString() != "Selecione um Produto") ) {
-						if(quantProdEst > quantProdSolicitada) {
+						if( (quantProdEst >= quantProdSolicitada) && (quantProdEst > 0) ) {
 							//EXECUTA A QUERY NO BANCO DE DADOS PARA REALIZAR A VENDA
 							stmt.executeUpdate();
+							//EXECUTA A QUERY NO BANCO DE DADOS PARA ATUALIZAR O ESTOQUE
+							pst.executeUpdate();
 							System.out.println("Venda Realizada com Sucesso!!!");
 							//Popup de Informação
 							TelaInformacao tInformacao = new TelaInformacao("Venda: " + comboBox_NomeCliente.getSelectedItem(), "Realizada com Sucesso!");
@@ -214,8 +217,6 @@ public class TelaVenda extends JFrame {
 							tInformacao.setVisible(true);
 						}
 						
-						//EXECUTA A QUERY NO BANCO DE DADOS PARA ATUALIZAR O ESTOQUE
-						pst.executeUpdate();
 					}else {
 						System.out.println("Venda Não pode ser Realizada!");
 						//Popup de Informação
@@ -243,145 +244,8 @@ public class TelaVenda extends JFrame {
 				}
 			}
 		});
-		btn_Vender.setBounds(50, 259, 100, 35);
+		btn_Vender.setBounds(10, 259, 100, 35);
 		panel.add(btn_Vender);
-		
-		JButton btn_Editar = new JButton("EDITAR");
-		btn_Editar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					
-					//REALIZA A CONEXÃO COM O BD
-					ConexaoBD conectar = new ConexaoBD();	
-					System.out.println("Conexão Realizada Com Sucesso!!!");												
-						
-						//CRIA A STRING SQL
-						String querySQL = "UPDATE distribuidora_cosmeticos.venda SET `nome_cliente` = ?, `nome_produto` = ?, `quantidade` = ? WHERE `id` = ?";
-						
-						//CRIA O COMANDO SQL
-						PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
-						
-						//SETA OS VALORES NA STRING querySQL
-						stmt.setString(1, (String) comboBox_NomeCliente.getSelectedItem());
-						stmt.setString(2, (String) comboBox_NomeProduto.getSelectedItem());
-						stmt.setInt(3, (Integer) (spinner_Quantidade.getValue()));
-						stmt.setInt(4, Integer.parseInt(textField_id.getText()));
-						
-						//SQL PARA DIMINUIR A QUANTIDADE DO PRODUTO
-						//CRIA A STRING SQL
-						String quantidadeSQL = "UPDATE distribuidora_cosmeticos.estoque SET `quantidade` = ? WHERE `nome_produto` = ?";
-						
-						//CRIA O COMANDO SQL
-						PreparedStatement pst = conectar.conectarBD().prepareStatement(quantidadeSQL);
-						
-						//BUSCA A QUANTIDADE DO PRODUTO EM ESTOQUE E DIMINUI COM A QUANTIDADE VENDIDA
-						String nome_produto = (String) comboBox_NomeProduto.getSelectedItem();
-						
-						EstoqueBD estBD = new EstoqueBD();
-						
-						ArrayList<Estoque> listaEstoque = estBD.BuscarProduto(nome_produto);
-						int quantProdEst = 0;
-							for(Estoque est: listaEstoque) {
-								quantProdEst = est.getQuantidade();
-							}
-						
-						int quantProdSolicitada = (int)spinner_Quantidade.getValue();
-						
-						int quantProdVenda = quantProdEst - quantProdSolicitada;
-						
-						//SETA OS VALORES NA STRING querySQL
-						pst.setInt(1, quantProdVenda);
-						pst.setString(2, nome_produto);
-						
-						//VERIFICA SE A VENDA PODE SER REALIZADA
-						if(quantProdEst > quantProdSolicitada) {
-							
-							//EXECUTA A QUERY NO BANCO DE DADOS PARA REALIZAR A VENDA
-							stmt.executeUpdate();
-							System.out.println("Venda do Produto Alterada com Sucesso!!!");
-							//Popup de Informação
-							TelaInformacao tInformacao = new TelaInformacao("Venda do Produto: " + comboBox_NomeProduto.getSelectedItem(), "Alterada com Sucesso!");
-							tInformacao.setVisible(true);
-							
-							//EXECUTA A QUERY NO BANCO DE DADOS PARA ATUALIZAR O ESTOQUE
-							pst.executeUpdate();
-						}else {
-							System.out.println("Venda Não pode ser Realizada!");
-							//Popup de Informação
-							TelaInformacao tInformacao = new TelaInformacao("O Item: " + comboBox_NomeProduto.getSelectedItem(), "Não possui quantidade suficiente para esta venda!");
-							tInformacao.setVisible(true);
-						}
-												
-						
-						//FECHA O COMANDO STMT E A CONEXÃO
-						stmt.close();
-						conectar.fecharConexaoBD();
-						System.out.println("Conexão Encerrada Com Sucesso!!!");
-
-				}
-				catch (SQLException ex) {
-					System.err.println("Erro na conexão do BD: "+ex.getMessage());
-					//Popup de Erro
-					TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
-					tErro.setVisible(true);
-				}
-				catch (Exception ex) {
-					System.err.println("Erro geral: "+ex.getMessage());
-					//Popup de Erro
-					TelaErro tErro = new TelaErro("Error: " + ex);
-					tErro.setVisible(true);
-				}
-			}
-		});
-		btn_Editar.setBounds(175, 259, 100, 35);
-		panel.add(btn_Editar);
-		
-		JButton btn_Buscar = new JButton("BUSCAR");
-		btn_Buscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					//REALIZA A CONEXÃO COM O BD
-					ConexaoBD conectar = new ConexaoBD();
-					System.out.println("Conexão Realizada Com Sucesso!!!");
-					
-					VendaBD vendaBD = new VendaBD();
-					
-					int id_venda = Integer.parseInt(textField_id.getText());
-					//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
-					ArrayList<Venda> listaVendas = vendaBD.BuscarVenda(id_venda);
-					
-					if(listaVendas != null) {
-						for(Venda venda: listaVendas) {
-							textField_id.setText("" + venda.getId());
-							comboBox_NomeCliente.setSelectedItem((Object)venda.getNome_cliente());
-							comboBox_NomeProduto.setSelectedItem((Object)venda.getNome_produto());
-							spinner_Quantidade.setValue(venda.getQuantidade());
-							
-						}
-						System.out.println("Busca do Produto Realizada Com Sucesso!!!");
-					}
-					
-					conectar.fecharConexaoBD();
-					
-				}
-				catch (SQLException ex) {
-					System.err.println("Erro na conexão do BD: "+ex.getMessage());
-				}
-				catch (Exception ex) {
-					System.err.println("Erro geral: "+ex.getMessage());
-				}
-			}
-		});
-		btn_Buscar.setBounds(301, 259, 100, 35);
-		panel.add(btn_Buscar);
-		
-		JButton btn_Deletar = new JButton("DELETAR");
-		btn_Deletar.setBounds(425, 259, 100, 35);
-		panel.add(btn_Deletar);
-		
-		JButton btn_Limpar = new JButton("LIMPAR");
-		btn_Limpar.setBounds(548, 259, 100, 35);
-		panel.add(btn_Limpar);
 		
 		//DEFINE O MODELO DO JLIST
 		@SuppressWarnings("rawtypes")
@@ -462,7 +326,7 @@ public class TelaVenda extends JFrame {
 				}
 			}
 		});
-		btn_ListarVendas.setBounds(671, 259, 148, 35);
+		btn_ListarVendas.setBounds(411, 259, 148, 35);
 		panel.add(btn_ListarVendas);
 		
 	}

@@ -66,6 +66,7 @@ public class TelaPrincipal extends JFrame {
 			mnArquivo.add(separator);
 			
 			JMenuItem Menu_Sair = new JMenuItem("Sair");
+			Menu_Sair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_END, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
 			Menu_Sair.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					dispose();
@@ -94,7 +95,13 @@ public class TelaPrincipal extends JFrame {
 				});
 				Menu_Cliente.add(Menu_Cadastro_Clientes);
 				
-				JMenuItem Menu_Listar_Clientes = new JMenuItem("Listar Clientes");
+				JMenuItem Menu_Listar_Clientes = new JMenuItem("Relat\u00F3rio de Clientes");
+				Menu_Listar_Clientes.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TelaRelatorioCliente relatCli = new TelaRelatorioCliente();
+						relatCli.setVisible(true);
+					}
+				});
 				Menu_Listar_Clientes.setPreferredSize(new Dimension(125, 30));
 				Menu_Cliente.add(Menu_Listar_Clientes);
 			
@@ -113,7 +120,7 @@ public class TelaPrincipal extends JFrame {
 				});
 				Menu_Representante.add(Menu_Gerenciar_Representante);
 				
-				JMenuItem Menu_Listar_Representantes = new JMenuItem("Listar Representantes");
+				JMenuItem Menu_Listar_Representantes = new JMenuItem("Relat\u00F3rio de Representantes");
 				Menu_Listar_Representantes.setPreferredSize(new Dimension(163, 30));
 				Menu_Representante.add(Menu_Listar_Representantes);
 			
@@ -132,7 +139,7 @@ public class TelaPrincipal extends JFrame {
 				});
 				Menu_Fabricante.add(Menu_Gerenciar_Fabricante);
 				
-				JMenuItem Menu_Listar_Fabricantes = new JMenuItem("Listar Fabricantes");
+				JMenuItem Menu_Listar_Fabricantes = new JMenuItem("Relat\u00F3rio de Fabricantes");
 				Menu_Listar_Fabricantes.setPreferredSize(new Dimension(143, 30));
 				Menu_Fabricante.add(Menu_Listar_Fabricantes);
 			
@@ -141,6 +148,7 @@ public class TelaPrincipal extends JFrame {
 			menuBar_Principal.add(Menu_Estoque);
 			
 				JMenuItem Menu_Gerenciar_Produto = new JMenuItem("Gerenciar Produto");
+				Menu_Gerenciar_Produto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.CTRL_MASK));
 				Menu_Gerenciar_Produto.setPreferredSize(new Dimension(200, 30));
 				Menu_Gerenciar_Produto.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -150,7 +158,7 @@ public class TelaPrincipal extends JFrame {
 				});
 				Menu_Estoque.add(Menu_Gerenciar_Produto);
 				
-				JMenuItem Menu_Listar_Produtos = new JMenuItem("Listar Produtos");
+				JMenuItem Menu_Listar_Produtos = new JMenuItem("Relat\u00F3rio de Produtos");
 				Menu_Listar_Produtos.setPreferredSize(new Dimension(131, 30));
 				Menu_Estoque.add(Menu_Listar_Produtos);
 			
@@ -159,6 +167,7 @@ public class TelaPrincipal extends JFrame {
 			menuBar_Principal.add(Menu_Venda);
 			
 				JMenuItem Menu_Realizar_Venda = new JMenuItem("Realizar Venda");
+				Menu_Realizar_Venda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.CTRL_MASK));
 				Menu_Realizar_Venda.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						TelaVenda venda = new TelaVenda();
@@ -168,7 +177,7 @@ public class TelaPrincipal extends JFrame {
 				Menu_Realizar_Venda.setPreferredSize(new Dimension(200, 30));
 				Menu_Venda.add(Menu_Realizar_Venda);
 				
-				JMenuItem Menu_Listar_Vendas = new JMenuItem("Listar Vendas");
+				JMenuItem Menu_Listar_Vendas = new JMenuItem("Relat\u00F3rio de Vendas");
 				Menu_Listar_Vendas.setPreferredSize(new Dimension(200, 30));
 				Menu_Venda.add(Menu_Listar_Vendas);
 		

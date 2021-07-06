@@ -8,47 +8,7 @@ import java.util.ArrayList;
 import modelo.Venda;
 
 public class VendaBD {
-	
-	public ArrayList<Venda> BuscarVenda(int id){
-		try {
-			//REALIZA CONEXÃO COM O BD
-			ConexaoBD conectar = new ConexaoBD();
-			
-			//STRING COM A QUERY SQL 
-			String querySQL = "SELECT * FROM distribuidora_cosmeticos.venda WHERE id = "+ id ;
-			
-			//CRIA O COMANDO SQL
-			PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			ArrayList<Venda> buscarVenda = new ArrayList<>();
-			
-			while(rs.next()) {
-				Venda venda = new Venda(
-						rs.getInt("id"), 
-						rs.getString("nome_cliente"),
-						rs.getString("nome_produto"),
-						rs.getInt("quantidade")
-						);
-				
-				buscarVenda.add(venda);
-			}
-			
-			conectar.fecharConexaoBD();
-			return buscarVenda;
-			
-		}
-		catch (SQLException ex){
-            System.err.println("Erro ao recuperar "+ex.getMessage());
-        }
-		catch (Exception e) {
-			System.err.println("Erro geral: "+ e.getMessage());
-		}
 		
-		return null;
-	}
-	
 	public ArrayList<Venda> listarVendas(){
 		try {
 			//REALIZA CONEXÃO COM O BD
