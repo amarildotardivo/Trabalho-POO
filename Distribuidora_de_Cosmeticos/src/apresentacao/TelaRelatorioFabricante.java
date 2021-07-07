@@ -29,7 +29,7 @@ public class TelaRelatorioFabricante extends JFrame {
 	public TelaRelatorioFabricante() {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRelatorioCliente.class.getResource("/imagens/icon_cadastro.png")));
-		setTitle("Relat\u00F3rio de Clientes");
+		setTitle("Relat\u00F3rio de Fabricantes");
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(890, 500);

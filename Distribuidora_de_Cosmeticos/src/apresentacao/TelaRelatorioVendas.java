@@ -29,7 +29,7 @@ public class TelaRelatorioVendas extends JFrame {
 	public TelaRelatorioVendas() {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRelatorioCliente.class.getResource("/imagens/icon_cadastro.png")));
-		setTitle("Relat\u00F3rio de Clientes");
+		setTitle("Relat\u00F3rio de Vendas");
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(890, 500);
@@ -75,9 +75,8 @@ public class TelaRelatorioVendas extends JFrame {
 			for(Venda venda: listaVendas) {
 				tModel.addRow(new String[] {
 						String.valueOf(venda.getId()), 
-						venda.getNome_produto(), 
-						venda.getNome_cliente(), 
-						venda.getNome_produto(), 
+						venda.getNome_cliente(),
+						venda.getNome_produto(),
 						Integer.toString(venda.getQuantidade())						
 				});
 			}
