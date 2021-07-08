@@ -86,6 +86,7 @@ public class TelaCliente extends JFrame {
 			painel_Principal.add(lbl_id);
 			
 			textField_id = new JTextField();
+			textField_id.setEditable(false);
 			textField_id.setName("");
 			textField_id.setBounds(10, 80, 46, 29);
 			painel_Principal.add(textField_id);
@@ -175,56 +176,18 @@ public class TelaCliente extends JFrame {
 				//@SuppressWarnings("static-access")
 				public void actionPerformed(ActionEvent e) {
 					
-					try {
-						
-						//REALIZA A CONEXÃO COM O BD
-						ConexaoBD conectar = new ConexaoBD();	
-						System.out.println("Conexão Realizada Com Sucesso!!!");
-						
-						//CRIA A STRING SQL
-						String querySQL = "INSERT INTO distribuidora_cosmeticos.cliente (id, nome, logradouro, numero, bairro, cidade, telefone, cpf, nome_representante) "
-								+ "VALUES(?,?,?,?,?,?,?,?,?)";
-						
-						//CRIA O COMANDO SQL
-						PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
-						
-						//SETA OS VALORES NA STRING querySQL
-						stmt.setInt(1, Integer.parseInt(textField_id.getText()) );
-						stmt.setString(2, textField_Nome.getText());
-						stmt.setString(3, textField_Logradouro.getText());
-						stmt.setString(4, textField_Numero.getText());
-						stmt.setString(5, textField_Bairro.getText());
-						stmt.setString(6, textField_Cidade.getText());
-						stmt.setString(7, textField_Telefone.getText());
-						stmt.setString(8, textField_cpf.getText());
-						stmt.setString(9, textField_NomeRepresentante.getText());
-						
-						
-						//EXECUTA A QUERY NO BANCO DE DADOS
-						stmt.executeUpdate();
-						System.out.println("Cliente Cadastrado com Sucesso!!!");
-						
-						//Popup de Informação
-						TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_Nome.getText(), "Salvo com Sucesso!");
-						tInformacao.setVisible(true);
-						
-						//FECHA O COMANDO STMT E A CONEXÃO
-						stmt.close();
-						conectar.fecharConexaoBD();
-						System.out.println("Conexão Encerrada Com Sucesso!!!");
-					}
-					catch (SQLException ex) {
-						System.err.println("Erro na conexão do BD: "+ex.getMessage());
-						//Popup de Erro
-						TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
-						tErro.setVisible(true);
-					}
-					catch (Exception ex) {
-						System.err.println("Erro geral: "+ex.getMessage());
-						//Popup de Erro
-						TelaErro tErro = new TelaErro("Error: " + ex);
-						tErro.setVisible(true);
-					}
+					Cliente cli = new Cliente();
+					
+					cli.setNome(textField_Nome.getText());
+					cli.setLogradouro(textField_Logradouro.getText());
+					cli.setNumero(textField_Numero.getText());
+					cli.setBairro(textField_Bairro.getText());
+					cli.setCidade(textField_Cidade.getText());
+					cli.setTelefone(textField_Telefone.getText());
+					cli.setCpf(textField_cpf.getText());
+					cli.setNome_representante(textField_NomeRepresentante.getText());
+					
+					cli.realizar_cadastro();
 				}
 			});
 			painel_Principal.add(btn_Salvar);

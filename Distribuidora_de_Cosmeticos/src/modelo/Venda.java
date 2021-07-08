@@ -12,6 +12,7 @@ public class Venda {
 		this.quantidade = quantidade;
 	}
 	
+	public Venda() {}
 	
 	//GETER'S AND SETTER'S
 	

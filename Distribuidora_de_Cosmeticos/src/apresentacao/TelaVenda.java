@@ -18,7 +18,6 @@ import persistencia.ConexaoBD;
 import persistencia.EstoqueBD;
 import persistencia.VendaBD;
 
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -36,7 +35,6 @@ import javax.swing.SpinnerNumberModel;
 public class TelaVenda extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField_id;
 
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
@@ -58,16 +56,6 @@ public class TelaVenda extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JLabel lbl_id = new JLabel("ID:");
-		lbl_id.setBounds(10, 61, 46, 14);
-		panel.add(lbl_id);
-		
-		textField_id = new JTextField();
-		textField_id.setName("");
-		textField_id.setColumns(10);
-		textField_id.setBounds(10, 80, 46, 29);
-		panel.add(textField_id);		
-		
 		JLabel lbl_Titulo_Venda = new JLabel("Vendas");
 		lbl_Titulo_Venda.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_Titulo_Venda.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -79,11 +67,11 @@ public class TelaVenda extends JFrame {
 		panel.add(scrollPane);
 		
 		JLabel lbl_NomeCliente = new JLabel("Cliente:");
-		lbl_NomeCliente.setBounds(66, 61, 197, 14);
+		lbl_NomeCliente.setBounds(10, 61, 197, 14);
 		panel.add(lbl_NomeCliente);
 		
 		JComboBox<Object> comboBox_NomeCliente = new JComboBox<Object>();
-		comboBox_NomeCliente.setBounds(66, 80, 321, 29);
+		comboBox_NomeCliente.setBounds(10, 80, 377, 29);
 		panel.add(comboBox_NomeCliente);
 		
 		try {
@@ -156,8 +144,8 @@ public class TelaVenda extends JFrame {
 					System.out.println("Conexão Realizada Com Sucesso!!!");
 					
 					//CRIA A STRING SQL
-					String querySQL = "INSERT INTO distribuidora_cosmeticos.venda (id, nome_cliente, nome_produto, quantidade) "
-							+ "VALUES(?,?,?,?)";
+					String querySQL = "INSERT INTO distribuidora_cosmeticos.venda (nome_cliente, nome_produto, quantidade) "
+							+ "VALUES(?,?,?)";
 					
 					//CRIA O COMANDO SQL
 					PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
@@ -166,10 +154,9 @@ public class TelaVenda extends JFrame {
 					String nomeProd = (String) comboBox_NomeProduto.getSelectedItem();
 					
 					//SETA OS VALORES NA STRING querySQL
-					stmt.setInt(1, Integer.parseInt(textField_id.getText()) );
-					stmt.setString(2, nomeCli);
-					stmt.setString(3, nomeProd);
-					stmt.setInt(4, (Integer) spinner_Quantidade.getValue());
+					stmt.setString(1, nomeCli);
+					stmt.setString(2, nomeProd);
+					stmt.setInt(3, (Integer) spinner_Quantidade.getValue());
 					
 					
 					//SQL PARA DIMINUIR A QUANTIDADE DO PRODUTO

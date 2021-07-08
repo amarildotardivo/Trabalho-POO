@@ -156,21 +156,20 @@ public class TelaFabricante extends JFrame {
 								System.out.println("Conexão Realizada Com Sucesso!!!");
 								
 								//CRIA A STRING SQL
-								String querySQL = "INSERT INTO distribuidora_cosmeticos.fabricante (id, nome, logradouro, numero, bairro, cidade, telefone, cnpj) "
-										+ "VALUES(?,?,?,?,?,?,?,?)";
+								String querySQL = "INSERT INTO distribuidora_cosmeticos.fabricante (nome, logradouro, numero, bairro, cidade, telefone, cnpj) "
+										+ "VALUES(?,?,?,?,?,?,?)";
 								
 								//CRIA O COMANDO SQL
 								PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
 								
 								//SETA OS VALORES NA STRING querySQL
-								stmt.setInt(1, Integer.parseInt(textField_id.getText()) );
-								stmt.setString(2, textField_Nome.getText());
-								stmt.setString(3, textField_Logradouro.getText());
-								stmt.setString(4, textField_Numero.getText());
-								stmt.setString(5, textField_Bairro.getText());
-								stmt.setString(6, textField_Cidade.getText());
-								stmt.setString(7, textField_Telefone.getText());
-								stmt.setString(8, textField_cnpj.getText());
+								stmt.setString(1, textField_Nome.getText());
+								stmt.setString(2, textField_Logradouro.getText());
+								stmt.setString(3, textField_Numero.getText());
+								stmt.setString(4, textField_Bairro.getText());
+								stmt.setString(5, textField_Cidade.getText());
+								stmt.setString(6, textField_Telefone.getText());
+								stmt.setString(7, textField_cnpj.getText());
 								
 								
 								//EXECUTA A QUERY NO BANCO DE DADOS
@@ -435,6 +434,7 @@ public class TelaFabricante extends JFrame {
 					list_ListarFabricantes.setBorder(new EmptyBorder(5, 5, 5, 5));
 					
 					textField_id = new JTextField();
+					textField_id.setEditable(false);
 					textField_id.setName("");
 					textField_id.setColumns(10);
 					textField_id.setBounds(10, 80, 46, 29);

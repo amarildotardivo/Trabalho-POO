@@ -13,6 +13,8 @@ public class Fabricante extends Endereco {
 		this.cnpj = cnpj;
 	}
 	
+	public Fabricante() {}
+	
 	//GETER'S AND SETTER'S
 	public int getId() {
 		return id;

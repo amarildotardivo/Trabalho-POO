@@ -13,6 +13,8 @@ public abstract class Endereco {
 		this.telefone = telefone;
 	}
 
+	public Endereco() {}
+
 	//GETER'S AND SETTER'S
 	public String getNome() {
 		return nome;

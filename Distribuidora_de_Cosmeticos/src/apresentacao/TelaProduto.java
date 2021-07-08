@@ -82,6 +82,7 @@ public class TelaProduto extends JFrame {
 					painel_Principal.add(lbl_id);
 					
 					textField_id = new JTextField();
+					textField_id.setEditable(false);
 					textField_id.setName("");
 					textField_id.setColumns(10);
 					textField_id.setBounds(10, 80, 46, 29);
@@ -172,8 +173,8 @@ public class TelaProduto extends JFrame {
 								System.out.println("Conexão Realizada Com Sucesso!!!");
 								
 								//CRIA A STRING SQL
-								String querySQL = "INSERT INTO distribuidora_cosmeticos.estoque (id, nome_produto, quantidade, preco_compra, preco_venda, tipo_produto, nome_fabricante) "
-										+ "VALUES(?,?,?,?,?,?,?)";
+								String querySQL = "INSERT INTO distribuidora_cosmeticos.estoque (nome_produto, quantidade, preco_compra, preco_venda, tipo_produto, nome_fabricante) "
+										+ "VALUES(?,?,?,?,?,?)";
 								
 								//CRIA O COMANDO SQL
 								PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
@@ -181,13 +182,12 @@ public class TelaProduto extends JFrame {
 								String nomeFab = (String) comboBox_NomeFabricante.getSelectedItem();
 								
 								//SETA OS VALORES NA STRING querySQL
-								stmt.setInt(1, Integer.parseInt(textField_id.getText()) );
-								stmt.setString(2, textField_NomeProduto.getText());
-								stmt.setInt(3, Integer.parseInt(textField_Quantidade.getText()));
-								stmt.setDouble(4, Double.parseDouble(textField_PrecoCompra.getText()));
-								stmt.setDouble(5, Double.parseDouble(textField_PrecoVenda.getText()));
-								stmt.setString(6, textField_TipoProduto.getText());
-								stmt.setString(7, nomeFab);
+								stmt.setString(1, textField_NomeProduto.getText());
+								stmt.setInt(2, Integer.parseInt(textField_Quantidade.getText()));
+								stmt.setDouble(3, Double.parseDouble(textField_PrecoCompra.getText()));
+								stmt.setDouble(4, Double.parseDouble(textField_PrecoVenda.getText()));
+								stmt.setString(5, textField_TipoProduto.getText());
+								stmt.setString(6, nomeFab);
 								
 								
 								//EXECUTA A QUERY NO BANCO DE DADOS

@@ -13,6 +13,8 @@ public class Representante extends Endereco {
 		this.cpf = cpf;
 	}
 
+	public Representante() {}
+	
 	//GETER'S AND SETTER'S
 	
 	public int getId() {

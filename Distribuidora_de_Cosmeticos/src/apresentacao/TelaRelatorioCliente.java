@@ -55,7 +55,7 @@ public class TelaRelatorioCliente extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-					"ID", "Nome", "Logradouro", "Numero", "Bairro", "Cidade", "Telefone", "CPF", "Representante" 
+				"ID", "Nome", "Logradouro", "Numero", "Bairro", "Cidade", "Telefone", "CPF", "Representante"
 			}
 		));
 		table.setFont(table.getFont().deriveFont(Font.BOLD));

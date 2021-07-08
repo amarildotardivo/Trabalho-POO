@@ -19,7 +19,7 @@ public class CriarBD {
 		System.out.println("Utilizando BD da Distribuidora...");
 		
 		stmt.execute("CREATE TABLE IF NOT EXISTS representante(\r\n"
-				+ "    id int,\r\n"
+				+ "    id int KEY AUTO_INCREMENT,\r\n"
 				+ "    nome VARCHAR(255),\r\n"
 				+ "    logradouro VARCHAR(255),\r\n"
 				+ "    numero VARCHAR(255),\r\n"
@@ -32,7 +32,7 @@ public class CriarBD {
 		System.out.println("Criada tabela REPRESENTANTE!");
 		
 		stmt.execute("CREATE TABLE IF NOT EXISTS cliente(\r\n"
-				+ "    id int,\r\n"
+				+ "    id int KEY AUTO_INCREMENT,\r\n"
 				+ "    nome VARCHAR(255),\r\n"
 				+ "    logradouro VARCHAR(255),\r\n"
 				+ "    numero VARCHAR(255),\r\n"
@@ -45,7 +45,7 @@ public class CriarBD {
 		System.out.println("Criada tabela CLIENTE!");
 		
 		stmt.execute("CREATE TABLE IF NOT EXISTS fabricante(\r\n"
-				+ "	id int,\r\n"
+				+ "	   id int KEY AUTO_INCREMENT,\r\n"
 				+ "    nome VARCHAR(255),\r\n"
 				+ "    logradouro VARCHAR(255),\r\n"
 				+ "    numero VARCHAR(255),\r\n"
@@ -57,7 +57,7 @@ public class CriarBD {
 		System.out.println("Criada tabela FABRICANTE!");
 		
 		stmt.execute("CREATE TABLE IF NOT EXISTS estoque(\r\n"
-				+ "    id int,\r\n"
+				+ "    id int KEY AUTO_INCREMENT,\r\n"
 				+ "    nome_produto VARCHAR(255),\r\n"
 				+ "    quantidade INT,\r\n"
 				+ "    preco_compra DOUBLE,\r\n"
@@ -68,7 +68,7 @@ public class CriarBD {
 		System.out.println("Criada tabela ESTOQUE!");
 		
 		stmt.execute("CREATE TABLE IF NOT EXISTS venda(\r\n"
-				+ "    id int,\r\n"
+				+ "    id int KEY AUTO_INCREMENT,\r\n"
 				+ "    nome_cliente VARCHAR(255),\r\n"
 				+ "    nome_produto VARCHAR(255),\r\n"
 				+ "    quantidade INT\r\n"
