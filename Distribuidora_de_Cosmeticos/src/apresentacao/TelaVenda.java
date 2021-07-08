@@ -186,7 +186,7 @@ public class TelaVenda extends JFrame {
 					pst.setString(2, nome_produto);
 					
 					//VERIFICA SE A VENDA PODE SER REALIZADA
-					if( (comboBox_NomeCliente.getSelectedItem().toString() != "Selecione um Cliente") || (comboBox_NomeProduto.getSelectedItem().toString() != "Selecione um Produto") ) {
+					if( (comboBox_NomeCliente.getSelectedItem().toString() != "Selecione um Cliente") && (comboBox_NomeProduto.getSelectedItem().toString() != "Selecione um Produto") ) {
 						if( (quantProdEst >= quantProdSolicitada) && (quantProdEst > 0) ) {
 							//EXECUTA A QUERY NO BANCO DE DADOS PARA REALIZAR A VENDA
 							stmt.executeUpdate();
@@ -200,14 +200,14 @@ public class TelaVenda extends JFrame {
 						}else {
 							System.out.println("Venda Não pode ser Realizada!");
 							//Popup de Informação
-							TelaInformacao tInformacao = new TelaInformacao("O Item: " + comboBox_NomeProduto.getSelectedItem(), "Não possui quantidade suficiente para esta venda!");
+							TelaInformacao tInformacao = new TelaInformacao("O Item: " + comboBox_NomeProduto.getSelectedItem(), "Não possui quantidade suficiente!");
 							tInformacao.setVisible(true);
 						}
 						
 					}else {
 						System.out.println("Venda Não pode ser Realizada!");
 						//Popup de Informação
-						TelaInformacao tInformacao = new TelaInformacao("O Produto ou Cliente: ", "Não Existe!");
+						TelaInformacao tInformacao = new TelaInformacao("O Produto e/ou Cliente: ", "Não Foi Selecionado!");
 						tInformacao.setVisible(true);
 					}
 					
