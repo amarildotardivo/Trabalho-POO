@@ -2,10 +2,12 @@ package modelo;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import apresentacao.TelaErro;
 import apresentacao.TelaInformacao;
 import persistencia.ConexaoBD;
+import persistencia.RepresentanteBD;
 
 public class Cliente extends Endereco{
 	
@@ -99,6 +101,38 @@ public class Cliente extends Endereco{
 		}
 	}
 
+	public ArrayList<Representante> listar_representantes() {
+		try {
+			
+			//REALIZA A CONEXÃO COM O BD
+			ConexaoBD conectar = new ConexaoBD();	
+			System.out.println("Conexão Realizada Com Sucesso!!!");
+			
+			RepresentanteBD repBD = new RepresentanteBD();
+			ArrayList<Representante> listaRep = repBD.listarRepresentantes();
+			
+			//FECHA A CONEXÃO
+			conectar.fecharConexaoBD();
+			System.out.println("Conexão Encerrada Com Sucesso!!!");
+			
+			return listaRep;
+		}
+		catch (SQLException ex) {
+			System.err.println("Erro na conexão do BD: "+ex.getMessage());
+			//Popup de Erro
+			TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
+			tErro.setVisible(true);
+		}
+		catch (Exception ex) {
+			System.err.println("Erro geral: "+ex.getMessage());
+			//Popup de Erro
+			TelaErro tErro = new TelaErro("Error: " + ex);
+			tErro.setVisible(true);
+		}
+		
+		return null;
+	}
+	
 	public void deletar_cadastro() {
 		
 	}

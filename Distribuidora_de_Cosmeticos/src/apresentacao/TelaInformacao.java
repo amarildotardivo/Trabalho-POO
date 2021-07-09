@@ -45,7 +45,7 @@ public class TelaInformacao extends JFrame {
 		JLabel lblInformacao = new JLabel(labelInformacao);
 		lblInformacao.setVerticalAlignment(SwingConstants.TOP);
 		lblInformacao.setHorizontalAlignment(SwingConstants.LEFT);
-		lblInformacao.setBounds(20, 35, 242, 14);
+		lblInformacao.setBounds(20, 35, 242, 22);
 		contentPane.add(lblInformacao);
 	}
 

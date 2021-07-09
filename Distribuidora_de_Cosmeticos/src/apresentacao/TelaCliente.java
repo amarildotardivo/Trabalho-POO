@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.OptionPaneUI;
 
 import modelo.Cliente;
+import modelo.Representante;
 import persistencia.ClienteDB;
 import persistencia.ConexaoBD;
 
@@ -23,15 +25,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 
 @SuppressWarnings("serial")
 public class TelaCliente extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField_Nome;
+	private JTextField textField_NomeCliente;
 	private JLabel lbl_Logradouro;
 	private JTextField textField_Logradouro;
 	private JLabel lbl_Numero;
@@ -45,7 +50,6 @@ public class TelaCliente extends JFrame {
 	private JLabel lbl_Cpf;
 	private JTextField textField_cpf;
 	private JLabel lbl_NomeRepresentante;
-	private JTextField textField_NomeRepresentante;
 	private JButton btn_Limpar;
 	private JButton btn_Deletar;
 	private JLabel lbl_Titulo_Cliente;
@@ -55,12 +59,18 @@ public class TelaCliente extends JFrame {
 	private JButton btn_ListarClientes;
 	private JScrollPane scrollPane;
 
+	private Cliente cli = new Cliente();
+	
+	public String getNomeCliente() {
+		return textField_NomeCliente.getText();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public TelaCliente() {
+		setAlwaysOnTop(true);
 		setResizable(false);
 		setTitle("Gerenciamento de Cliente");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCliente.class.getResource("/imagens/icon_cadastro.png")));
-		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(890, 410);
 		setLocationRelativeTo(null);
@@ -69,6 +79,8 @@ public class TelaCliente extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		
 		
 		//PAINEL PRINCIPAL **********************************************************************************************************************
 		JPanel painel_Principal = new JPanel();
@@ -92,15 +104,15 @@ public class TelaCliente extends JFrame {
 			painel_Principal.add(textField_id);
 			textField_id.setColumns(10);
 		
-			JLabel lbl_NomeCliente = new JLabel("Nome:");
+			JLabel lbl_NomeCliente = new JLabel("Nome* :");
 			lbl_NomeCliente.setBounds(66, 61, 127, 14);
 			painel_Principal.add(lbl_NomeCliente);
 			
-			textField_Nome = new JTextField();
-			textField_Nome.setBounds(66, 80, 292, 29);
-			textField_Nome.setToolTipText("");
-			painel_Principal.add(textField_Nome);
-			textField_Nome.setColumns(10);
+			textField_NomeCliente = new JTextField();
+			textField_NomeCliente.setBounds(66, 80, 292, 29);
+			textField_NomeCliente.setToolTipText("");
+			painel_Principal.add(textField_NomeCliente);
+			textField_NomeCliente.setColumns(10);
 			
 			lbl_Logradouro = new JLabel("Logradouro:");
 			lbl_Logradouro.setBounds(10, 120, 87, 14);
@@ -156,38 +168,61 @@ public class TelaCliente extends JFrame {
 			textField_cpf.setColumns(10);
 			painel_Principal.add(textField_cpf);
 			
-			lbl_NomeRepresentante = new JLabel("Nome do Representante:");
+			lbl_NomeRepresentante = new JLabel("Nome do Representante* :");
 			lbl_NomeRepresentante.setBounds(147, 235, 169, 14);
 			painel_Principal.add(lbl_NomeRepresentante);
 			
-			textField_NomeRepresentante = new JTextField();
-			textField_NomeRepresentante.setBounds(147, 252, 211, 29);
-			textField_NomeRepresentante.setColumns(10);
-			painel_Principal.add(textField_NomeRepresentante);
+			JComboBox<Object> comboBox_Representante = new JComboBox<>();
+			comboBox_Representante.setBounds(147, 252, 211, 29);
+			painel_Principal.add(comboBox_Representante);
+				ArrayList<Representante> listarRep = cli.listar_representantes();
+				comboBox_Representante.addItem("Selecione um Representante");
+				
+				for(Representante rep: listarRep) {
+					comboBox_Representante.addItem(rep.getNome());
+				}
 			
 			JLabel lbl_ListaClientes = new JLabel("Lista de Clientes:");
 			lbl_ListaClientes.setBounds(368, 61, 109, 14);
 			painel_Principal.add(lbl_ListaClientes);
 			
+			
+			
 			//FUNÇÃO DE INCLUIR NO BANCO DE DADOS
 			JButton btn_Salvar = new JButton("SALVAR");			
-			btn_Salvar.setBounds(50, 312, 100, 35);
+			btn_Salvar.setBounds(51, 317, 100, 35);
 			btn_Salvar.addActionListener(new ActionListener() {
 				//@SuppressWarnings("static-access")
 				public void actionPerformed(ActionEvent e) {
 					
-					Cliente cli = new Cliente();
+					//INSERINDO COMPONENTES DE TELA EM VARIAVEIS
+					String nomeRepresentante = (String) comboBox_Representante.getSelectedItem();
 					
-					cli.setNome(textField_Nome.getText());
+					cli.setNome(getNomeCliente());
 					cli.setLogradouro(textField_Logradouro.getText());
 					cli.setNumero(textField_Numero.getText());
 					cli.setBairro(textField_Bairro.getText());
 					cli.setCidade(textField_Cidade.getText());
 					cli.setTelefone(textField_Telefone.getText());
 					cli.setCpf(textField_cpf.getText());
-					cli.setNome_representante(textField_NomeRepresentante.getText());
+					cli.setNome_representante(nomeRepresentante);
 					
-					cli.realizar_cadastro();
+					if(getNomeCliente().isBlank() == false) {
+						
+						if(nomeRepresentante != "Selecione um Representante") {						
+							cli.realizar_cadastro();
+						}else {
+							//Popup de Informação
+							TelaInformacao tInformacao = new TelaInformacao("Não é possível Cadastrar o Cliente!", "Selecione ou Cadastre um Representante!");
+							tInformacao.setVisible(true);
+						}
+						
+					}else {
+						//JOptionPane.showMessageDialog(painel_Principal,"Não é possível Cadastrar o Cliente! \nSelecione ou Cadastre um Representante!", "Campo Representante Incorreto", JOptionPane.OK_OPTION);
+						//Popup de Informação
+						TelaInformacao tInformacao = new TelaInformacao("Não é possível Cadastrar o Cliente!", "Preencha o Campo Nome!");
+						tInformacao.setVisible(true);
+					}
 				}
 			});
 			painel_Principal.add(btn_Salvar);
@@ -211,14 +246,14 @@ public class TelaCliente extends JFrame {
 							PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
 							
 							//SETA OS VALORES NA STRING querySQL
-							stmt.setString(1, textField_Nome.getText());
+							stmt.setString(1, textField_NomeCliente.getText());
 							stmt.setString(2, textField_Logradouro.getText());
 							stmt.setString(3, textField_Numero.getText());
 							stmt.setString(4, textField_Bairro.getText());
 							stmt.setString(5, textField_Cidade.getText());
 							stmt.setString(6, textField_Telefone.getText());
 							stmt.setString(7, textField_cpf.getText());
-							stmt.setString(8, textField_NomeRepresentante.getText());
+							stmt.setString(8, (String) comboBox_Representante.getSelectedItem());
 							stmt.setInt(9, Integer.parseInt(textField_id.getText()));
 							
 							//EXECUTA A QUERY NO BANCO DE DADOS
@@ -227,7 +262,7 @@ public class TelaCliente extends JFrame {
 							System.out.println("Cliente Editado com Sucesso!!!");
 							
 							//Popup de Informação
-							TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_Nome.getText(), "Editado com Sucesso!");
+							TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_NomeCliente.getText(), "Editado com Sucesso!");
 							tInformacao.setVisible(true);
 							
 							//FECHA O COMANDO STMT E A CONEXÃO
@@ -250,7 +285,7 @@ public class TelaCliente extends JFrame {
 					}
 				}
 			});
-			btn_Editar.setBounds(175, 312, 100, 35);
+			btn_Editar.setBounds(176, 317, 100, 35);
 			painel_Principal.add(btn_Editar);
 			
 			//FUNÇÃO DE CONSULTAR NO BANCO DE DADOS
@@ -265,19 +300,19 @@ public class TelaCliente extends JFrame {
 						ClienteDB clienteBD = new ClienteDB();
 												
 						//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
-						ArrayList<Cliente> listaClientes = clienteBD.BuscarCliente(textField_Nome.getText());
+						ArrayList<Cliente> listaClientes = clienteBD.BuscarCliente(textField_NomeCliente.getText());
 						
 						if(listaClientes != null) {
 							for(Cliente c: listaClientes) {
 								textField_id.setText("" + c.getId());
-								textField_Nome.setText("" + c.getNome());
+								textField_NomeCliente.setText("" + c.getNome());
 								textField_Logradouro.setText("" + c.getLogradouro());
 								textField_Numero.setText("" + c.getNumero());
 								textField_Bairro.setText("" + c.getBairro());
 								textField_Cidade.setText("" + c.getCidade());
 								textField_Telefone.setText("" + c.getTelefone());
 								textField_cpf.setText("" + c.getCpf());
-								textField_NomeRepresentante.setText("" + c.getNome_representante());
+								comboBox_Representante.setSelectedItem(c.getNome_representante());
 								
 							}
 							System.out.println("Busca do Cliente Realizada Com Sucesso!!!");
@@ -300,7 +335,7 @@ public class TelaCliente extends JFrame {
 					}
 				}
 			});
-			btn_Buscar.setBounds(301, 312, 100, 35);
+			btn_Buscar.setBounds(302, 317, 100, 35);
 			painel_Principal.add(btn_Buscar);
 			
 			//FUNÇÃO DE DELETAR DO BANCO DE DADOS
@@ -309,15 +344,15 @@ public class TelaCliente extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 						
 					try {
-						Cliente c = new Cliente(Integer.parseInt(textField_id.getText()),textField_Nome.getText(), textField_Logradouro.getText(),
+						Cliente c = new Cliente(Integer.parseInt(textField_id.getText()),textField_NomeCliente.getText(), textField_Logradouro.getText(),
 								textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
-								textField_Telefone.getText(), textField_cpf.getText(), textField_NomeRepresentante.getText());
+								textField_Telefone.getText(), textField_cpf.getText(), (String)comboBox_Representante.getSelectedItem());
 						
 						ClienteDB cbd = new ClienteDB();
 						cbd.DeletarCliente(c);
 						System.out.println("Cliente Deletado com sucesso!");
 						//Popup de Informação
-						TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_Nome.getText(), "Deletado com Sucesso!");
+						TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_NomeCliente.getText(), "Deletado com Sucesso!");
 						tInformacao.setVisible(true);
 					} 
 					catch (Exception ex) {
@@ -329,7 +364,7 @@ public class TelaCliente extends JFrame {
 					
 				}
 			});
-			btn_Deletar.setBounds(425, 312, 100, 35);
+			btn_Deletar.setBounds(426, 317, 100, 35);
 			painel_Principal.add(btn_Deletar);
 			
 			//LIMPA TODOS OS TEXTFIELDS
@@ -337,17 +372,17 @@ public class TelaCliente extends JFrame {
 			btn_Limpar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					textField_id.setText("");
-					textField_Nome.setText("");
+					textField_NomeCliente.setText("");
 					textField_Logradouro.setText("");
 					textField_Numero.setText("");
 					textField_Bairro.setText("");
 					textField_Cidade.setText("");
 					textField_Telefone.setText("");
 					textField_cpf.setText("");
-					textField_NomeRepresentante.setText("");
+					comboBox_Representante.setSelectedItem("");
 				}
 			});
-			btn_Limpar.setBounds(548, 312, 100, 35);
+			btn_Limpar.setBounds(549, 317, 100, 35);
 			painel_Principal.add(btn_Limpar);
 			
 			//DEFINE O MODELO DO JLIST
@@ -435,8 +470,15 @@ public class TelaCliente extends JFrame {
 					}					
 				}
 			});
-			btn_ListarClientes.setBounds(673, 312, 139, 35);
+			btn_ListarClientes.setBounds(674, 317, 139, 35);
 			painel_Principal.add(btn_ListarClientes);
 			
+			JLabel lblNewLabel = new JLabel("* Campos Obrigat\u00F3rios.");
+			lblNewLabel.setForeground(Color.RED);
+			lblNewLabel.setBounds(10, 292, 193, 14);
+			painel_Principal.add(lblNewLabel);
+			
 	}
+	
+	
 }

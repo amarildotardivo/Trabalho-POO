@@ -36,7 +36,7 @@ public class TelaVenda extends JFrame {
 
 	private JPanel contentPane;
 
-
+	
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	public TelaVenda() {
 		setTitle("Vendas");
