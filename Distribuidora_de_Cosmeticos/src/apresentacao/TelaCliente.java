@@ -27,9 +27,12 @@ import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 
+//	serialVersionUID:
+//	Para mais informações sobre a serialização acesse:
+//	https://blog.algaworks.com/serialversionuid/
 @SuppressWarnings("serial")
 public class TelaCliente extends JFrame {
-
+	
 	private JPanel contentPane;
 	private JTextField textField_NomeCliente;
 	private JLabel lbl_Logradouro;
@@ -60,7 +63,7 @@ public class TelaCliente extends JFrame {
 		return textField_NomeCliente.getText();
 	}
 	
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
 	public TelaCliente() {
 		setAlwaysOnTop(true);
 		setResizable(false);
@@ -351,8 +354,7 @@ public class TelaCliente extends JFrame {
 			scrollPane.setBounds(368, 81, 492, 201);
 			painel_Principal.add(scrollPane);
 			
-			@SuppressWarnings("rawtypes")
-			JList list_ListarClientes = new JList(model);
+			JList<String> list_ListarClientes = new JList<>(model);
 			scrollPane.setViewportView(list_ListarClientes);
 			list_ListarClientes.setBorder(new EmptyBorder(5, 5, 5, 5));
 			
