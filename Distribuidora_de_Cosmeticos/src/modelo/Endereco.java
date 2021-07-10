@@ -66,6 +66,5 @@ public abstract class Endereco {
 
 	//METODOS ABSTRATOS
 	public abstract void realizar_cadastro();
-	public abstract void deletar_cadastro();
 	
 }

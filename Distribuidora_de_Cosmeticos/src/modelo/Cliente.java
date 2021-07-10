@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import apresentacao.TelaErro;
 import apresentacao.TelaInformacao;
+import persistencia.ClienteDB;
 import persistencia.ConexaoBD;
 import persistencia.RepresentanteBD;
 
@@ -102,20 +103,53 @@ public class Cliente extends Endereco{
 	}
 
 	public ArrayList<Representante> listar_representantes() {
+			
+		RepresentanteBD repBD = new RepresentanteBD();
+		ArrayList<Representante> listaRep = repBD.listarRepresentantes();
+		
+		return listaRep;
+	}
+	
+	public void editar_cliente() {
 		try {
 			
 			//REALIZA A CONEXÃO COM O BD
 			ConexaoBD conectar = new ConexaoBD();	
-			System.out.println("Conexão Realizada Com Sucesso!!!");
-			
-			RepresentanteBD repBD = new RepresentanteBD();
-			ArrayList<Representante> listaRep = repBD.listarRepresentantes();
-			
-			//FECHA A CONEXÃO
-			conectar.fecharConexaoBD();
-			System.out.println("Conexão Encerrada Com Sucesso!!!");
-			
-			return listaRep;
+			System.out.println("Conexão Realizada Com Sucesso!!!");												
+				
+				//CRIA A STRING SQL
+				String querySQL = "UPDATE distribuidora_cosmeticos.cliente SET `nome` = ?, `logradouro` = ?, "
+						+ "`numero` = ?, `bairro` = ?, `cidade` = ?, `telefone` = ?, `cpf` = ?, `nome_representante` = ? "
+						+ " WHERE id = ?";
+				
+				//CRIA O COMANDO SQL
+				PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
+				
+				//SETA OS VALORES NA STRING querySQL
+				stmt.setString(1, getNome());
+				stmt.setString(2, getLogradouro());
+				stmt.setString(3, getNumero());
+				stmt.setString(4, getBairro());
+				stmt.setString(5, getCidade());
+				stmt.setString(6, getTelefone());
+				stmt.setString(7, getCpf());
+				stmt.setString(8, getNome_representante());
+				stmt.setInt(9, getId());
+				
+				//EXECUTA A QUERY NO BANCO DE DADOS
+				int rowsAffected = stmt.executeUpdate();
+				System.out.println("Atualizado: "+ rowsAffected+" linha(s)");
+				System.out.println("Cliente Editado com Sucesso!!!");
+				
+				//Popup de Informação
+				TelaInformacao tInformacao = new TelaInformacao("Cliente: " + getNome(), "Editado com Sucesso!");
+				tInformacao.setVisible(true);
+				
+				//FECHA O COMANDO STMT E A CONEXÃO
+				stmt.close();
+				conectar.fecharConexaoBD();
+				System.out.println("Conexão Encerrada Com Sucesso!!!");
+
 		}
 		catch (SQLException ex) {
 			System.err.println("Erro na conexão do BD: "+ex.getMessage());
@@ -129,12 +163,20 @@ public class Cliente extends Endereco{
 			TelaErro tErro = new TelaErro("Error: " + ex);
 			tErro.setVisible(true);
 		}
-		
-		return null;
 	}
 	
-	public void deletar_cadastro() {
-		
+	public void deletar_cadastro(Cliente c) {
+		ClienteDB cbd = new ClienteDB();
+		cbd.DeletarCliente(c);
 	}
 	
+	public ArrayList<Cliente> listar_clientes() {
+			
+		ClienteDB clienteBD = new ClienteDB();
+		
+		//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
+		ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
+		
+		return listaClientes;
+	}
 }

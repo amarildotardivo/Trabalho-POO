@@ -4,12 +4,10 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.OptionPaneUI;
 
 import modelo.Cliente;
 import modelo.Representante;
 import persistencia.ClienteDB;
-import persistencia.ConexaoBD;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -20,8 +18,6 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
@@ -30,7 +26,6 @@ import javax.swing.JOptionPane;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 
 @SuppressWarnings("serial")
 public class TelaCliente extends JFrame {
@@ -211,6 +206,7 @@ public class TelaCliente extends JFrame {
 						
 						if(nomeRepresentante != "Selecione um Representante") {						
 							cli.realizar_cadastro();
+							
 						}else {
 							//Popup de Informação
 							TelaInformacao tInformacao = new TelaInformacao("Não é possível Cadastrar o Cliente!", "Selecione ou Cadastre um Representante!");
@@ -231,58 +227,29 @@ public class TelaCliente extends JFrame {
 			btn_Editar = new JButton("EDITAR");
 			btn_Editar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
+					
+					//INSERINDO COMPONENTES DE TELA EM VARIAVEIS
+					String nomeRepresentante = (String) comboBox_Representante.getSelectedItem();
+					
+					cli.setId(Integer.parseInt(textField_id.getText()));
+					cli.setNome(getNomeCliente());
+					cli.setLogradouro(textField_Logradouro.getText());
+					cli.setNumero(textField_Numero.getText());
+					cli.setBairro(textField_Bairro.getText());
+					cli.setCidade(textField_Cidade.getText());
+					cli.setTelefone(textField_Telefone.getText());
+					cli.setCpf(textField_cpf.getText());
+					cli.setNome_representante(nomeRepresentante);
+					
+					if(nomeRepresentante.equals("Selecione um Representante") != true ) {						
+						cli.editar_cliente();
 						
-						//REALIZA A CONEXÃO COM O BD
-						ConexaoBD conectar = new ConexaoBD();	
-						System.out.println("Conexão Realizada Com Sucesso!!!");												
-							
-							//CRIA A STRING SQL
-							String querySQL = "UPDATE distribuidora_cosmeticos.cliente SET `nome` = ?, `logradouro` = ?, "
-									+ "`numero` = ?, `bairro` = ?, `cidade` = ?, `telefone` = ?, `cpf` = ?, `nome_representante` = ? "
-									+ " WHERE id = ?";
-							
-							//CRIA O COMANDO SQL
-							PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
-							
-							//SETA OS VALORES NA STRING querySQL
-							stmt.setString(1, textField_NomeCliente.getText());
-							stmt.setString(2, textField_Logradouro.getText());
-							stmt.setString(3, textField_Numero.getText());
-							stmt.setString(4, textField_Bairro.getText());
-							stmt.setString(5, textField_Cidade.getText());
-							stmt.setString(6, textField_Telefone.getText());
-							stmt.setString(7, textField_cpf.getText());
-							stmt.setString(8, (String) comboBox_Representante.getSelectedItem());
-							stmt.setInt(9, Integer.parseInt(textField_id.getText()));
-							
-							//EXECUTA A QUERY NO BANCO DE DADOS
-							int rowsAffected = stmt.executeUpdate();
-							System.out.println("Atualizado: "+ rowsAffected+" linha(s)");
-							System.out.println("Cliente Editado com Sucesso!!!");
-							
-							//Popup de Informação
-							TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_NomeCliente.getText(), "Editado com Sucesso!");
-							tInformacao.setVisible(true);
-							
-							//FECHA O COMANDO STMT E A CONEXÃO
-							stmt.close();
-							conectar.fecharConexaoBD();
-							System.out.println("Conexão Encerrada Com Sucesso!!!");
-
+					}else {
+						//Popup de Informação
+						TelaInformacao tInformacao = new TelaInformacao("Não é possível Editar o Cliente!", "Selecione ou Cadastre um Representante!");
+						tInformacao.setVisible(true);
 					}
-					catch (SQLException ex) {
-						System.err.println("Erro na conexão do BD: "+ex.getMessage());
-						//Popup de Erro
-						TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
-						tErro.setVisible(true);
-					}
-					catch (Exception ex) {
-						System.err.println("Erro geral: "+ex.getMessage());
-						//Popup de Erro
-						TelaErro tErro = new TelaErro("Error: " + ex);
-						tErro.setVisible(true);
-					}
+					
 				}
 			});
 			btn_Editar.setBounds(176, 317, 100, 35);
@@ -292,14 +259,10 @@ public class TelaCliente extends JFrame {
 			JButton btn_Buscar = new JButton("BUSCAR");
 			btn_Buscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						//REALIZA A CONEXÃO COM O BD
-						ConexaoBD conectar = new ConexaoBD();
-						System.out.println("Conexão Realizada Com Sucesso!!!");
+					
+					if(textField_NomeCliente.getText().isEmpty() == false) {
 						
 						ClienteDB clienteBD = new ClienteDB();
-												
-						//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
 						ArrayList<Cliente> listaClientes = clienteBD.BuscarCliente(textField_NomeCliente.getText());
 						
 						if(listaClientes != null) {
@@ -315,24 +278,13 @@ public class TelaCliente extends JFrame {
 								comboBox_Representante.setSelectedItem(c.getNome_representante());
 								
 							}
-							System.out.println("Busca do Cliente Realizada Com Sucesso!!!");
 						}
 						
-						conectar.fecharConexaoBD();
-						
+					}else {
+						System.err.println("Erro ao buscar o cliente, pois não foi informado o nome do mesmo!");
+						JOptionPane.showMessageDialog(painel_Principal, "Não é possível Buscar o Cliente! \nPreencha o campo Nome para Buscar!", "Campo Nome do Cliente Incorreto", JOptionPane.OK_OPTION);
 					}
-					catch (SQLException ex) {
-						System.err.println("Erro na conexão do BD: "+ex.getMessage());
-						//Popup de Erro
-						TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
-						tErro.setVisible(true);
-					}
-					catch (Exception ex) {
-						System.err.println("Erro geral: "+ex.getMessage());
-						//Popup de Erro
-						TelaErro tErro = new TelaErro("Error: " + ex);
-						tErro.setVisible(true);
-					}
+					
 				}
 			});
 			btn_Buscar.setBounds(302, 317, 100, 35);
@@ -343,24 +295,19 @@ public class TelaCliente extends JFrame {
 			btn_Deletar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 						
-					try {
-						Cliente c = new Cliente(Integer.parseInt(textField_id.getText()),textField_NomeCliente.getText(), textField_Logradouro.getText(),
-								textField_Numero.getText(), textField_Bairro.getText(), textField_Cidade.getText(), 
-								textField_Telefone.getText(), textField_cpf.getText(), (String)comboBox_Representante.getSelectedItem());
-						
-						ClienteDB cbd = new ClienteDB();
-						cbd.DeletarCliente(c);
-						System.out.println("Cliente Deletado com sucesso!");
-						//Popup de Informação
-						TelaInformacao tInformacao = new TelaInformacao("Cliente: " + textField_NomeCliente.getText(), "Deletado com Sucesso!");
-						tInformacao.setVisible(true);
-					} 
-					catch (Exception ex) {
-						System.err.println("Erro geral: "+ex.getMessage());
-						//Popup de Erro
-						TelaErro tErro = new TelaErro("Error: " + ex);
-						tErro.setVisible(true);
-					}
+					Cliente c = new Cliente(
+							Integer.parseInt(textField_id.getText()),
+							textField_NomeCliente.getText(), 
+							textField_Logradouro.getText(),
+							textField_Numero.getText(), 
+							textField_Bairro.getText(), 
+							textField_Cidade.getText(), 
+							textField_Telefone.getText(), 
+							textField_cpf.getText(), 
+							(String)comboBox_Representante.getSelectedItem()
+						);
+					
+					c.deletar_cadastro(c);
 					
 				}
 			});
@@ -386,40 +333,19 @@ public class TelaCliente extends JFrame {
 			painel_Principal.add(btn_Limpar);
 			
 			//DEFINE O MODELO DO JLIST
-			@SuppressWarnings("rawtypes")
-			DefaultListModel model = new DefaultListModel();
+			DefaultListModel<String> model = new DefaultListModel<>();
 			
-			//LISTA OS CLIENTE EM UMA JLIST
-			try {
-				//REALIZA A CONEXÃO COM O BD
-				ConexaoBD conectar = new ConexaoBD();
-				System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
-				
-				ClienteDB clienteBD = new ClienteDB();
-				
-				
-				//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
-				ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
-				
-				if(listaClientes != null) {
-					for(Cliente c: listaClientes) {
-						
-						model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
-						c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
-						
-					}
+			//LISTA OS CLIENTES EM UMA JLIST
+			ArrayList<Cliente> listarClientes = cli.listar_clientes();
+			
+			if(listarClientes != null) {
+				for(Cliente c: listarClientes) {
+					
+					model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
+					c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
+					
 				}
-				
-				conectar.fecharConexaoBD();
-				System.out.println("Conexão do JList com  BD Encerrada Com Sucesso!!!");
-				
-			}
-			catch (SQLException ex) {
-				System.err.println("Erro na conexão do BD: "+ex.getMessage());
-			}
-			catch (Exception ex) {
-				System.err.println("Erro geral: "+ex.getMessage());
-			}
+			}				
 			
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(368, 81, 492, 201);
@@ -435,48 +361,27 @@ public class TelaCliente extends JFrame {
 			btn_ListarClientes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					//LISTA OS CLIENTES EM UMA JLIST
-					try {
-						//REALIZA A CONEXÃO COM O BD
-						ConexaoBD conectar = new ConexaoBD();
-						System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
-						
-						ClienteDB clienteBD = new ClienteDB();
-						
-						
-						//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
-						ArrayList<Cliente> listaClientes = clienteBD.listarClientes();
-						
-						model.clear();
-						
-						if(listaClientes != null) {
-							for(Cliente c: listaClientes) {
-								
-								model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
-								c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
-								
-							}
+					ArrayList<Cliente> listarClientes = cli.listar_clientes();
+					
+					model.clear();
+					
+					if(listarClientes != null) {
+						for(Cliente c: listarClientes) {
+							
+							model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
+							c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
+							
 						}
-						
-						conectar.fecharConexaoBD();
-						System.out.println("Conexão do JList com  BD Encerrada Com Sucesso!!!");
-						
 					}
-					catch (SQLException ex) {
-						System.err.println("Erro na conexão do BD: "+ex.getMessage());
-					}
-					catch (Exception ex) {
-						System.err.println("Erro geral: "+ex.getMessage());
-					}					
 				}
 			});
 			btn_ListarClientes.setBounds(674, 317, 139, 35);
 			painel_Principal.add(btn_ListarClientes);
 			
-			JLabel lblNewLabel = new JLabel("* Campos Obrigat\u00F3rios.");
-			lblNewLabel.setForeground(Color.RED);
-			lblNewLabel.setBounds(10, 292, 193, 14);
-			painel_Principal.add(lblNewLabel);
+			JLabel Label_Obs = new JLabel("* Campos Obrigat\u00F3rios.");
+			Label_Obs.setForeground(Color.RED);
+			Label_Obs.setBounds(10, 292, 193, 14);
+			painel_Principal.add(Label_Obs);
 			
 	}
 	

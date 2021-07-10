@@ -35,9 +35,9 @@ public class Fabricante extends Endereco {
 		
 	}
 	
-	public void deletar_cadastro() {
+	public void deletar_cadastro(Fabricante f) {
 		
 	}
-
+	
 	
 }

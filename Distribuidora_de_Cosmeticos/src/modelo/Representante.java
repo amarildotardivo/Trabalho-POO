@@ -43,7 +43,7 @@ public class Representante extends Endereco {
 			
 	}
 		
-	public void deletar_cadastro() {
+	public void deletar_cadastro(Representante r) {
 			
 	}
 	
