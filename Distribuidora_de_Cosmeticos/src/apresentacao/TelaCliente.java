@@ -209,6 +209,7 @@ public class TelaCliente extends JFrame {
 						
 						if(nomeRepresentante != "Selecione um Representante") {						
 							cli.realizar_cadastro();
+							JOptionPane.showMessageDialog(painel_Principal, "Cliente "+ cli.getNome() +"! \nSalvo(a) com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
 							
 						}else {
 							JOptionPane.showMessageDialog(painel_Principal, "Não é possível Cadastrar o Cliente: "+ cli.getNome() +"! \nSelecione ou Cadastre um Representante!", "Atenção!", JOptionPane.OK_OPTION);
@@ -315,13 +316,21 @@ public class TelaCliente extends JFrame {
 								(String)comboBox_Representante.getSelectedItem()
 							);
 						
-						boolean verifica = c.deletar_cadastro(c);
+						int confirma = JOptionPane.showConfirmDialog(painel_Principal, "Deseja Realmente Excluir o Cliente: "+ c.getNome() + "?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 						
-						if(verifica == true) {
-							JOptionPane.showMessageDialog(painel_Principal, "Cliente "+ c.getNome() +" Deletado(a) com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+						if(confirma == 0) {
+							
+							boolean verifica = c.deletar_cadastro(c);
+							
+							if(verifica == true) {
+								JOptionPane.showMessageDialog(painel_Principal, "Cliente "+ c.getNome() +" Deletado(a) com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+							}else {
+								JOptionPane.showMessageDialog(painel_Principal, "Não foi possível Deletar o Cliente: "+ c.getNome() +"! \nOcorreu um Erro!", "Atenção!!!", JOptionPane.OK_OPTION);
+							}
 						}else {
-							JOptionPane.showMessageDialog(painel_Principal, "Não foi possível Deletar o Cliente: "+ c.getNome() +"! \nOcorreu um Erro!", "Atenção!!!", JOptionPane.OK_OPTION);
+							JOptionPane.showMessageDialog(painel_Principal, "O Cliente: "+ c.getNome() +"! \nNão foi Deletada!!!", "Informação", JOptionPane.INFORMATION_MESSAGE);
 						}
+						
 					}else {
 						JOptionPane.showMessageDialog(painel_Principal, "Entre com o Nome do Cliente para Deletá-lo!", "Atenção!!!", JOptionPane.OK_OPTION);
 					}

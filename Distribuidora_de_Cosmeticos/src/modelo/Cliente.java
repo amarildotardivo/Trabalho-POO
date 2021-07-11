@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import apresentacao.TelaErro;
-import apresentacao.TelaInformacao;
 import persistencia.ClienteDB;
 import persistencia.ConexaoBD;
 import persistencia.RepresentanteBD;
@@ -79,10 +77,6 @@ public class Cliente extends Endereco{
 			stmt.executeUpdate();
 			System.out.println("Cliente Cadastrado com Sucesso!!!");
 			
-			//Popup de Informação
-			TelaInformacao tInformacao = new TelaInformacao("Cliente: " + getNome(), "Salvo com Sucesso!");
-			tInformacao.setVisible(true);
-			
 			//FECHA O COMANDO STMT E A CONEXÃO
 			stmt.close();
 			conectar.fecharConexaoBD();
@@ -90,15 +84,9 @@ public class Cliente extends Endereco{
 		}
 		catch (SQLException ex) {
 			System.err.println("Erro na conexão do BD: "+ex.getMessage());
-			//Popup de Erro
-			TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
-			tErro.setVisible(true);
 		}
 		catch (Exception ex) {
 			System.err.println("Erro geral: "+ex.getMessage());
-			//Popup de Erro
-			TelaErro tErro = new TelaErro("Error: " + ex);
-			tErro.setVisible(true);
 		}
 	}
 
