@@ -13,7 +13,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Cliente;
-import persistencia.ClienteDB;
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
@@ -42,6 +41,12 @@ public class TelaRelatorioCliente extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
+		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Clientes");
+		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
+		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		Label_Titulo.setBounds(0, 11, 854, 36);
+		panel.add(Label_Titulo);
+		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 91, 844, 359);
 		panel.add(scrollPane);
@@ -51,13 +56,15 @@ public class TelaRelatorioCliente extends JFrame {
 		table.setIntercellSpacing(new Dimension(5, 5));
 		table.setToolTipText("");
 		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "Nome", "Logradouro", "Numero", "Bairro", "Cidade", "Telefone", "CPF", "Representante"
-			}
-		));
+		
+//		table.setModel(new DefaultTableModel(
+//				new Object[][] {
+//				},
+//				new String[] {
+//					"ID", "Nome", "Logradouro", "Numero", "Bairro", "Cidade", "Telefone", "CPF", "Representante"
+//				}
+//		));
+		
 		table.setFont(table.getFont().deriveFont(Font.BOLD));
 		
 		DefaultTableModel tModel = new DefaultTableModel();
@@ -72,8 +79,8 @@ public class TelaRelatorioCliente extends JFrame {
 		tModel.addColumn("CPF");
 		tModel.addColumn("Representante");
 		
-		ClienteDB cliDB = new ClienteDB();
-		ArrayList<Cliente> listaClientes = cliDB.listarClientes();
+		Cliente c = new Cliente();
+		ArrayList<Cliente> listaClientes = c.listar_clientes();
 		
 		if(listaClientes.isEmpty() == false) {
 			for(Cliente cli: listaClientes) {
@@ -90,13 +97,6 @@ public class TelaRelatorioCliente extends JFrame {
 			}
 			table.setModel(tModel);
 		}
-		
-		
-		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Clientes");
-		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
-		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		Label_Titulo.setBounds(0, 11, 854, 36);
-		panel.add(Label_Titulo);
 		
 	}
 }

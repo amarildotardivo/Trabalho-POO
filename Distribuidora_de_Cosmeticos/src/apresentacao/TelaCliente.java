@@ -211,16 +211,11 @@ public class TelaCliente extends JFrame {
 							cli.realizar_cadastro();
 							
 						}else {
-							//Popup de Informação
-							TelaInformacao tInformacao = new TelaInformacao("Não é possível Cadastrar o Cliente!", "Selecione ou Cadastre um Representante!");
-							tInformacao.setVisible(true);
+							JOptionPane.showMessageDialog(painel_Principal, "Não é possível Cadastrar o Cliente: "+ cli.getNome() +"! \nSelecione ou Cadastre um Representante!", "Atenção!", JOptionPane.OK_OPTION);
 						}
 						
 					}else {
-						//JOptionPane.showMessageDialog(painel_Principal,"Não é possível Cadastrar o Cliente! \nSelecione ou Cadastre um Representante!", "Campo Representante Incorreto", JOptionPane.OK_OPTION);
-						//Popup de Informação
-						TelaInformacao tInformacao = new TelaInformacao("Não é possível Cadastrar o Cliente!", "Preencha o Campo Nome!");
-						tInformacao.setVisible(true);
+						JOptionPane.showMessageDialog(painel_Principal,"Não é possível Cadastrar o Cliente! \nPreencha o Campo Nome!", "Atenção!", JOptionPane.OK_OPTION);
 					}
 				}
 			});
@@ -245,12 +240,16 @@ public class TelaCliente extends JFrame {
 					cli.setNome_representante(nomeRepresentante);
 					
 					if(nomeRepresentante.equals("Selecione um Representante") != true ) {						
-						cli.editar_cliente();
+						boolean verificar = cli.editar_cliente();
+						
+						if(verificar == true) {				
+							JOptionPane.showMessageDialog(painel_Principal, "Cliente "+ cli.getNome() +"! \nEditado(a) com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							JOptionPane.showMessageDialog(painel_Principal, "Não foi Possível editar o(a) Cliente "+ cli.getNome() +"! \nOccorreu um Erro!", "Atenção!", JOptionPane.OK_OPTION);
+						}
 						
 					}else {
-						//Popup de Informação
-						TelaInformacao tInformacao = new TelaInformacao("Não é possível Editar o Cliente!", "Selecione ou Cadastre um Representante!");
-						tInformacao.setVisible(true);
+						JOptionPane.showMessageDialog(painel_Principal, "Não é possível Editar o Cliente! \nSelecione ou Cadastre um Representante!", "Atenção!", JOptionPane.OK_OPTION);
 					}
 					
 				}
@@ -280,7 +279,11 @@ public class TelaCliente extends JFrame {
 								textField_cpf.setText("" + c.getCpf());
 								comboBox_Representante.setSelectedItem(c.getNome_representante());
 								
+								JOptionPane.showMessageDialog(painel_Principal, "Busca do Cliente "+ c.getNome() +" Realizada com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
 							}
+							
+						}else {
+							JOptionPane.showMessageDialog(painel_Principal, "Não foi possível Buscar o Cliente! \nOcorreu um erro ao tentar encontrá-lo!", "Atenção!!!", JOptionPane.OK_OPTION);
 						}
 						
 					}else {
@@ -297,20 +300,31 @@ public class TelaCliente extends JFrame {
 			btn_Deletar = new JButton("DELETAR");
 			btn_Deletar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+											
+					if(textField_NomeCliente.getText().isEmpty() == false) {
 						
-					Cliente c = new Cliente(
-							Integer.parseInt(textField_id.getText()),
-							textField_NomeCliente.getText(), 
-							textField_Logradouro.getText(),
-							textField_Numero.getText(), 
-							textField_Bairro.getText(), 
-							textField_Cidade.getText(), 
-							textField_Telefone.getText(), 
-							textField_cpf.getText(), 
-							(String)comboBox_Representante.getSelectedItem()
-						);
-					
-					c.deletar_cadastro(c);
+						Cliente c = new Cliente(
+								Integer.parseInt(textField_id.getText()),
+								textField_NomeCliente.getText(), 
+								textField_Logradouro.getText(),
+								textField_Numero.getText(), 
+								textField_Bairro.getText(), 
+								textField_Cidade.getText(), 
+								textField_Telefone.getText(), 
+								textField_cpf.getText(), 
+								(String)comboBox_Representante.getSelectedItem()
+							);
+						
+						boolean verifica = c.deletar_cadastro(c);
+						
+						if(verifica == true) {
+							JOptionPane.showMessageDialog(painel_Principal, "Cliente "+ c.getNome() +" Deletado(a) com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							JOptionPane.showMessageDialog(painel_Principal, "Não foi possível Deletar o Cliente: "+ c.getNome() +"! \nOcorreu um Erro!", "Atenção!!!", JOptionPane.OK_OPTION);
+						}
+					}else {
+						JOptionPane.showMessageDialog(painel_Principal, "Entre com o Nome do Cliente para Deletá-lo!", "Atenção!!!", JOptionPane.OK_OPTION);
+					}
 					
 				}
 			});

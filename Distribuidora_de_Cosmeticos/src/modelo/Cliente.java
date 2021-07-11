@@ -110,7 +110,7 @@ public class Cliente extends Endereco{
 		return listaRep;
 	}
 	
-	public void editar_cliente() {
+	public boolean editar_cliente() {
 		try {
 			
 			//REALIZA A CONEXÃO COM O BD
@@ -141,33 +141,28 @@ public class Cliente extends Endereco{
 				System.out.println("Atualizado: "+ rowsAffected+" linha(s)");
 				System.out.println("Cliente Editado com Sucesso!!!");
 				
-				//Popup de Informação
-				TelaInformacao tInformacao = new TelaInformacao("Cliente: " + getNome(), "Editado com Sucesso!");
-				tInformacao.setVisible(true);
-				
 				//FECHA O COMANDO STMT E A CONEXÃO
 				stmt.close();
 				conectar.fecharConexaoBD();
 				System.out.println("Conexão Encerrada Com Sucesso!!!");
+				
+				return true;
 
 		}
 		catch (SQLException ex) {
 			System.err.println("Erro na conexão do BD: "+ex.getMessage());
-			//Popup de Erro
-			TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
-			tErro.setVisible(true);
 		}
 		catch (Exception ex) {
 			System.err.println("Erro geral: "+ex.getMessage());
-			//Popup de Erro
-			TelaErro tErro = new TelaErro("Error: " + ex);
-			tErro.setVisible(true);
 		}
+		
+		return false;
 	}
 	
-	public void deletar_cadastro(Cliente c) {
+	public boolean deletar_cadastro(Cliente c) {
 		ClienteDB cbd = new ClienteDB();
-		cbd.DeletarCliente(c);
+		boolean v = cbd.DeletarCliente(c);
+		return v;
 	}
 	
 	public ArrayList<Cliente> listar_clientes() {
