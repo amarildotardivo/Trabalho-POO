@@ -11,11 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import modelo.Cliente;
-import modelo.Estoque;
+import modelo.Produto;
 import modelo.Venda;
 import persistencia.ClienteDB;
 import persistencia.ConexaoBD;
-import persistencia.EstoqueBD;
+import persistencia.ProdutoBD;
 import persistencia.VendaBD;
 
 import javax.swing.JLabel;
@@ -106,13 +106,13 @@ public class TelaVenda extends JFrame {
 		try {
 			//Preenchendo o JComboBox de Clientes
 			ConexaoBD conectarBD = new ConexaoBD();
-			EstoqueBD estBD = new EstoqueBD();
+			ProdutoBD estBD = new ProdutoBD();
 			
-			ArrayList<Estoque> listaEst = estBD.listarProdutos();
+			ArrayList<Produto> listaEst = estBD.listarProdutos();
 			
 			comboBox_NomeProduto.addItem("Selecione um Produto");
 			
-			for(Estoque est: listaEst) {
+			for(Produto est: listaEst) {
 				comboBox_NomeProduto.addItem(est.getNome_produto());
 			}
 			
@@ -169,11 +169,11 @@ public class TelaVenda extends JFrame {
 					//BUSCA A QUANTIDADE DO PRODUTO EM ESTOQUE E DIMINUI COM A QUANTIDADE VENDIDA
 					String nome_produto = (String) comboBox_NomeProduto.getSelectedItem();
 					
-					EstoqueBD estBD = new EstoqueBD();
+					ProdutoBD estBD = new ProdutoBD();
 					
-					ArrayList<Estoque> listaEstoque = estBD.BuscarProduto(nome_produto);
+					ArrayList<Produto> listaEstoque = estBD.BuscarProduto(nome_produto);
 					int quantProdEst = 0;
-						for(Estoque est: listaEstoque) {
+						for(Produto est: listaEstoque) {
 							quantProdEst = est.getQuantidade();
 						}
 					

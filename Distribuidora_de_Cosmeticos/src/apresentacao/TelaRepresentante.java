@@ -417,7 +417,7 @@ public class TelaRepresentante extends JFrame {
 					}
 					
 					//BOTÃO QUE LISTA TODOS OS REPRESENTANTES NA TEXTAREA
-					btn_ListarClientes = new JButton("LISTAR CLIENTES");
+					btn_ListarClientes = new JButton("LISTAR REPRESENTANTES");
 					btn_ListarClientes.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							//LISTA OS REPRESENTANTES EM UMA TEXTAREA
@@ -462,7 +462,7 @@ public class TelaRepresentante extends JFrame {
 							}
 						}
 					});
-					btn_ListarClientes.setBounds(675, 307, 138, 35);
+					btn_ListarClientes.setBounds(675, 307, 168, 35);
 					painel_Principal.add(btn_ListarClientes);
 	}
 }

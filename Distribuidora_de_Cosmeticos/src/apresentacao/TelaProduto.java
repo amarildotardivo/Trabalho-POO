@@ -12,10 +12,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import modelo.Estoque;
+import modelo.Produto;
 import modelo.Fabricante;
 import persistencia.ConexaoBD;
-import persistencia.EstoqueBD;
+import persistencia.ProdutoBD;
 import persistencia.FabricanteBD;
 
 import javax.swing.JComboBox;
@@ -286,13 +286,13 @@ public class TelaProduto extends JFrame {
 								ConexaoBD conectar = new ConexaoBD();
 								System.out.println("Conexão Realizada Com Sucesso!!!");
 								
-								EstoqueBD estBd = new EstoqueBD();
+								ProdutoBD estBd = new ProdutoBD();
 														
 								//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
-								ArrayList<Estoque> listaProdutos = estBd.BuscarProduto(textField_NomeProduto.getText());
+								ArrayList<Produto> listaProdutos = estBd.BuscarProduto(textField_NomeProduto.getText());
 								
 								if(listaProdutos != null) {
-									for(Estoque est: listaProdutos) {
+									for(Produto est: listaProdutos) {
 										textField_id.setText("" + est.getId());
 										textField_NomeProduto.setText("" + est.getNome_produto());
 										textField_Quantidade.setText("" + est.getQuantidade());
@@ -323,11 +323,11 @@ public class TelaProduto extends JFrame {
 					btn_Deletar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							try {
-								Estoque est = new Estoque(Integer.parseInt(textField_id.getText()),textField_NomeProduto.getText(), textField_TipoProduto.getText(),
+								Produto est = new Produto(Integer.parseInt(textField_id.getText()),textField_NomeProduto.getText(), textField_TipoProduto.getText(),
 										Integer.parseInt(textField_Quantidade.getText()), Double.parseDouble(textField_PrecoCompra.getText()) , Double.parseDouble(textField_PrecoVenda.getText()), 
 										 String.valueOf(comboBox_NomeFabricante.getSelectedItem()) );
 								
-								EstoqueBD estBd = new EstoqueBD();
+								ProdutoBD estBd = new ProdutoBD();
 								estBd.DeletarProduto(est);
 								//Popup de Informação
 								TelaInformacao tInformacao = new TelaInformacao("Produto: " + textField_NomeProduto.getText(), "Deletado com Sucesso!");
@@ -367,14 +367,14 @@ public class TelaProduto extends JFrame {
 						ConexaoBD conectar = new ConexaoBD();
 						System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
 						
-						EstoqueBD estBd = new EstoqueBD();					
+						ProdutoBD estBd = new ProdutoBD();					
 						
 						//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
-						ArrayList<Estoque> listaProdutos = estBd.listarProdutos();
+						ArrayList<Produto> listaProdutos = estBd.listarProdutos();
 						
 						
 						if(listaProdutos != null) {
-							for(Estoque est: listaProdutos) {
+							for(Produto est: listaProdutos) {
 								
 								model.addElement(est.getId()+": "+ est.getNome_produto() + " - " + est.getTipo_produto() + " - " + est.getQuantidade() + " - " + 
 								est.getPreco_compra() + " - " + est.getPreco_venda() + " - " + est.getNome_fabricante() );
@@ -416,14 +416,14 @@ public class TelaProduto extends JFrame {
 								ConexaoBD conectar = new ConexaoBD();
 								System.out.println("Conexão do JList com  BD Realizada Com Sucesso!!!");
 								
-								EstoqueBD estBd = new EstoqueBD();					
+								ProdutoBD estBd = new ProdutoBD();					
 								
 								//TRÁS DO BANCO DE DADOS TODOS OS CLIENTES CADASTRADOS
-								ArrayList<Estoque> listaProdutos = estBd.listarProdutos();
+								ArrayList<Produto> listaProdutos = estBd.listarProdutos();
 								
 								model.clear();
 								if(listaProdutos != null) {
-									for(Estoque est: listaProdutos) {
+									for(Produto est: listaProdutos) {
 										
 										model.addElement(est.getId()+": "+ est.getNome_produto() + " - " + est.getTipo_produto() + " - " + est.getQuantidade() + " - " + 
 										est.getPreco_compra() + " - " + est.getPreco_venda() + " - " + est.getNome_fabricante() );

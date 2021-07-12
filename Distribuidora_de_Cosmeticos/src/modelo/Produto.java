@@ -1,11 +1,11 @@
 package modelo;
 
-public class Estoque {
+public class Produto {
 	private String nome_produto, tipo_produto, nome_fabricante;
 	private int id, quantidade;
 	private double preco_compra, preco_venda;
 	
-	public Estoque(int id, String nome_produto, String tipo_produto, int quantidade, double preco_compra, double preco_venda, String nome_fabricante) {
+	public Produto(int id, String nome_produto, String tipo_produto, int quantidade, double preco_compra, double preco_venda, String nome_fabricante) {
 		this.id = id;
 		this.nome_produto = nome_produto;
 		this.tipo_produto = tipo_produto;
@@ -15,7 +15,7 @@ public class Estoque {
 		this.nome_fabricante = nome_fabricante;
 	}
 	
-	public Estoque() {}
+	public Produto() {}
 	
 	
 	//GETER'S AND SETTER'S

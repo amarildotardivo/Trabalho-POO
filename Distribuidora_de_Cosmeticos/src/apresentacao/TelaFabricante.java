@@ -380,7 +380,7 @@ public class TelaFabricante extends JFrame {
 					}
 					
 					//BOTÃO QUE ATUALIZA O JLIST DO FABRICANTE
-					btn_ListarClientes = new JButton("LISTAR CLIENTES");
+					btn_ListarClientes = new JButton("LISTAR FABRICANTES");
 					btn_ListarClientes.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							//LISTA OS FABRICANTES EM UMA JLIST
@@ -417,7 +417,7 @@ public class TelaFabricante extends JFrame {
 							}
 						}
 					});
-					btn_ListarClientes.setBounds(682, 263, 138, 35);
+					btn_ListarClientes.setBounds(682, 263, 171, 35);
 					painel_Principal.add(btn_ListarClientes);
 					
 					lbl_ListaFabricantes = new JLabel("Lista de Fabricantes:");

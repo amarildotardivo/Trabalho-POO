@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import modelo.Estoque;
-import persistencia.EstoqueBD;
+import modelo.Produto;
+import persistencia.ProdutoBD;
 
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
@@ -71,11 +71,11 @@ public class TelaRelatorioProdutos extends JFrame {
 		tModel.addColumn("Nome Fabricante");
 		tModel.addColumn("Quantidade");
 		
-		EstoqueBD estBD = new EstoqueBD();
-		ArrayList<Estoque> listaEstoque = estBD.listarProdutos();
+		ProdutoBD estBD = new ProdutoBD();
+		ArrayList<Produto> listaEstoque = estBD.listarProdutos();
 		
 		if(listaEstoque.isEmpty() == false) {
-			for(Estoque est: listaEstoque) {
+			for(Produto est: listaEstoque) {
 				tModel.addRow(new String[] {
 						String.valueOf(est.getId()), 
 						est.getNome_produto(), 

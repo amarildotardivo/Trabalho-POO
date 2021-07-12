@@ -16,11 +16,13 @@ public class ClienteDB {
 			
 			//STRING COM A QUERY SQL 
 			String querySQL = "SELECT * FROM distribuidora_cosmeticos.cliente";
-			
+//			String repSQL = "SELECT * FROM distribuidora_cosmeticos.representante";
 			//CRIA O COMANDO SQL
-			PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
+			PreparedStatement stmtCli = conectar.conectarBD().prepareStatement(querySQL);
+//			PreparedStatement stmtRep = conectar.conectarBD().prepareStatement(repSQL);
 			
-			ResultSet rs = stmt.executeQuery();
+			ResultSet rs = stmtCli.executeQuery();
+//			ResultSet rsRep = stmtRep.executeQuery();
 			
 			ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
 			

@@ -5,11 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import modelo.Estoque;
+import modelo.Produto;
 
-public class EstoqueBD {
+public class ProdutoBD {
 	
-	public ArrayList<Estoque> BuscarProduto(String nome_busca){
+	public ArrayList<Produto> BuscarProduto(String nome_busca){
 		try {
 			//REALIZA CONEXÃO COM O BD
 			ConexaoBD conectar = new ConexaoBD();
@@ -22,10 +22,10 @@ public class EstoqueBD {
 			
 			ResultSet rs = stmt.executeQuery();
 			
-			ArrayList<Estoque> buscarProduto = new ArrayList<Estoque>();
+			ArrayList<Produto> buscarProduto = new ArrayList<Produto>();
 			
 			while(rs.next()) {
-				Estoque est = new Estoque(
+				Produto est = new Produto(
 						rs.getInt("id"), 
 						rs.getString("nome_produto"), 
 						rs.getString("tipo_produto"), 
@@ -52,7 +52,7 @@ public class EstoqueBD {
 		return null;
 	}
 	
-	public void DeletarProduto(Estoque est){
+	public void DeletarProduto(Produto est){
 		try {
 			//REALIZA CONEXÃO COM O BD
 			ConexaoBD conectar = new ConexaoBD();
@@ -78,7 +78,7 @@ public class EstoqueBD {
 		}
 	}
 	
-	public ArrayList<Estoque> listarProdutos(){
+	public ArrayList<Produto> listarProdutos(){
 		try {
 			//REALIZA CONEXÃO COM O BD
 			ConexaoBD conectar = new ConexaoBD();
@@ -91,10 +91,10 @@ public class EstoqueBD {
 			
 			ResultSet rs = stmt.executeQuery();
 			
-			ArrayList<Estoque> listaProdutos = new ArrayList<Estoque>();
+			ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
 			
 			while(rs.next()) {
-				Estoque est = new Estoque(
+				Produto est = new Produto(
 						rs.getInt("id"), 
 						rs.getString("nome_produto"), 
 						rs.getString("tipo_produto"), 

@@ -59,6 +59,9 @@ public class TelaCliente extends JFrame {
 
 	private Cliente cli = new Cliente();
 	
+	//DEFINE O MODELO DO JLIST
+	private DefaultListModel<String> model = new DefaultListModel<>();
+	
 	public String getNomeCliente() {
 		return textField_NomeCliente.getText();
 	}
@@ -184,7 +187,8 @@ public class TelaCliente extends JFrame {
 			lbl_ListaClientes.setBounds(368, 61, 109, 14);
 			painel_Principal.add(lbl_ListaClientes);
 			
-			
+			//Inicializa a lista de Clientes na JList
+			listarTodosCliente();
 			
 			//FUNÇÃO DE INCLUIR NO BANCO DE DADOS
 			JButton btn_Salvar = new JButton("SALVAR");			
@@ -209,6 +213,7 @@ public class TelaCliente extends JFrame {
 						
 						if(nomeRepresentante != "Selecione um Representante") {						
 							cli.realizar_cadastro();
+							listarTodosCliente();
 							JOptionPane.showMessageDialog(painel_Principal, "Cliente "+ cli.getNome() +"! \nSalvo(a) com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
 							
 						}else {
@@ -248,6 +253,7 @@ public class TelaCliente extends JFrame {
 						}else {
 							JOptionPane.showMessageDialog(painel_Principal, "Não foi Possível editar o(a) Cliente "+ cli.getNome() +"! \nOccorreu um Erro!", "Atenção!", JOptionPane.OK_OPTION);
 						}
+						listarTodosCliente();
 						
 					}else {
 						JOptionPane.showMessageDialog(painel_Principal, "Não é possível Editar o Cliente! \nSelecione ou Cadastre um Representante!", "Atenção!", JOptionPane.OK_OPTION);
@@ -316,7 +322,7 @@ public class TelaCliente extends JFrame {
 								(String)comboBox_Representante.getSelectedItem()
 							);
 						
-						int confirma = JOptionPane.showConfirmDialog(painel_Principal, "Deseja Realmente Excluir o Cliente: "+ c.getNome() + "?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						int confirma = JOptionPane.showConfirmDialog(painel_Principal, "Deseja Realmente Excluir o(a) Cliente: "+ c.getNome() + "?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 						
 						if(confirma == 0) {
 							
@@ -327,8 +333,11 @@ public class TelaCliente extends JFrame {
 							}else {
 								JOptionPane.showMessageDialog(painel_Principal, "Não foi possível Deletar o Cliente: "+ c.getNome() +"! \nOcorreu um Erro!", "Atenção!!!", JOptionPane.OK_OPTION);
 							}
+							listarTodosCliente();
+							
+							
 						}else {
-							JOptionPane.showMessageDialog(painel_Principal, "O Cliente: "+ c.getNome() +"! \nNão foi Deletada!!!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(painel_Principal, "O Cliente: "+ c.getNome() +"! \nNão foi Deletado(a)!!!", "Informação", JOptionPane.INFORMATION_MESSAGE);
 						}
 						
 					}else {
@@ -356,22 +365,7 @@ public class TelaCliente extends JFrame {
 				}
 			});
 			btn_Limpar.setBounds(549, 317, 100, 35);
-			painel_Principal.add(btn_Limpar);
-			
-			//DEFINE O MODELO DO JLIST
-			DefaultListModel<String> model = new DefaultListModel<>();
-			
-			//LISTA OS CLIENTES EM UMA JLIST
-			ArrayList<Cliente> listarClientes = cli.listar_clientes();
-			
-			if(listarClientes != null) {
-				for(Cliente c: listarClientes) {
-					
-					model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
-					c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
-					
-				}
-			}				
+			painel_Principal.add(btn_Limpar);		
 			
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(368, 81, 492, 201);
@@ -385,19 +379,7 @@ public class TelaCliente extends JFrame {
 			btn_ListarClientes = new JButton("LISTAR CLIENTES");
 			btn_ListarClientes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					ArrayList<Cliente> listarClientes = cli.listar_clientes();
-					
-					model.clear();
-					
-					if(listarClientes != null) {
-						for(Cliente c: listarClientes) {
-							
-							model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
-							c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
-							
-						}
-					}
+					listarTodosCliente();
 				}
 			});
 			btn_ListarClientes.setBounds(674, 317, 139, 35);
@@ -408,6 +390,21 @@ public class TelaCliente extends JFrame {
 			Label_Obs.setBounds(10, 292, 193, 14);
 			painel_Principal.add(Label_Obs);
 			
+	}
+	
+	public void listarTodosCliente() {
+		ArrayList<Cliente> listarClientes = cli.listar_clientes();
+		
+		model.clear();
+		
+		if(listarClientes != null) {
+			for(Cliente c: listarClientes) {
+				
+				model.addElement(c.getId()+": "+ c.getNome() + " - " + c.getLogradouro() + " - " + c.getNumero() + " - " + 
+				c.getBairro() + " - " + c.getCidade() + " - " + c.getTelefone() + " - " + c.getCpf() + " - " + c.getNome_representante());
+				
+			}
+		}
 	}
 	
 	
