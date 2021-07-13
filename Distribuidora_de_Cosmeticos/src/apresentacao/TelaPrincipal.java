@@ -21,6 +21,8 @@ import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import javax.swing.JSeparator;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
@@ -32,7 +34,7 @@ public class TelaPrincipal extends JFrame {
 		setTitle("Sistema de Distribuidora de Cosm\u00E9ticos");
 		
 		//FRAME *****************************************************************************************************
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(900, 600);
 		setLocationRelativeTo(null);
 		
@@ -69,7 +71,7 @@ public class TelaPrincipal extends JFrame {
 			Menu_Sair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_END, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
 			Menu_Sair.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					dispose();
+					finalizarSistema();
 				}
 			});
 			Menu_Sair.setPreferredSize(new Dimension(71, 30));
@@ -217,6 +219,28 @@ public class TelaPrincipal extends JFrame {
 			Label_Wallpaper.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/imagens/wallpaper_O.jpg")));
 			painel_Wallpaper.add(Label_Wallpaper);
 			
-			
+			addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					finalizarSistema();
+				}
+			});
 	}
+	
+	public void finalizarSistema() {
+		Object[] options = { "Sim, Absoluta!", "Não, Cliquei sem querer!" };
+		int sair = JOptionPane.showOptionDialog(null, 
+				"Tem certeza que deseja encerrar o Sistema?", "Atenção!!!", 
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		
+		if(sair == JOptionPane.YES_OPTION){
+			System.out.println("Sistema Finalizado com Sucesso!");
+			System.exit(0);
+		}else {
+			System.out.println("Foi cancelada a ação de encerrar o sistema!");
+			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		}
+	}
+	
 }

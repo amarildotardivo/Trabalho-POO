@@ -54,7 +54,6 @@ public class TelaCliente extends JFrame {
 	private JButton btn_Editar;
 	private JLabel lbl_id;
 	private JTextField textField_id;
-	private JButton btn_ListarClientes;
 	private JScrollPane scrollPane;
 
 	private Cliente cli = new Cliente();
@@ -192,7 +191,7 @@ public class TelaCliente extends JFrame {
 			
 			//FUNÇÃO DE INCLUIR NO BANCO DE DADOS
 			JButton btn_Salvar = new JButton("SALVAR");			
-			btn_Salvar.setBounds(51, 317, 100, 35);
+			btn_Salvar.setBounds(129, 317, 100, 35);
 			btn_Salvar.addActionListener(new ActionListener() {
 				//@SuppressWarnings("static-access")
 				public void actionPerformed(ActionEvent e) {
@@ -261,7 +260,7 @@ public class TelaCliente extends JFrame {
 					
 				}
 			});
-			btn_Editar.setBounds(176, 317, 100, 35);
+			btn_Editar.setBounds(254, 317, 100, 35);
 			painel_Principal.add(btn_Editar);
 			
 			//FUNÇÃO DE CONSULTAR NO BANCO DE DADOS
@@ -300,7 +299,7 @@ public class TelaCliente extends JFrame {
 					
 				}
 			});
-			btn_Buscar.setBounds(302, 317, 100, 35);
+			btn_Buscar.setBounds(380, 317, 100, 35);
 			painel_Principal.add(btn_Buscar);
 			
 			//FUNÇÃO DE DELETAR DO BANCO DE DADOS
@@ -346,7 +345,7 @@ public class TelaCliente extends JFrame {
 					
 				}
 			});
-			btn_Deletar.setBounds(426, 317, 100, 35);
+			btn_Deletar.setBounds(504, 317, 100, 35);
 			painel_Principal.add(btn_Deletar);
 			
 			//LIMPA TODOS OS TEXTFIELDS
@@ -364,7 +363,7 @@ public class TelaCliente extends JFrame {
 					comboBox_Representante.setSelectedItem("");
 				}
 			});
-			btn_Limpar.setBounds(549, 317, 100, 35);
+			btn_Limpar.setBounds(627, 317, 100, 35);
 			painel_Principal.add(btn_Limpar);		
 			
 			scrollPane = new JScrollPane();
@@ -374,16 +373,6 @@ public class TelaCliente extends JFrame {
 			JList<String> list_ListarClientes = new JList<>(model);
 			scrollPane.setViewportView(list_ListarClientes);
 			list_ListarClientes.setBorder(new EmptyBorder(5, 5, 5, 5));
-			
-			//BOTÃO DE LISTAR CLIENTES NO JLIST
-			btn_ListarClientes = new JButton("LISTAR CLIENTES");
-			btn_ListarClientes.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					listarTodosCliente();
-				}
-			});
-			btn_ListarClientes.setBounds(674, 317, 139, 35);
-			painel_Principal.add(btn_ListarClientes);
 			
 			JLabel Label_Obs = new JLabel("* Campos Obrigat\u00F3rios.");
 			Label_Obs.setForeground(Color.RED);
