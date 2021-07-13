@@ -231,31 +231,38 @@ public class TelaCliente extends JFrame {
 			btn_Editar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					//INSERINDO COMPONENTES DE TELA EM VARIAVEIS
-					String nomeRepresentante = (String) comboBox_Representante.getSelectedItem();
+					if(textField_NomeCliente.getText().isEmpty() == false) {
 					
-					cli.setId(Integer.parseInt(textField_id.getText()));
-					cli.setNome(getNomeCliente());
-					cli.setLogradouro(textField_Logradouro.getText());
-					cli.setNumero(textField_Numero.getText());
-					cli.setBairro(textField_Bairro.getText());
-					cli.setCidade(textField_Cidade.getText());
-					cli.setTelefone(textField_Telefone.getText());
-					cli.setCpf(textField_cpf.getText());
-					cli.setNome_representante(nomeRepresentante);
-					
-					if(nomeRepresentante.equals("Selecione um Representante") != true ) {						
-						boolean verificar = cli.editar_cliente();
+						//INSERINDO COMPONENTES DE TELA EM VARIAVEIS
+						String nomeRepresentante = (String) comboBox_Representante.getSelectedItem();
 						
-						if(verificar == true) {				
-							JOptionPane.showMessageDialog(painel_Principal, "Cliente "+ cli.getNome() +"! \nEditado(a) com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+						cli.setId(Integer.parseInt(textField_id.getText()));
+						cli.setNome(getNomeCliente());
+						cli.setLogradouro(textField_Logradouro.getText());
+						cli.setNumero(textField_Numero.getText());
+						cli.setBairro(textField_Bairro.getText());
+						cli.setCidade(textField_Cidade.getText());
+						cli.setTelefone(textField_Telefone.getText());
+						cli.setCpf(textField_cpf.getText());
+						cli.setNome_representante(nomeRepresentante);
+						
+						if(nomeRepresentante.equals("Selecione um Representante") != true ) {						
+							boolean verificar = cli.editar_cliente();
+							
+							if(verificar == true) {				
+								JOptionPane.showMessageDialog(painel_Principal, "Cliente "+ cli.getNome() +"! \nEditado(a) com Sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+							}else {
+								JOptionPane.showMessageDialog(painel_Principal, "Não foi Possível editar o(a) Cliente "+ cli.getNome() +"! \nOccorreu um Erro!", "Atenção!", JOptionPane.OK_OPTION);
+							}
+							listarTodosCliente();
+							
 						}else {
-							JOptionPane.showMessageDialog(painel_Principal, "Não foi Possível editar o(a) Cliente "+ cli.getNome() +"! \nOccorreu um Erro!", "Atenção!", JOptionPane.OK_OPTION);
+							JOptionPane.showMessageDialog(painel_Principal, "Não é possível Editar o Cliente! \nSelecione ou Cadastre um Representante!", "Atenção!", JOptionPane.OK_OPTION);
 						}
-						listarTodosCliente();
-						
+					
 					}else {
-						JOptionPane.showMessageDialog(painel_Principal, "Não é possível Editar o Cliente! \nSelecione ou Cadastre um Representante!", "Atenção!", JOptionPane.OK_OPTION);
+						System.err.println("Erro ao Editar o cliente, pois não foi informado o nome do mesmo!");
+						JOptionPane.showMessageDialog(painel_Principal, "Não é possível Editar o Cliente! \nPreencha o campo Nome e realize a Busca, para poder Editar!", "Campo Nome do Cliente Incorreto", JOptionPane.OK_OPTION);
 					}
 					
 				}
