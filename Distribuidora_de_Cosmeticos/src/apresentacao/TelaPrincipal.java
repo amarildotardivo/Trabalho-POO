@@ -158,8 +158,8 @@ public class TelaPrincipal extends JFrame {
 				Menu_Fabricante.add(Menu_Listar_Fabricantes);
 			
 			//MENU ESTOQUE ***************************************************************************************************
-			JMenu Menu_Estoque = new JMenu("Estoque");
-			menuBar_Principal.add(Menu_Estoque);
+			JMenu mnProduto = new JMenu("Produto");
+			menuBar_Principal.add(mnProduto);
 			
 				JMenuItem Menu_Gerenciar_Produto = new JMenuItem("Gerenciar Produto");
 				Menu_Gerenciar_Produto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.CTRL_MASK));
@@ -170,7 +170,7 @@ public class TelaPrincipal extends JFrame {
 						cad_Produto.setVisible(true);
 					}
 				});
-				Menu_Estoque.add(Menu_Gerenciar_Produto);
+				mnProduto.add(Menu_Gerenciar_Produto);
 				
 				JMenuItem Menu_Listar_Produtos = new JMenuItem("Relat\u00F3rio de Produtos");
 				Menu_Listar_Produtos.addActionListener(new ActionListener() {
@@ -180,7 +180,7 @@ public class TelaPrincipal extends JFrame {
 					}
 				});
 				Menu_Listar_Produtos.setPreferredSize(new Dimension(131, 30));
-				Menu_Estoque.add(Menu_Listar_Produtos);
+				mnProduto.add(Menu_Listar_Produtos);
 			
 			//MENU VENDA ********************************************************************************************************
 			JMenu Menu_Venda = new JMenu("Venda");

@@ -3,6 +3,7 @@ package apresentacao;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultListModel;
@@ -30,11 +32,15 @@ import javax.swing.JSpinner;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JTextField;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
 
 @SuppressWarnings("serial")
 public class TelaVenda extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField text_Preco_Unitario;
 
 	
 	@SuppressWarnings({ "unchecked", "deprecation" })
@@ -95,11 +101,57 @@ public class TelaVenda extends JFrame {
 			tErro.setVisible(true);
 		}
 		
+		JLabel lbl_Quantidade = new JLabel("Quant.:");
+		lbl_Quantidade.setBounds(341, 132, 60, 14);
+		panel.add(lbl_Quantidade);
+		
+		JSpinner spinner_Quantidade = new JSpinner();
+		spinner_Quantidade.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		spinner_Quantidade.setBounds(341, 151, 46, 29);
+		panel.add(spinner_Quantidade);
+		
 		JLabel lbl_NomeProduto = new JLabel("Produto:");
 		lbl_NomeProduto.setBounds(10, 132, 197, 14);
 		panel.add(lbl_NomeProduto);
 		
 		JComboBox<Object> comboBox_NomeProduto = new JComboBox<Object>();
+		comboBox_NomeProduto.addPopupMenuListener(new PopupMenuListener() {
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				
+				String querySQL = "SELECT * FROM distribuidora_cosmeticos.estoque WHERE nome_produto = ?";
+				
+				try {
+					ConexaoBD con = new ConexaoBD();
+					PreparedStatement ps = con.conectarBD().prepareStatement(querySQL);
+					ps.setString(1,(String) comboBox_NomeProduto.getSelectedItem());
+					
+					ResultSet rs = ps.executeQuery();
+					
+					if(comboBox_NomeProduto.getSelectedItem().equals("Selecione um Produto") == true) {
+						text_Preco_Unitario.setText("");
+					}
+					
+					if(rs.next()) {						
+						text_Preco_Unitario.setText(Double.toString(rs.getDouble("preco_venda")));
+					}
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		comboBox_NomeProduto.setBounds(10, 151, 321, 29);
 		panel.add(comboBox_NomeProduto);
 		
@@ -123,16 +175,6 @@ public class TelaVenda extends JFrame {
 			TelaErro tErro = new TelaErro("Error de Banco de Dados: " + ex);
 			tErro.setVisible(true);
 		}
-		
-		
-		JLabel lbl_Quantidade = new JLabel("Quant.:");
-		lbl_Quantidade.setBounds(341, 132, 60, 14);
-		panel.add(lbl_Quantidade);
-		
-		JSpinner spinner_Quantidade = new JSpinner();
-		spinner_Quantidade.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinner_Quantidade.setBounds(341, 151, 46, 29);
-		panel.add(spinner_Quantidade);
 		
 		JButton btn_Vender = new JButton("VENDER");
 		btn_Vender.addActionListener(new ActionListener() {
@@ -188,14 +230,38 @@ public class TelaVenda extends JFrame {
 					//VERIFICA SE A VENDA PODE SER REALIZADA
 					if( (comboBox_NomeCliente.getSelectedItem().toString() != "Selecione um Cliente") && (comboBox_NomeProduto.getSelectedItem().toString() != "Selecione um Produto") ) {
 						if( (quantProdEst >= quantProdSolicitada) && (quantProdEst > 0) ) {
-							//EXECUTA A QUERY NO BANCO DE DADOS PARA REALIZAR A VENDA
-							stmt.executeUpdate();
-							//EXECUTA A QUERY NO BANCO DE DADOS PARA ATUALIZAR O ESTOQUE
-							pst.executeUpdate();
-							System.out.println("Venda Realizada com Sucesso!!!");
-							//Popup de Informação
-							TelaInformacao tInformacao = new TelaInformacao("Venda: " + comboBox_NomeCliente.getSelectedItem(), "Realizada com Sucesso!");
-							tInformacao.setVisible(true);
+
+							//CALCULA O TOTAL DA COMPRA DESEJADA 
+							double preco_uni = Double.parseDouble(text_Preco_Unitario.getText());
+							int quant = (Integer)spinner_Quantidade.getValue();
+							double total = preco_uni * quant;
+							
+							String nome_prod = comboBox_NomeProduto.getSelectedItem().toString();
+							
+							Object[] options = { "Sim, posso pagar!", "Não, não tenho Dinheiro!" };
+							int sair = JOptionPane.showOptionDialog(panel, 
+									
+									"Sua compra do produto: "+ nome_prod +" tatoliza: R$"+ total + "\nDeseja realizar a compra?", "Total", 
+									
+									JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+							
+							//VERIFICA SE O USUÁRIO DESEJA PROSSEGUIR COM A COMPRA
+							if(sair == JOptionPane.YES_OPTION){
+								
+								//EXECUTA A QUERY NO BANCO DE DADOS PARA REALIZAR A VENDA
+								stmt.executeUpdate();
+								//EXECUTA A QUERY NO BANCO DE DADOS PARA ATUALIZAR O ESTOQUE
+								pst.executeUpdate();
+								
+								System.out.println("Venda Realizada com Sucesso!!!");
+								//Popup de Informação
+								TelaInformacao tInformacao = new TelaInformacao("Venda: " + comboBox_NomeCliente.getSelectedItem(), "Realizada com Sucesso!");
+								tInformacao.setVisible(true);
+								
+							}else {
+								System.out.println("O cliente desistiu de comprar o produto: "+ nome_prod);
+								JOptionPane.showMessageDialog(panel,"Compra Cancelada!", "Cancelamento", JOptionPane.INFORMATION_MESSAGE);								
+							}
 							
 						}else {
 							System.out.println("Venda Não pode ser Realizada!");
@@ -315,6 +381,15 @@ public class TelaVenda extends JFrame {
 		});
 		btn_ListarVendas.setBounds(411, 259, 148, 35);
 		panel.add(btn_ListarVendas);
+		
+		JLabel lbl_Preco_Unitario = new JLabel("Pre\u00E7o unit\u00E1rio:");
+		lbl_Preco_Unitario.setBounds(10, 191, 100, 14);
+		panel.add(lbl_Preco_Unitario);
+		
+		text_Preco_Unitario = new JTextField();
+		text_Preco_Unitario.setBounds(10, 210, 86, 29);
+		panel.add(text_Preco_Unitario);
+		text_Preco_Unitario.setColumns(10);
 		
 	}
 }

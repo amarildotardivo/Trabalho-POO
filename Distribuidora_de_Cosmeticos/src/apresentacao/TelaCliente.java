@@ -206,6 +206,13 @@ public class TelaCliente extends JFrame {
 					cli.setCidade(textField_Cidade.getText());
 					cli.setTelefone(textField_Telefone.getText());
 					cli.setCpf(textField_cpf.getText());
+					
+//					for(Representante r : listarRep) {
+//						if(comboBox_Representante.getSelectedItem().equals(r.getNome())) {
+//							System.out.println(r.getId());
+//						}
+//					}
+					
 					cli.setNome_representante(nomeRepresentante);
 					
 					if(getNomeCliente().isBlank() == false) {
