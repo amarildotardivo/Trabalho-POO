@@ -57,7 +57,7 @@ public class TelaPrincipal extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					JOptionPane.showMessageDialog(null,"Instituto Federal Fluminense - IFF Campos (Campus Centro)"
 							+ "\nDisciplina de Programaçao Orientada a Objetos"
-							+ "\nAplicação em Java usando Banco de Dados - versão 3.0"
+							+ "\nAplicação em Java usando Banco de Dados - versão 5.0"
 							+ "\nDesenvolvido por: @amarildotardivo","Sobre a Aplicação",JOptionPane.INFORMATION_MESSAGE);
 				}
 			});

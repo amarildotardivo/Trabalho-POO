@@ -24,6 +24,7 @@ import javax.swing.ListModel;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -57,7 +58,6 @@ public class TelaProduto extends JFrame {
 				setResizable(false);
 				setTitle("Gerenciamento de Produto");
 				setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCliente.class.getResource("/imagens/icon_cadastro.png")));
-				setAlwaysOnTop(true);
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				setSize(890, 360);
 				setLocationRelativeTo(null);
@@ -180,12 +180,15 @@ public class TelaProduto extends JFrame {
 								PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
 								
 								String nomeFab = (String) comboBox_NomeFabricante.getSelectedItem();
+								double preco_comp = Double.valueOf(textField_PrecoCompra.getText());
+								double preco_venda = Double.valueOf(textField_PrecoVenda.getText());
+								int quant = Integer.parseInt(textField_Quantidade.getText());
 								
 								//SETA OS VALORES NA STRING querySQL
 								stmt.setString(1, textField_NomeProduto.getText());
-								stmt.setInt(2, Integer.parseInt(textField_Quantidade.getText()));
-								stmt.setDouble(3, Double.parseDouble(textField_PrecoCompra.getText()));
-								stmt.setDouble(4, Double.parseDouble(textField_PrecoVenda.getText()));
+								stmt.setInt(2, quant);
+								stmt.setDouble(3, preco_comp);
+								stmt.setDouble(4, preco_venda);
 								stmt.setString(5, textField_TipoProduto.getText());
 								stmt.setString(6, nomeFab);
 								

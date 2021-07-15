@@ -50,7 +50,6 @@ public class TelaVenda extends JFrame {
 		setSize(890, 360);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCliente.class.getResource("/imagens/icon_cadastro.png")));
 		contentPane = new JPanel();
@@ -132,10 +131,11 @@ public class TelaVenda extends JFrame {
 					}
 					
 					if(rs.next()) {						
-						text_Preco_Unitario.setText(Double.toString(rs.getDouble("preco_venda")));
+						String preco_uni = Double.toString(rs.getDouble("preco_venda"));
+						text_Preco_Unitario.setText(preco_uni);
 					}
 				} catch (Exception e2) {
-					// TODO: handle exception
+					System.err.println("Erro ao tentar mostrar o Preço unitário! "+ e2);
 				}
 			}
 
@@ -186,8 +186,8 @@ public class TelaVenda extends JFrame {
 					System.out.println("Conexão Realizada Com Sucesso!!!");
 					
 					//CRIA A STRING SQL
-					String querySQL = "INSERT INTO distribuidora_cosmeticos.venda (nome_cliente, nome_produto, quantidade) "
-							+ "VALUES(?,?,?)";
+					String querySQL = "INSERT INTO distribuidora_cosmeticos.venda (nome_cliente, nome_produto, quantidade, preco_unitario, total) "
+							+ "VALUES(?,?,?, ?, ?)";
 					
 					//CRIA O COMANDO SQL
 					PreparedStatement stmt = conectar.conectarBD().prepareStatement(querySQL);
@@ -199,6 +199,7 @@ public class TelaVenda extends JFrame {
 					stmt.setString(1, nomeCli);
 					stmt.setString(2, nomeProd);
 					stmt.setInt(3, (Integer) spinner_Quantidade.getValue());
+					stmt.setDouble(4, Double.parseDouble(text_Preco_Unitario.getText()));
 					
 					
 					//SQL PARA DIMINUIR A QUANTIDADE DO PRODUTO
@@ -239,15 +240,15 @@ public class TelaVenda extends JFrame {
 							String nome_prod = comboBox_NomeProduto.getSelectedItem().toString();
 							
 							Object[] options = { "Sim, posso pagar!", "Não, não tenho Dinheiro!" };
-							int sair = JOptionPane.showOptionDialog(panel, 
+							int pagamento = JOptionPane.showOptionDialog(panel, 
 									
 									"Sua compra do produto: "+ nome_prod +" tatoliza: R$"+ total + "\nDeseja realizar a compra?", "Total", 
 									
 									JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 							
 							//VERIFICA SE O USUÁRIO DESEJA PROSSEGUIR COM A COMPRA
-							if(sair == JOptionPane.YES_OPTION){
-								
+							if(pagamento == JOptionPane.YES_OPTION){
+								stmt.setDouble(5, total);
 								//EXECUTA A QUERY NO BANCO DE DADOS PARA REALIZAR A VENDA
 								stmt.executeUpdate();
 								//EXECUTA A QUERY NO BANCO DE DADOS PARA ATUALIZAR O ESTOQUE
@@ -319,7 +320,7 @@ public class TelaVenda extends JFrame {
 			if(listaVendas != null) {
 				for(Venda venda: listaVendas) {
 					
-					model.addElement(venda.getId()+": "+ venda.getNome_cliente() + " - " + venda.getNome_produto() + " - " + venda.getQuantidade() );
+					model.addElement(venda.getId()+": "+ venda.getNome_cliente() + " - " + venda.getNome_produto() + " - " + venda.getQuantidade() + " - " + venda.getPreco_unitario() + " - " + venda.getTotal() );
 					
 				}
 			}
@@ -362,7 +363,7 @@ public class TelaVenda extends JFrame {
 					if(listaVendas != null) {
 						for(Venda venda: listaVendas) {
 							
-							model.addElement(venda.getId()+": "+ venda.getNome_cliente() + " - " + venda.getNome_produto() + " - " + venda.getQuantidade() );
+							model.addElement(venda.getId()+": "+ venda.getNome_cliente() + " - " + venda.getNome_produto() + " - " + venda.getQuantidade() + " - " + venda.getPreco_unitario() + " - " + venda.getTotal() );
 							
 						}
 					}
@@ -387,9 +388,11 @@ public class TelaVenda extends JFrame {
 		panel.add(lbl_Preco_Unitario);
 		
 		text_Preco_Unitario = new JTextField();
+		text_Preco_Unitario.setEditable(false);
 		text_Preco_Unitario.setBounds(10, 210, 86, 29);
 		panel.add(text_Preco_Unitario);
 		text_Preco_Unitario.setColumns(10);
 		
 	}
 }
+

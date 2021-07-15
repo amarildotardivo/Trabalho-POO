@@ -29,7 +29,9 @@ public class VendaBD {
 						rs.getInt("id"), 
 						rs.getString("nome_cliente"),
 						rs.getString("nome_produto"),
-						rs.getInt("quantidade")
+						rs.getInt("quantidade"),
+						rs.getDouble("preco_unitario"),
+						rs.getDouble("total")
 						);
 				
 				listaVendas.add(venda);

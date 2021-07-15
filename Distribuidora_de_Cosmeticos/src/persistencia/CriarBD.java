@@ -71,8 +71,10 @@ public class CriarBD {
 				+ "    id int KEY AUTO_INCREMENT,\r\n"
 				+ "    nome_cliente VARCHAR(255),\r\n"
 				+ "    nome_produto VARCHAR(255),\r\n"
-				+ "    quantidade INT\r\n"
-				+ ");");
+				+ "    quantidade INT,\r\n"
+				+ "    preco_unitario DOUBLE,\r\n"
+				+ "    total DOUBLE \r\n"
+				+");");
 		System.out.println("Criada tabela VENDA!");
 		
 		conexao.fecharConexaoBD();

@@ -30,7 +30,6 @@ public class TelaRelatorioFabricante extends JFrame {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRelatorioCliente.class.getResource("/imagens/icon_cadastro.png")));
 		setTitle("Relat\u00F3rio de Fabricantes");
-		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(890, 500);
 		setLocationRelativeTo(null);
@@ -42,6 +41,12 @@ public class TelaRelatorioFabricante extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
+		
+		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Fabricantes");
+		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
+		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		Label_Titulo.setBounds(0, 11, 854, 36);
+		panel.add(Label_Titulo);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 91, 844, 359);
@@ -91,12 +96,15 @@ public class TelaRelatorioFabricante extends JFrame {
 			table.setModel(tModel);
 		}
 		
-		
-		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Fabricantes");
-		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
-		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		Label_Titulo.setBounds(0, 11, 854, 36);
-		panel.add(Label_Titulo);
+		table.getColumnModel().getColumn(0).setPreferredWidth(40);//ID
+		table.getColumnModel().getColumn(0).setMaxWidth(60);//ID
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);//NOME
+		table.getColumnModel().getColumn(2).setPreferredWidth(100);//LOGRADOURO
+		table.getColumnModel().getColumn(3).setPreferredWidth(55);//NUMERO
+		table.getColumnModel().getColumn(4).setPreferredWidth(80);//BAIRRO
+		table.getColumnModel().getColumn(5).setPreferredWidth(80);//CIDADE
+		table.getColumnModel().getColumn(6).setPreferredWidth(80);//TEL
+		table.getColumnModel().getColumn(7).setPreferredWidth(120);//CNPJ
 		
 	}
 }

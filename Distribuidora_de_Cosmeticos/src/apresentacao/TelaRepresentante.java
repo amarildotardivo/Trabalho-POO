@@ -52,7 +52,6 @@ public class TelaRepresentante extends JFrame {
 				setResizable(false);
 				setTitle("Gerenciamento de Representante");
 				setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRepresentante.class.getResource("/imagens/icon_cadastro.png")));
-				setAlwaysOnTop(true);
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				setSize(880, 410);
 				setLocationRelativeTo(null);
@@ -210,7 +209,7 @@ public class TelaRepresentante extends JFrame {
 							}
 						}
 					});
-					btn_Salvar.setBounds(54, 307, 100, 35);
+					btn_Salvar.setBounds(21, 306, 100, 35);
 					painel_Principal.add(btn_Salvar);
 					
 					//FUNÇÃO DE ALTERAR NO BANCO DE DADOS
@@ -270,7 +269,7 @@ public class TelaRepresentante extends JFrame {
 							}
 						}
 					});
-					btn_Editar.setBounds(179, 307, 100, 35);
+					btn_Editar.setBounds(146, 306, 100, 35);
 					painel_Principal.add(btn_Editar);
 					
 					//FUNÇÃO DE CONSULTAR NO BANCO DE DADOS
@@ -314,7 +313,7 @@ public class TelaRepresentante extends JFrame {
 							}
 						}
 					});
-					btn_Buscar.setBounds(305, 307, 100, 35);
+					btn_Buscar.setBounds(272, 306, 100, 35);
 					painel_Principal.add(btn_Buscar);
 					
 					//FUNÇÃO DE DELETAR DO BANCO DE DADOS
@@ -342,7 +341,7 @@ public class TelaRepresentante extends JFrame {
 							}
 						}
 					});
-					btn_Deletar.setBounds(429, 307, 100, 35);
+					btn_Deletar.setBounds(396, 306, 100, 35);
 					painel_Principal.add(btn_Deletar);
 					
 					JButton btn_Limpar = new JButton("LIMPAR");
@@ -359,7 +358,7 @@ public class TelaRepresentante extends JFrame {
 							textField_Regiao.setText("");
 						}
 					});
-					btn_Limpar.setBounds(552, 307, 100, 35);
+					btn_Limpar.setBounds(519, 306, 100, 35);
 					painel_Principal.add(btn_Limpar);
 					
 					JLabel lbl_ListaClientes = new JLabel("Lista de Clientes:");
@@ -462,7 +461,7 @@ public class TelaRepresentante extends JFrame {
 							}
 						}
 					});
-					btn_ListarClientes.setBounds(675, 307, 168, 35);
+					btn_ListarClientes.setBounds(642, 306, 191, 35);
 					painel_Principal.add(btn_ListarClientes);
 	}
 }

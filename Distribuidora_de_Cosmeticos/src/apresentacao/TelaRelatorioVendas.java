@@ -30,7 +30,6 @@ public class TelaRelatorioVendas extends JFrame {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaRelatorioCliente.class.getResource("/imagens/icon_cadastro.png")));
 		setTitle("Relat\u00F3rio de Vendas");
-		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(890, 500);
 		setLocationRelativeTo(null);
@@ -42,6 +41,12 @@ public class TelaRelatorioVendas extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
+		
+		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Vendas");
+		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
+		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		Label_Titulo.setBounds(0, 11, 854, 36);
+		panel.add(Label_Titulo);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 91, 844, 359);
@@ -67,8 +72,10 @@ public class TelaRelatorioVendas extends JFrame {
 		tModel.addColumn("Nome do Cliente");
 		tModel.addColumn("Nome do Produto");
 		tModel.addColumn("Quantidade");
+		tModel.addColumn("Preço Único");
+		tModel.addColumn("Preço Total");
 		
-		VendaBD vendaBD = new VendaBD();
+		VendaBD vendaBD = new VendaBD();		
 		ArrayList<Venda> listaVendas = vendaBD.listarVendas();
 		
 		if(listaVendas.isEmpty() == false) {
@@ -77,18 +84,22 @@ public class TelaRelatorioVendas extends JFrame {
 						String.valueOf(venda.getId()), 
 						venda.getNome_cliente(),
 						venda.getNome_produto(),
-						Integer.toString(venda.getQuantidade())						
+						Integer.toString(venda.getQuantidade()),
+						Double.toString(venda.getPreco_unitario()),
+						Double.toString(venda.getTotal())
 				});
 			}
+			
 			table.setModel(tModel);
 		}
 		
-		
-		JLabel Label_Titulo = new JLabel("Relat\u00F3rio de Vendas");
-		Label_Titulo.setHorizontalAlignment(SwingConstants.CENTER);
-		Label_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		Label_Titulo.setBounds(0, 11, 854, 36);
-		panel.add(Label_Titulo);
+		table.getColumnModel().getColumn(0).setPreferredWidth(40);//ID
+		table.getColumnModel().getColumn(0).setMaxWidth(60);//ID
+		table.getColumnModel().getColumn(1).setPreferredWidth(250);//NOME CLIENTE
+		table.getColumnModel().getColumn(2).setPreferredWidth(250);//NOME PRODUTO
+		table.getColumnModel().getColumn(3).setPreferredWidth(55);//QUANTIDADE
+		table.getColumnModel().getColumn(4).setPreferredWidth(55);//PREÇO UNITÁRIO
+		table.getColumnModel().getColumn(5).setPreferredWidth(55);//PREÇO TOTAL
 		
 	}
 }
